@@ -1,0 +1,23 @@
+<thml>
+
+<head>
+	<script type="text/javascript">
+		function akses(wbscost) {
+			document.getElementById("nocostcenter").disabled = (wbscost==1? true: false);
+			document.getElementById("nowbs").disabled = (wbscost!=1? true: false);
+		}
+	</script>
+</head>
+
+<body>
+	<select name="pilih" id="pilih" onChange="akses(this.value)">
+		<option></option>
+		<option value="1">1</option>
+		<option value="2">2</option>
+	</select>
+	
+	<input type="text" name="nowbs" id="nowbs">
+	<input type="text" name="nocostcenter" id="nocostcenter">	
+</body>
+
+</html>

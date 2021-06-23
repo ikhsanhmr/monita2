@@ -1,0 +1,159 @@
+* { 
+  font: 11px/20px Verdana, sans-serif; 
+}
+
+h2 {
+	font-family: Arial;
+	font-size: 12pt;
+	color: #265180;
+	background-color: transparent;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #1467C3;
+}
+
+/*
+h4 { 
+  font-size: 18px; 
+}
+*/
+
+h5 {
+  color: #1467C3;
+	font-size: 10pt;
+	font-weight:bold;
+	font-family: Tahoma;   	
+}
+
+label.error { 
+  color:red; 
+  margin-left: 10px; 
+}
+
+/*td { padding: 5px; }*/
+
+a
+{
+  text-decoration:none;
+  /*font-weight:bold;*/
+}
+
+a:hover
+{
+  text-decoration:underline;
+  /*font-weight:bold;*/
+  color:rgb(255,0,0);
+}
+
+a.delete
+{
+  text-decoration:none;
+  /*font-weight:bold;*/
+  /*
+  background-image: url('../images/user_delete.png');
+  background-repeat:no-repeat;
+  background-position:center center;
+  */      
+}
+
+a.delete:hover
+{
+  /*
+  background-image: url('../images/user_delete.png');
+  background-repeat:no-repeat;
+  background-position:center center;
+  */
+  text-decoration:underline;
+  /*font-weight:bold;*/  
+  color:rgb(255,0,0);        
+}
+
+body
+{
+	font-family:Verdana, Arial;
+	font-size:11px;
+	font-weight:normal;
+}
+
+
+table {
+	font-family: Tahoma; 
+	font-size: 10pt;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #999999;
+	border-collapse: collapse;
+	margin: 10px 0px;
+}
+
+th{
+	color: #FFFFFF;
+	font-size: 8pt;
+	font-weight:bold;	
+	text-transform: uppercase;
+	text-align: center;
+	padding: 0.5em;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #969BA5;
+	border-collapse: collapse;
+	background-color: #007d00;	
+  /*background-color: #1467C3;*/
+}
+
+td{
+	padding: 0.5em;
+	vertical-align: top;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #969BA5;
+	border-collapse: collapse;
+}
+
+#headerlogin
+{
+  background-color:#11A6D4;
+  color:#FFFFFF;
+	font-family: Tahoma;   
+  font-size:1.3em;
+	font-weight:bold;	  
+  text-align:center;
+}
+
+input{
+  /*
+	font-family: Tahoma; 
+	font-size: 10pt;
+  */
+  font-family: Verdana;
+  font-size: 1.1em;	
+	padding: 3px; 
+  border: 1px solid #999; 
+}
+
+input[type=submit], input[type=button]{
+  min-width: 70px;
+}
+
+select
+{
+  font-family: Verdana;
+  font-size: 1.1em;	
+  width: 100%;
+  height: 100%;
+  padding:2px;      
+}
+
+option
+{
+  padding:2px;
+}
+
+input.error, select.error 
+{ 
+  border: 1px solid red; 
+}
+
+body{
+  padding-left: 10px;
+}
