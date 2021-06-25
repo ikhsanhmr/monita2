@@ -1,14 +1,12 @@
 <?php
-	$srv = "localhost";
-	$usr = "root";
-	$pwd = "";
-	$db = "newmonita";
+	
 
-$kon =mysql_connect($srv, $usr, $pwd);
-if(!$kon)
-die('ERROR KARENA'.mysql_error());
 
-$dbkon  =mysql_select_db($db,$kon);
-if(!$dbkon)
-die('ERROR KARENA'.mysql_error());
+$mysqli = new mysqli("localhost","root","","newmonita");
+
+// Check connection
+if ($mysqli -> connect_errno) {
+  echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
+  exit();
+}
 ?>
