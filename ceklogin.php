@@ -2,14 +2,16 @@
 // memulai session
 require_once 'config/koneksi.php';
 
-$nip = mysql_real_escape_string($_POST['nip']);
-$password = mysql_real_escape_string($_POST['password']);
+$nip = mysqli_real_escape_string($mysqli, $_POST['nip']);
+$password = mysqli_real_escape_string($mysqli, $_POST['password']);
 $password = md5($password);
 // query untuk mendapatkan record dari username
 $query = "SELECT * FROM user WHERE nip = '$nip'";
-$hasil = mysql_query($query);
-$data = mysql_fetch_array($hasil);
+$hasil = mysqli_query($mysqli, $query);
 
+$data = mysqli_fetch_array($hasil);
+// var_dump($data);
+// die;
 // cek kesesuaian password
 if ($password == $data['pasword']) {
     session_start();

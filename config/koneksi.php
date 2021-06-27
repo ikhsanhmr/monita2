@@ -5,10 +5,10 @@
 
 
 
-$mysqli = new mysqli("localhost","root","","newmonita");
+$mysqli = new mysqli("localhost", "root", "root", "newmonita");
 
 // Check connection
-if ($mysqli -> connect_errno) {
-  echo "Failed to connect to MySQL: " . $mysqli -> connect_error;
+if ($mysqli->connect_errno) {
+  echo "Failed to connect to MySQL: " . $mysqli->connect_error;
   exit();
 }

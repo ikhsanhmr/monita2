@@ -1,50 +1,57 @@
 <?php
-	function myIp() {
-		if (!empty($_SERVER['HTTP_CLIENT_IP'])) { //check ip from share internet
-			$ip=$_SERVER['HTTP_CLIENT_IP'];
-		} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) { //to check ip is pass from proxy
-			$ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
-		} else { 
-			$ip=$_SERVER['REMOTE_ADDR'];
-		}
-		return $ip;
+function myIp()
+{
+	if (!empty($_SERVER['HTTP_CLIENT_IP'])) { //check ip from share internet
+		$ip = $_SERVER['HTTP_CLIENT_IP'];
+	} elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) { //to check ip is pass from proxy
+		$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+	} else {
+		$ip = $_SERVER['REMOTE_ADDR'];
 	}
-	
-	
-	function dbConn() {
-		require_once("inc.php");
+	return $ip;
+}
 
-		$mysql = new mysql($svr, $usr, $pwd, $db);
-		/*
+
+function dbConn()
+{
+	require_once("inc.php");
+
+	$mysql = new mysqli($svr, $usr, $pwd, $db);
+	/*
 		if($db==0) { $mysql = new mysql($svr, $usr, $pwd, $db); } 
 		else { $mysql = new mysql($svr1, $usr1, $pwd1, $db1); }
 		*/
-		if (mysql_connect_errno()) {
-			printf("Connection failed: %s\n", mysql_connect_error());
-			exit();
-		}
-		return $mysql;
+	if (mysqli_connect_errno()) {
+		printf("Connection failed: %s\n", mysqli_connect_error());
+		exit();
 	}
-	
-	
-	function db($mysql, $query) {
-		$result = $mysql->query($query);
-		while($row = $result->fetch_array()) { $rows[] = $row; }
-		$result->close();
-		
-		return (isset($rows)? $rows: null);
-	}
-	
-	
-	function dbExec($mysql, $query) {
-		$result = $mysql->query($query);
-		return $result;
-	}
+	return $mysql;
+}
 
 
-	function dbClose($mysql) {
-		$mysql->close();
+function db($mysql, $query)
+{
+	$result = $mysql->query($query);
+	while ($row = $result->fetch_array()) {
+		$rows[] = $row;
 	}
+	$result->close();
+
+	return (isset($rows) ? $rows : null);
+}
+
+
+function dbExec($mysql, $query)
+{
+	$result = $mysql->query($query);
+	return $result;
+}
+
+
+function dbClose($mysql)
+{
+	$mysql->close();
+}
 /*
 // 	see below to see how it works
 	$db = dbConn();

@@ -598,7 +598,7 @@
 		}
 	}
 
-	mysql_close($kon);
+	mysqli_close($mysqli);
 
 	//echo json_encode($dataakibidang);
 
