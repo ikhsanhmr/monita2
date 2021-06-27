@@ -61,7 +61,7 @@
 							ORDER BY sortmenu";
 
 					$result = mysqli_query($mysqli, $sql);
-					var_dump($result);
+					//var_dump($result);
 
 					while ($row = mysqli_fetch_array($result)) {
 
@@ -79,7 +79,7 @@
 									ORDER BY sortmenu";
 
 						$result1 = mysqli_query($mysqli, $sql1);
-						while ($row1 = mysql_fetch_array($result1)) {
+						while ($row1 = mysqli_fetch_array($result1)) {
 
 							if ($row1["menugroup"] != 2) {
 								$mn .= "<li><a href='$row1[url]' class='iframe'>" . ($row1["alternateinfo"] == "" ? $row1["menuinfo"] : (($org > 5 && $org < 16) ? $row1["alternateinfo"] : $row1["menuinfo"])) . "</a></li>";
@@ -96,7 +96,7 @@
 											ORDER BY sortmenu";
 
 								$result2 = mysqli_query($mysqli, $sql2);
-								while ($row2 = mysql_fetch_array($result2)) {
+								while ($row2 = mysqli_fetch_array($result2)) {
 									// $mn .= "<li><a href='$row2[url]' class='iframe'>" . ($row2["alternateinfo"]==""? $row2["menuinfo"]: (($org>5 && $org<16)? $row2["alternateinfo"]: $row2["menuinfo"])) . "</a></li>";
 									$mn .= "<li><a href='$row2[url]' class='iframe'>" . $row2["menuinfo"] . "</a></li>";
 								}
