@@ -294,9 +294,9 @@
 					) kr ON s.nomorskki = kr.noskk
 			WHERE	YEAR(tanggalskki) = " . date("Y") . " AND posinduk LIKE '62.%' and posinduk NOT IN ('62.01','62.1')";
 
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql);
 
-		$row1 = mysql_fetch_assoc($result);
+		$row1 = mysqli_fetch_assoc($result);
 
 		$skaimurnirab = $row1['disburse'];
 		$realisasirab = $row1['rab'];
@@ -332,7 +332,7 @@
 			</div>
 		';
 
-		mysql_free_result($result);
+		mysqli_free_result($result);
 
 		$skaimurnikontrak = $row1['disburse'];
 		$realisasikontrak = $row1['kontrak'];
@@ -379,9 +379,9 @@
 			WHERE e.kdsubpos = 62 and e.tahun = " . date("Y") . "
 			GROUP BY d.tahun";
 
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql);
 
-		$row3 = mysql_fetch_assoc($result);
+		$row3 = mysqli_fetch_assoc($result);
 
 		$aki = $row3['nilaiaki'];
 		$bayar = $row3['realisasi'];

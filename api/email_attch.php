@@ -532,5 +532,3 @@
 
         return $file_path;
     }
-
-?>
