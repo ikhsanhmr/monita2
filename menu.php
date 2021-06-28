@@ -60,7 +60,7 @@
 							GROUP BY menugroup
 							ORDER BY sortmenu";
 
-					$result = mysqli_query($mysqli, $sql);
+					$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 					//var_dump($result);
 
 					while ($row = mysqli_fetch_array($result)) {
