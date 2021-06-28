@@ -3,4 +3,3 @@
 	$usr = "monita";
 	$pwd = "monita74736";
 	$db = "newmonita";
-?>	

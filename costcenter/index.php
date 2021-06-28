@@ -44,13 +44,12 @@ if (isset($_GET['del'])) {
     echo $bidang;
   }
 
-  $hasil = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli)) or die(mysql_error());
+  $hasil = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli)) or die(mysqli_error($mysqli));
+  $no = 1;
   while ($row = mysqli_fetch_array($hasil)) {
-    $no = 1;
-
     echo '
     <tr>
-      <td>' . $no . '</td>
+      <td>' . $no++ . '</td>
       <td>' . $row['hierarkiarea'] . '</td>   
       <td>' . $row['uraian'] . '</td>
 	   <td>' . $row['nocostcenter'] . '</td>
@@ -61,7 +60,7 @@ if (isset($_GET['del'])) {
       <a href="?del=' . base64_encode($row['nocostcenter']) . '">Hapus</a>      
       </td>   
       </tr>';
-    $no++;
+
     // 
   }
   ?>

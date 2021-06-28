@@ -1,7 +1,8 @@
 <?php
-
-
-
+$srv = "localhost";
+$usr = "root";
+$pwd = "root";
+$db = "newmonita";
 $mysqli = new mysqli("localhost", "root", "root", "newmonita");
 
 // Check connection

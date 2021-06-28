@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
 	<link href="../../css/screen.css" rel="stylesheet" type="text/css">
 	<script type="text/javascript" src="../../js/methods.js"></script>
@@ -9,55 +10,52 @@
 
 <body>
 	<?php
-		$u_agent = $_SERVER['HTTP_USER_AGENT'];
-		if(preg_match('/MSIE/i',$u_agent) && !preg_match('/Opera/i',$u_agent)) { 
-			$bname = 'Internet Explorer'; 
-			$ub = "MSIE"; 
-		} 
-		elseif(preg_match('/Firefox/i',$u_agent)) { 
-			$bname = 'Mozilla Firefox'; 
-			$ub = "Firefox"; 
-		} 
-		elseif(preg_match('/Chrome/i',$u_agent)) { 
-			$bname = 'Google Chrome'; 
-			$ub = "Chrome"; 
-		} 
-		elseif(preg_match('/Safari/i',$u_agent)) { 
-			$bname = 'Apple Safari'; 
-			$ub = "Safari"; 
-		} 
-		elseif(preg_match('/Opera/i',$u_agent)) { 
-			$bname = 'Opera'; 
-			$ub = "Opera"; 
-		} 
-		elseif(preg_match('/Netscape/i',$u_agent)) { 
-			$bname = 'Netscape'; 
-			$ub = "Netscape"; 
-		} 
-		$nice = (($ub=="Chrome" || $ub=="Opera" || $ub=="Chrome")? true: false);
-	
-		session_start(); 
-		require_once '../../config/koneksi.php';
-		$nip=$_SESSION['nip'];
-		$bidang=$_SESSION['bidang'];
-		$kdunit=$_SESSION['kdunit'];
-		$nama=$_SESSION['nama'];
-		$adm=$_SESSION['adm'];
-		$org=$_SESSION['org'];
-		if($nip=="") {exit;}
-		$con = (isset($_REQUEST["kon"])? $_REQUEST["kon"]: "");		
+	$u_agent = $_SERVER['HTTP_USER_AGENT'];
+	if (preg_match('/MSIE/i', $u_agent) && !preg_match('/Opera/i', $u_agent)) {
+		$bname = 'Internet Explorer';
+		$ub = "MSIE";
+	} elseif (preg_match('/Firefox/i', $u_agent)) {
+		$bname = 'Mozilla Firefox';
+		$ub = "Firefox";
+	} elseif (preg_match('/Chrome/i', $u_agent)) {
+		$bname = 'Google Chrome';
+		$ub = "Chrome";
+	} elseif (preg_match('/Safari/i', $u_agent)) {
+		$bname = 'Apple Safari';
+		$ub = "Safari";
+	} elseif (preg_match('/Opera/i', $u_agent)) {
+		$bname = 'Opera';
+		$ub = "Opera";
+	} elseif (preg_match('/Netscape/i', $u_agent)) {
+		$bname = 'Netscape';
+		$ub = "Netscape";
+	}
+	$nice = (($ub == "Chrome" || $ub == "Opera" || $ub == "Chrome") ? true : false);
 
-		//echo "$sql";
-		$sqlskk = "SELECT DISTINCT noskk FROM notadinas_detail d left join notadinas n on d.nomornota = n.nomornota LEFT JOIN kontrak k ON d.noskk = k.nomorskkoi WHERE d.progress in(7,9) and Year(tanggal) = ".date("Y")." " . ($org=="" ? "": ($org=="1" ? " AND skkoi = 'SKKI' " : "AND (nipuser = '$nip' or pelaksana = '$org') ")) . "ORDER BY noskk";
-		$result_skk = mysqli_query($sqlskk);
+	session_start();
+	require_once '../../config/koneksi.php';
+	$nip = $_SESSION['nip'];
+	$bidang = $_SESSION['bidang'];
+	$kdunit = $_SESSION['kdunit'];
+	$nama = $_SESSION['nama'];
+	$adm = $_SESSION['adm'];
+	$org = $_SESSION['org'];
+	if ($nip == "") {
+		exit;
+	}
+	$con = (isset($_REQUEST["kon"]) ? $_REQUEST["kon"] : "");
 
-		$skk = "<select name='skk' id='skk' onChange='viewposskk(this.value, \"subpos\");checkskk(this.value);' required><option value=''></option>";
-		while ($rowskk = mysqli_fetch_array($result_skk)) {
-			$skk .= "<option value='$rowskk[noskk]'>$rowskk[noskk]</option>";
-		}
-		$skk .= "</select>";	
+	//echo "$sql";
+	$sqlskk = "SELECT DISTINCT noskk FROM notadinas_detail d left join notadinas n on d.nomornota = n.nomornota LEFT JOIN kontrak k ON d.noskk = k.nomorskkoi WHERE d.progress in(7,9) and Year(tanggal) = " . date("Y") . " " . ($org == "" ? "" : ($org == "1" ? " AND skkoi = 'SKKI' " : "AND (nipuser = '$nip' or pelaksana = '$org') ")) . "ORDER BY noskk";
+	$result_skk = mysqli_query($mysqli, $sqlskk);
 
-		echo "
+	$skk = "<select name='skk' id='skk' onChange='viewposskk(this.value, \"subpos\");checkskk(this.value);' required><option value=''></option>";
+	while ($rowskk = mysqli_fetch_array($result_skk)) {
+		$skk .= "<option value='$rowskk[noskk]'>$rowskk[noskk]</option>";
+	}
+	$skk .= "</select>";
+
+	echo "
 			<h2>INPUT RAB</h2>
 			<form name='frab' id='frab' method='post' action='simpan.php'>
 				<table border='1'>
@@ -105,4 +103,5 @@
 		";
 	?>
 </body>
+
 </html>

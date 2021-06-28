@@ -1,48 +1,46 @@
 <?php
-	session_start();
-	if(!isset($_SESSION['nip'])) {
-		echo "unauthorized user";
-		echo "<script>window.open('../index.php', '_parent')</script>";
-		exit;
-	}
+session_start();
+if (!isset($_SESSION['nip'])) {
+  echo "unauthorized user";
+  echo "<script>window.open('../index.php', '_parent')</script>";
+  exit;
+}
 
-    require_once '../config/koneksi.php';
-	$nip=$_SESSION['nip'];
-	$bidang=$_SESSION['bidang'];
-	$kdunit=$_SESSION['kdunit'];
+require_once '../config/koneksi.php';
+$nip = $_SESSION['nip'];
+$bidang = $_SESSION['bidang'];
+$kdunit = $_SESSION['kdunit'];
 
 
 
-    if(isset($_GET['pos']))
-    {
-      $pos=base64_decode($_GET['pos']);
-      
-      $sql="delete 
+if (isset($_GET['pos'])) {
+  $pos = base64_decode($_GET['pos']);
+
+  $sql = "delete 
             from posinduk2
             where kdindukpos='$pos'
             ";
-      $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
-	  
-	  $sql="delete 
+  $hasil = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
+
+  $sql = "delete 
             from posinduk3
             where kdindukpos like '%$pos%'
             ";
-      $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
-	  
-	  $sql="delete 
+  $hasil = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
+
+  $sql = "delete 
             from posinduk4
             where kdindukpos like '%$pos%'
             ";
-      $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
-	  
+  $hasil = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
 
-      $sql="delete 
+
+  $sql = "delete 
             from posinduk
             where kdindukpos='$pos'
             ";
-      $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
-           
-    }    
+  $hasil = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
+}
 
 ?>
 <link href="../css/screen.css" rel="stylesheet" type="text/css">
@@ -56,38 +54,34 @@
     <th>Aksi</th>
   </tr>
   <?php
-	$no=0;
-  if($bidang=='0' || $bidang=='1'|| $bidang=='2')
-  {
-  $sql="select kdindukpos, namaindukpos
+  $no = 0;
+  if ($bidang == '0' || $bidang == '1' || $bidang == '2') {
+    $sql = "select kdindukpos, namaindukpos
         from posinduk";
+  } else {
+    //$sql="select kdindukpos, namaindukpos from posinduk";
+    echo 'tes11';
   }
- 
-  else
-  {
-  //$sql="select kdindukpos, namaindukpos from posinduk";
-   echo 'tes11';
-  }
-  
-    	
-	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error()); 
 
-	while ($row = mysqli_fetch_array($hasil)) {
-    
+
+  $hasil = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli)) or die(mysql_error());
+
+  while ($row = mysqli_fetch_array($hasil)) {
+
     $no++;
     echo '
     <tr>
-      <td>'.$no.'</td>
-      <td align="center">'.$row['kdindukpos'].'</td>   
-      <td>'.$row['namaindukpos'].'</td> 
+      <td>' . $no . '</td>
+      <td align="center">' . $row['kdindukpos'] . '</td>   
+      <td>' . $row['namaindukpos'] . '</td> 
       <td> 
-	  <a href="showdetailpos1.php?pos='.base64_encode($row['kdindukpos']).'">lihat sub</a>&nbsp;&nbsp;&nbsp;      
-      <a href="editpos.php?pos='.base64_encode($row['kdindukpos']).'">edit</a>&nbsp;&nbsp;&nbsp;      
-      <a href="?pos='.base64_encode($row['kdindukpos']).'">hapus</a>      
+	  <a href="showdetailpos1.php?pos=' . base64_encode($row['kdindukpos']) . '">lihat sub</a>&nbsp;&nbsp;&nbsp;      
+      <a href="editpos.php?pos=' . base64_encode($row['kdindukpos']) . '">edit</a>&nbsp;&nbsp;&nbsp;      
+      <a href="?pos=' . base64_encode($row['kdindukpos']) . '">hapus</a>      
       </td>                  
     </tr>';
-  }  
-  
+  }
+
   ?>
 </table>
-<a href="" onclick="parent.isi.print()">Cetak</a>   
+<a href="" onclick="parent.isi.print()">Cetak</a>
