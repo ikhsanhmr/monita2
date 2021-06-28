@@ -11,7 +11,7 @@
           from posinduk
           where kdindukpos='$kdindukpos'";
     
-  	$hasil = mysql_query($sql);
+  	$hasil = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	$ceknomorsub = mysql_num_rows($hasil);
     if($ceknomorsub == 1)
     {
@@ -28,7 +28,7 @@
             values('$kdindukpos','$namaindukpos')
             ";
       
-      $hasil=mysql_query($sql);	
+      $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));	
 
       echo '
       <script language="javascript">

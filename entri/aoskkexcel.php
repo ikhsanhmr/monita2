@@ -19,15 +19,15 @@
 	
 	require_once "../config/koneksi.php";
 	$sql = "SELECT * FROM bidang ORDER BY LPAD(id, 2, '0')";
-	$result = mysql_query($sql);
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	
 	$p = "";
 	$b = "";
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	while ($row = mysqli_fetch_array($result)) {
 		$b = ($row["id"]==$b0? $row["namaunit"]: $b);
 		$p = ($row["id"]==$p0? $row["namaunit"]: $p);
 	}
-	mysql_free_result($result);
+	mysqli_free_result($result);
 
 	$parm = "";
 	$parmkk = "";
@@ -116,7 +116,7 @@
 				<td style='background-color:rgb(127,255,127)'>Disburse (Rp.)</td>
 			</tr>
 		";
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 		
 		$no = 0;
 		$dummy = "";
@@ -126,7 +126,7 @@
 		$k = 0;
 		$b = 0;
 		
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$no++;
 			
 			$a += $row["anggaran"];
@@ -158,7 +158,7 @@
 			";
 		}
 		
-		mysql_free_result($result);		
+		mysqli_free_result($result);		
 		echo "
 			<tr>
 				<td colspan='6'>Total</td>
@@ -176,7 +176,7 @@
 			</tr>";
 		echo "</table>";
 	}
-	mysql_close($kon);
+	$mysqli->close();($kon);
 	
 	//echo $hasil;
 ?>

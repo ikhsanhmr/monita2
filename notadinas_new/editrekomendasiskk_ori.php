@@ -7,9 +7,9 @@
 	$nonotadinas=base64_decode($_GET['notadinas']);
 	$sql="SELECT COUNT(DISTINCT pelaksana) jumlah FROM notadinas n 
 		LEFT JOIN notadinas_detail d ON n.nomornota = d.nomornota AND n.nomornota = '$nonotadinas'";
-	$hasil=mysql_query($sql) or die (mysql_error());
-	while ($row = mysql_fetch_array($hasil, MYSQL_ASSOC)) {$j = $row["jumlah"];}
-	mysql_free_result($hasil);
+	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());
+	while ($row = mysqli_fetch_array($hasil)) {$j = $row["jumlah"];}
+	mysqli_free_result($hasil);
 	
 	$i = -1;
 	$k = 0;
@@ -20,9 +20,9 @@
 	
 	$sql="SELECT d.* FROM notadinas n LEFT JOIN notadinas_detail d 
 	ON n.nomornota = d.nomornota AND n.nomornota = '$nonotadinas'";
-	$hasil=mysql_query($sql) or die (mysql_error());
+	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());
 	$baris = mysql_num_rows($hasil);
-	while ($row = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
+	while ($row = mysqli_fetch_array($hasil)) {
 		$i++;
 		$arr[$i] = array($row["pelaksana"], $row["pos1"], $row["nilai1"]);
 		
@@ -31,7 +31,7 @@
 			$pic_val[$k] = $row["pelaksana"];
 		}
 	}
-	mysql_free_result($hasil);
+	mysqli_free_result($hasil);
 /*
 	for($i=0; $i<$baris; $i++) {
 		echo $arr[$i][0]." - ";
@@ -45,14 +45,14 @@
 */	
 	// pelaksana
 	$query = "SELECT * FROM bidang ORDER BY CONVERT(id, UNSIGNED)";
-	$result1 = mysql_query($query);
+	$result1 = mysqli_query($query);
 	
 	// pos
 	$query = "SELECT v.* FROM USER u INNER JOIN v_pos v ON u.nip = v.nip " . 
 		($nip=="admin"? "": "WHERE u.nip = '$nip'") . " order by akses";
-	$result2 = mysql_query($query);
+	$result2 = mysqli_query($query);
 	$posx = "<option value=''>Pilih POS</option>";
-	while ($row = mysql_fetch_array($result2, MYSQL_BOTH)) {
+	while ($row = mysqli_fetch_array($result2, MYSQL_BOTH)) {
 		$posx .= "<option value='$row[akses]'>$row[akses] - $row[nama]</option>";
 	}
 	
@@ -65,7 +65,7 @@
 		if($result1) {
 			mysql_data_seek($result1, 0);
 			$pelaksana = "<option value=''>Pilih Pelaksana</option>";
-			while ($row = mysql_fetch_array($result1, MYSQL_BOTH)) {
+			while ($row = mysqli_fetch_array($result1, MYSQL_BOTH)) {
 				$pelaksana .= "<option value='$row[id]' " . 
 					($row["id"]==$pic_val[$t]? " selected": "") . ">$row[namaunit]</option>";
 			}
@@ -91,7 +91,7 @@
 						
 						mysql_data_seek($result2, 0);
 						$pos1 = "<option value=''>Pilih POS</option>";
-						while ($row = mysql_fetch_array($result2, MYSQL_BOTH)) {
+						while ($row = mysqli_fetch_array($result2, MYSQL_BOTH)) {
 							$pos1 .= "<option value='$row[akses]' " . 
 								($row["akses"]==$arr[$l][1]? " selected": "") . ">$row[akses] - $row[nama]</option>";
 						}
@@ -109,8 +109,8 @@
 		$rslt1 .= "<br></div>";
 		$mydiv1 .= $rslt1;
 	}
-	mysql_free_result($result1);
-	mysql_free_result($result2);
+	mysqli_free_result($result1);
+	mysqli_free_result($result2);
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -155,8 +155,8 @@ $(document).ready(function() {
  $sql="select * 
         from notadinas 
         where nomornota='$nonotadinas'";
-	$hasil=mysql_query($sql) or die (mysql_error());    
-	while ($row = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
+	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());    
+	while ($row = mysqli_fetch_array($hasil)) {
 	$nomornota=$row['nomornota'];
     $tanggal=$row['tanggal'];
     $unit1=$row['unit'];  
@@ -167,7 +167,7 @@ $(document).ready(function() {
     $noskkoi=$row['noskkoi'];
 	$nilaiusulan=number_format($row['nilaiusulan']);  
 	}
-	mysql_free_result($hasil);
+	mysqli_free_result($hasil);
 ?>
 <body>
 

@@ -10,9 +10,9 @@
 	$dummy = count(explode(".", $_REQUEST["pos"]));
 	for($i=$dummy; $i<=4; $i++) {
 		$sql = "delete from saldopos"  . ($i>1? $i: "") . " where kdsubpos like '$_REQUEST[pos]%' and tahun = $_REQUEST[prd]";
-		mysql_query($sql) or die(mysql_error());
+		mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die(mysql_error());
 	}
-	mysql_close($link);	
+	$mysqli->close();($link);	
 
 	$pieces = explode(".", $_REQUEST["pos"]);
 	$back = "";

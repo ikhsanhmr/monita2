@@ -60,8 +60,8 @@
 							GROUP BY menugroup
 							ORDER BY sortmenu";
 						
-						$result = mysql_query($sql);
-						while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+						$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+						while ($row = mysqli_fetch_array($result)) {
 
 								$mn .= ($mn==""? "": "</ul></li>"); 
 								$mn .= "<li><a data-toggle='collapse' href='#$row[menugroup]'><strong>$row[menuinfo]</strong></a><ul>";
@@ -76,8 +76,8 @@
 									and m.isheader='0'
 									ORDER BY sortmenu";
 								
-								$result1 = mysql_query($sql1);
-								while ($row1 = mysql_fetch_array($result1, MYSQL_ASSOC)) {
+								$result1 = mysqli_query($sql1);
+								while ($row1 = mysqli_fetch_array($result1)) {
 
 										if($row1["menugroup"]!=2){
 											$mn .= "<li><a href='$row1[url]' class='iframe'>" . ($row1["alternateinfo"]==""? $row1["menuinfo"]: (($org>5 && $org<16)? $row1["alternateinfo"]: $row1["menuinfo"])) . "</a></li>";
@@ -93,8 +93,8 @@
 											and m.isheader='0'
 											ORDER BY sortmenu";
 										
-											$result2 = mysql_query($sql2);
-											while ($row2 = mysql_fetch_array($result2, MYSQL_ASSOC)) {
+											$result2 = mysqli_query($sql2);
+											while ($row2 = mysqli_fetch_array($result2)) {
 												$mn .= "<li><a href='$row2[url]' class='iframe'>" . ($row2["alternateinfo"]==""? $row2["menuinfo"]: (($org>5 && $org<16)? $row2["alternateinfo"]: $row2["menuinfo"])) . "</a></li>";
 											}
 											$mn .= "</div></ul></li>";
@@ -105,8 +105,8 @@
 
 								$mn .= "</div>";
 						}
-						mysql_free_result($result);
-						//mysql_close($link);	  
+						mysqli_free_result($result);
+						//$mysqli->close();($link);	  
 
 						$mn .= "</ul></li>";
 						echo $mn;

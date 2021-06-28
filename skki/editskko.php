@@ -13,13 +13,13 @@
 	$pp = array();
 	$i = -1;
 
-	if ($result = mysql_query($query)) {
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+	if ($result = mysqli_query($query)) {
+		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
 			$i++;
 			$nn[$i] = $row["nn"];
 			$pp[$i] = $row["pp"];
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 	}
   
 $sql = "
@@ -33,8 +33,8 @@ $sql = "
 
 $j = -1;
 $rslt = "";
-$hasil=mysql_query($sql) or die (mysql_error());    
-while ($row = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
+$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());    
+while ($row = mysqli_fetch_array($hasil)) {
 	$j++;
 	$nota = "<option value=''>Pilih Nota dinas</option>";
 	for($i=0; $i<count($nn); $i++) {
@@ -83,7 +83,7 @@ while ($row = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
 	$kpa = $row["nilaianggarankp"];
 	$kpd = $row["nilaidisbursekp"];
 }
-mysql_free_result ($hasil);
+mysqli_free_result ($hasil);
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">

@@ -36,18 +36,18 @@
 		
 		require_once "../config/koneksi.php";
 		$sql = "SELECT DISTINCT YEAR(tanggalskki) tahun FROM skkiterbit";
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 
 		$v = isset($_REQUEST["v"])? $_REQUEST["v"]: "";
 		$p = isset($_REQUEST["p"])? $_REQUEST["p"]: "";
 		$s = isset($_REQUEST["s"])? $_REQUEST["s"]: "";
 
 		$th = "<select name='th' id='th' required><option value=''></option>";
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$th .= "<option value='$row[tahun]'" . ($row["tahun"]==$p? " selected": "") . ">$row[tahun]</option>";
 		}
 		$th .= "</select>";
-		mysql_free_result($result);
+		mysqli_free_result($result);
 	?>
 </head>
 
@@ -183,7 +183,7 @@
 					<td align='center'>o=i-l</td>
 				</tr>
 			";
-			$result = mysql_query($sql);
+			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 			
 			$no = 0;
 			$a = 0;
@@ -194,7 +194,7 @@
 			$jmlrab = 0;
 			$nrab = 0;
 			$jmlkontrak = 0;
-			while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+			while ($row = mysqli_fetch_array($result)) {
 				$no++;
 				$a += $row["anggaran"];
 				$d += $row["disburse"];
@@ -225,7 +225,7 @@
 						<td align='right'>" . number_format($row["kontrak"]-$row["bayar"]) . "</td>
 					</tr>";
 			}
-			mysql_free_result($result);
+			mysqli_free_result($result);
 			
 			echo "
 				<tr>
@@ -247,7 +247,7 @@
 				</tr>";
 			
 		}
-		mysql_close($kon);
+		$mysqli->close();($kon);
 		
 		//echo $hasil;
 	?>

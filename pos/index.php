@@ -21,26 +21,26 @@
             from posinduk2
             where kdindukpos='$pos'
             ";
-      $hasil=mysql_query($sql);
+      $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	  
 	  $sql="delete 
             from posinduk3
             where kdindukpos like '%$pos%'
             ";
-      $hasil=mysql_query($sql);
+      $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	  
 	  $sql="delete 
             from posinduk4
             where kdindukpos like '%$pos%'
             ";
-      $hasil=mysql_query($sql);
+      $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	  
 
       $sql="delete 
             from posinduk
             where kdindukpos='$pos'
             ";
-      $hasil=mysql_query($sql);
+      $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
            
     }    
 
@@ -70,9 +70,9 @@
   }
   
     	
-	$hasil=mysql_query($sql) or die (mysql_error()); 
+	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error()); 
 
-	while ($row = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
+	while ($row = mysqli_fetch_array($hasil)) {
     
     $no++;
     echo '

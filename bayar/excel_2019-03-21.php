@@ -12,7 +12,7 @@
 	
 	require_once "../config/koneksi.php";
 	$sql = "SELECT * FROM bidang ORDER BY LPAD(id, 2, '0')";
-	$result = mysql_query($sql);
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	
 	$p1 = isset($_REQUEST["p1"])? $_REQUEST["p1"]: "";
 	$p2 = isset($_REQUEST["p2"])? $_REQUEST["p2"]: "";
@@ -24,11 +24,11 @@
 	$o = isset($_REQUEST["o"])? $_REQUEST["o"]: "";
 	$v = isset($_REQUEST["v"])? $_REQUEST["v"]: "";
 	
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	while ($row = mysqli_fetch_array($result)) {
 		$b = ($row["id"]==$b0? $row["namaunit"]: $b);
 		$p = ($row["id"]==$p0? $row["namaunit"]: $p);
 	}
-	mysql_free_result($result);
+	mysqli_free_result($result);
 
 		$parm = "";
 //		$parm .= ($p1==""? "": " and SUBSTR(tglbayar, 1, 7) >= '$p1'"); //
@@ -58,7 +58,7 @@
 				"update realisasibayar set nilaibayar = '$_REQUEST[r]', tglbayar = '$_REQUEST[d]' where bayarid = '$_REQUEST[n]'": 
 				"delete from realisasibayar where bayarid = '$_REQUEST[n]'"
 			);
-			mysql_query($sql);
+			mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 		}
 		
 		$sql = "
@@ -98,8 +98,8 @@
 		$parm = "";
 		$dummy = "";
 		$total = 0;
-		$result = mysql_query($sql);
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+		while ($row = mysqli_fetch_array($result)) {
 			$no++;
 			$parm .= "
 				<tr>
@@ -123,7 +123,7 @@
 			$dummy = $row["skk"];
 			$total += $row["nilaibayar"];
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 		
 		echo "
 			<table>
@@ -156,5 +156,5 @@
 					</tr>
 			</table>";
 	}
-	mysql_close($kon);
+	$mysqli->close();($kon);
 ?>

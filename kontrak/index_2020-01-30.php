@@ -80,7 +80,7 @@
 		
 		require_once "../config/koneksi.php";
 		$sql = "SELECT * FROM bidang ORDER BY LPAD(id, 2, '0')";
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 		
 		$user = $_SESSION["cnip"];
 		
@@ -95,7 +95,7 @@
 		$b = "<select name='bidang' id='bidang'>" . ($_SESSION["org"]=="" || $_SESSION["org"]==1 || $_SESSION["org"]==3 || $_SESSION["org"]>5 || $user == "94171330ZY"? "<option value=''></option>": "");
 		$p = "<select name='pelaksana' id='pelaksana'>" . ($_SESSION["org"]>5? "": "<option value=''></option>");
 
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		while ($row = mysqli_fetch_array($result)) {
 			if($row["id"]<6) {
 				$b .= ($_SESSION["org"]=="" || $_SESSION["org"]==1 || $_SESSION["org"]==3 || $_SESSION["org"]>5 || $user == "94171330ZY")?
 					"<option value='$row[id]' " . ($row["id"]==$b0? "selected": "") . ">$row[namaunit]</option>":
@@ -106,7 +106,7 @@
 				"<option value='$row[id]' " . ($row["id"]==$p0? "selected": "") . ">$row[namaunit]</option>":
 				($row["id"]==$_SESSION["org"]? "<option value='$row[id]' " . ($row["id"]==$p0? "selected": "") . ">$row[namaunit]</option>": "");
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 		$b .= "</select>";
 		$p .= "</select>";
 	?>
@@ -207,8 +207,8 @@
 			$parm = "";
 			$dummy = "";
 			$dummynd = "";
-			$result = mysql_query($sql);
-			while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+			while ($row = mysqli_fetch_array($result)) {
 				$no++;
 				$parm .= "
 					<tr>
@@ -240,7 +240,7 @@
 				$dummy = $row["skk"];
 				$dummynd = $row["nd"];
 			}
-			mysql_free_result($result);
+			mysqli_free_result($result);
 			
 			echo "
 				<table id='dataTables' class='display' cellspacing='0' width='100%'>
@@ -267,7 +267,7 @@
 					$parm
 			</table>";
 		}
-		mysql_close($kon);
+		$mysqli->close();($kon);
 	?>
 	<script src="../js/jquery-1.12.0.min.js"></script>
 	<script src="../js/jquery.dataTables.min.js"></script>

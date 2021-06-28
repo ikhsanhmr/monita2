@@ -7,7 +7,7 @@
 
 	$sql = "select * from skkiterbit where nomorskki = '$noskki'";
 	//echo "$sql<br>";
-	$sukses = mysql_query($sql);// or die(mysql_error());
+	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 	$num_rows = mysql_num_rows($sukses);
 
 	if($num_rows==0) {
@@ -63,7 +63,7 @@
 				'$gdd', '$jtr', '$jtra', '$jtrd', '$sl1', '$sl1a', '$sl1d', '$sl3', 
 				'$sl3a', '$sl3d', '$nip', '$kp', '$kpa', '$kpd')";
 		//echo "$sql<br>";
-		$sukses = mysql_query($sql);// or die(mysql_error());
+		$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 		//echo "$sukses<br>";
 	
 		//echo "<br>";
@@ -76,7 +76,7 @@
 				$nil = $param_val;
 				$sql = "update notadinas_detail set noskk = '$noskki', progress = 7 where nid = '$pic'";
 				//echo "$sql<br>";
-				$sukses = mysql_query($sql);// or die(mysql_error());
+				$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 				//echo "$sukses<br>";
 			}
 		}

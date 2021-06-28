@@ -28,17 +28,17 @@
 		
 		require_once "../config/koneksi.php";
 		$sql = "SELECT DISTINCT YEAR(tanggalskki) tahun FROM skkiterbit";
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 
 		$v = isset($_REQUEST["v"])? $_REQUEST["v"]: "";
 		$p = isset($_REQUEST["p"])? $_REQUEST["p"]: "";
 
 		$th = "<select name='th' id='th'><option value=''></option>";
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$th .= "<option value='$row[tahun]'" . ($row["tahun"]==$p? " selected": "") . ">$row[tahun]</option>";
 		}
 		$th .= "</select>";
-		mysql_free_result($result);
+		mysqli_free_result($result);
 	?>
 </head>
 
@@ -87,14 +87,14 @@
 					<td align='center' style='background-color:rgb(127,255,127)'>PLTD</td>
 				</tr>
 			";
-			$result = mysql_query($sql);
+			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 			
 			$no = 0;
 			$a = 0;
 			$d = 0;
 			$k = 0;
 			$b = 0;
-			while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+			while ($row = mysqli_fetch_array($result)) {
 				$no++;
 				$a += $row["anggaran"];
 				$d += $row["disburse"];
@@ -107,7 +107,7 @@
 					<tr>
 						<td>$no</td>
 						<td>$row[namaunit]</td>";
-				$query=mysql_query("SELECT 
+				$query=mysqli_query("SELECT 
 					pelaksana, namaunit, s.fungsi fungsi, s.fungsi_val fungsi_val, s.nilaidisburse nilaidisburse, 
 					SUM(IF( fungsi = 'Peningkatan Keandalan Jaringan', nilaidisburse, 0)) AS keandalanjaringan_a,
 					SUM(IF( fungsi = 'Efisiensi', nilaidisburse, 0)) AS efisiensi_a,
@@ -231,7 +231,7 @@
 
 						
 			}
-			mysql_free_result($result);
+			mysqli_free_result($result);
 			
 			// echo "
 			// 	<tr>
@@ -246,7 +246,7 @@
 			// 		<td align='right'>" . number_format($k-$b) . "</td>
 			// 	</tr>";
 			
-		mysql_close($kon);
+		$mysqli->close();($kon);
 		
 		//echo $hasil;
 	?>

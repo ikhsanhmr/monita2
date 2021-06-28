@@ -16,17 +16,17 @@
 				
 // //				$sql = "SELECT COUNT(*) jumlah FROM saldopos2 WHERE tahun = $_REQUEST[prd] AND kdsubpos = '$sub'";
 // 				$sql = "SELECT COUNT(*) jumlah FROM saldopos$idx WHERE tahun = $_REQUEST[prd] AND kdsubpos = '$sub'";
-// 				$result = mysql_query($sql);
-// 				while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+// 				$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+// 				while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
 // 					$jumlah = $row["jumlah"];
 // 				}
-// 				mysql_free_result($result);
+// 				mysqli_free_result($result);
 				
 // 				$rp = str_replace(".", "", str_replace(",", "", (empty($param_val) ? 0 : $param_val)));
 // 				$sql = ($jumlah==0? 
 // 					"INSERT INTO saldopos$idx(tahun, kdsubpos, rppos) VALUES ($_REQUEST[prd], '$sub', $rp)": 
 // 					"UPDATE saldopos$idx SET rppos = $rp WHERE tahun = $_REQUEST[prd] AND kdsubpos = '$sub'");
-// 				mysql_query($sql) or die(mysql_error());
+// 				mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die(mysql_error());
 // //				echo "$sql<br>";
 // 			}
 // 		}
@@ -36,11 +36,11 @@
 		$idx = count(explode(".", $sub));
 
 		$sql = "SELECT COUNT(*) jumlah FROM saldopos$idx WHERE tahun = $_REQUEST[prd] AND kdsubpos = '$sub'";
-		$result = mysql_query($sql);
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
 			$jumlah = $row["jumlah"];
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 
 		switch(substr($param_name,0,1)) {
 			case "t" : //echo "$param_name - $param_val<br>"; 
@@ -69,7 +69,7 @@
 					"INSERT INTO saldopos$idx(tahun, kdsubpos, rppos, rpaki) 
 					VALUES ($_REQUEST[prd], '$sub', $rp, $aki)": 
 					"UPDATE saldopos$idx SET rppos = $rp, rpaki = $aki WHERE tahun = $_REQUEST[prd] AND kdsubpos = '$sub'");
-				mysql_query($sql) or die(mysql_error());
+				mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die(mysql_error());
 //				echo "$sql<br>";
 			
 				break;
@@ -77,7 +77,7 @@
 		}
 
 	}
-	mysql_close($link);	
+	$mysqli->close();($link);	
 	
 	$ke = count(explode(".", $_REQUEST["pos"]));
 	//echo $_REQUEST['pos'];

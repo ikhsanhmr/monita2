@@ -22,7 +22,7 @@
 	$loadexcel = $excelreader->load('../files/excel/'.$name_uploaded);
 	$sheet = $loadexcel->getActiveSheet()->toArray(null, true, true ,true);
 	$list=array();
-	$sql=mysql_query("select bayarid from realisasibayar order by bayarid desc");
+	$sql=mysqli_query("select bayarid from realisasibayar order by bayarid desc");
 	$query=mysql_fetch_assoc($sql);
 	$numid=$query['bayarid']+1;
 
@@ -45,15 +45,15 @@
 					$nodokumen="na";
 				}
 				$datetime=date("Y-m-d H:i:s");
-				$selectkontrak=mysql_query("select * from kontrak where trim(nomorkontrak)='".trim($nokontrak)."'");
+				$selectkontrak=mysqli_query("select * from kontrak where trim(nomorkontrak)='".trim($nokontrak)."'");
 				$exekontrak=mysql_fetch_assoc($selectkontrak);
 
 				$kontrakdt=substr($exekontrak['inputdt'], 0, 10);
 
-				$selectbayar=mysql_query("SELECT SUM(nilaibayar) bayar FROM realisasibayar where trim(nokontrak)='".trim($exekontrak[nomorkontrak])."'");
+				$selectbayar=mysqli_query("SELECT SUM(nilaibayar) bayar FROM realisasibayar where trim(nokontrak)='".trim($exekontrak[nomorkontrak])."'");
 				$exebayar=mysql_fetch_assoc($selectbayar);
 
-				$kontrakapproval=mysql_query("SELECT t1.nomorkontrak nmrkontrak, signed, signdt, signlevel, actiontype, nilaitagihan, catatan, catatanreject FROM kontrak_approval t1 WHERE t1.id = (SELECT t2.id FROM kontrak_approval t2 WHERE TRIM(t2.nomorkontrak) = TRIM(t1.nomorkontrak) ORDER BY t2.signdt DESC LIMIT 1) and trim(t1.nomorkontrak) = '".trim($nokontrak)."'");
+				$kontrakapproval=mysqli_query("SELECT t1.nomorkontrak nmrkontrak, signed, signdt, signlevel, actiontype, nilaitagihan, catatan, catatanreject FROM kontrak_approval t1 WHERE t1.id = (SELECT t2.id FROM kontrak_approval t2 WHERE TRIM(t2.nomorkontrak) = TRIM(t1.nomorkontrak) ORDER BY t2.signdt DESC LIMIT 1) and trim(t1.nomorkontrak) = '".trim($nokontrak)."'");
 
 				$exeapproval=mysql_fetch_assoc($kontrakapproval);
 
@@ -99,7 +99,7 @@
 					continue;
 				}
 				
-				mysql_query("INSERT INTO kontrak_approval (nomorkontrak, actiontype, signdt, signed, signlevel, nilaitagihan, catatan) VALUES ('$exekontrak[nomorkontrak]', 1, sysdate(), '$nip', 0, '$nilaibayar', '$catatan')");
+				mysqli_query("INSERT INTO kontrak_approval (nomorkontrak, actiontype, signdt, signed, signlevel, nilaitagihan, catatan) VALUES ('$exekontrak[nomorkontrak]', 1, sysdate(), '$nip', 0, '$nilaibayar', '$catatan')");
 
 				// echo $kontrakdt;
 				// echo "<br>".number_format($nilaibayar)."";
@@ -109,7 +109,7 @@
 
 				if($lvl == 1){
 					if(!empty($nodokumen)){
-						mysql_query("update kontrak set nodokumen='$nodokumen' where nomorkontrak='$exekontrak[nomorkontrak]'");
+						mysqli_query("update kontrak set nodokumen='$nodokumen' where nomorkontrak='$exekontrak[nomorkontrak]'");
 					}
 				}
 

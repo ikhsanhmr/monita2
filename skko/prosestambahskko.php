@@ -6,7 +6,7 @@
 	$noskko=trim($_POST['noskko']);
 
 	$sql = "select * from skkoterbit where nomorskko = '$noskko'";
-	$sukses = mysql_query($sql);// or die(mysql_error());
+	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 	$num_rows = mysql_num_rows($sukses);
 	if($num_rows==0) {
 		$tgl_skko=trim($_POST['tgl_skko']);
@@ -24,7 +24,7 @@
 		
 		$sql = "INSERT INTO skkoterbit (nomorskko, posinduk, tanggalskko, uraian, periode, jenis, nomorcostcenter, nomorwbs, nilaiwbs, nilaitunai, nilainontunai, nilaianggaran, nilaidisburse, nip) VALUES ('$noskko', '$pos0', '$tgl_skko', '$uraian', '$periode', '$jenis', '$nocostcenter', '$nowbs', '$wbs', '$tunai', '$nontunai', '$anggaran', '$disburse', '$nip')";
 //		echo "$sql<br>";
-		$sukses = mysql_query($sql);// or die(mysql_error());
+		$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 		//echo "$sukses<br>";
 	
 		echo "<br>";
@@ -37,7 +37,7 @@
 				$nil = $param_val;
 				$sql = "update notadinas_detail set noskk = '$noskko', progress = 7 where nid = '$pic'";
 //				echo "$sql<br>";
-				$sukses = mysql_query($sql);// or die(mysql_error());
+				$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 	//			echo "$sql  $sukses<br>";
 			}
 		}

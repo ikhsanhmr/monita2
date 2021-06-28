@@ -84,7 +84,7 @@
 	//AND COALESCE(progress,0) >= 2 and COALESCE(progress,0) < 8 
 	//echo $sql;
 
-	$result = mysql_query($sql);
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 
 	echo "
 		<table border='1'>
@@ -103,7 +103,7 @@
 				</tr>";
 	
 	$no = 0;
-	while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+	while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
 		$no++;
 		echo "
 			<tr>
@@ -127,8 +127,8 @@
 	}
 	echo "</table>";
 
-	mysql_free_result($result);
-	mysql_close($link);	
+	mysqli_free_result($result);
+	$mysqli->close();($link);	
 
 
 echo '</form>';

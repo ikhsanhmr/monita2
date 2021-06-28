@@ -347,9 +347,9 @@
 			$no = 0;
 			//$parm = "";
 			//$dummy = 0;
-			$result = mysql_query($sql);
+			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 
-			while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+			while ($row = mysqli_fetch_array($result)) {
 				$no++;
 
 				$nilaitagihan = $row["nilaitagihan"];
@@ -378,7 +378,7 @@
 					</tr>";
 			}
 			echo "</table>";
-			mysql_free_result($result);
+			mysqli_free_result($result);
 
 			if($_SESSION["roleid"] == 1){
 
@@ -443,7 +443,7 @@
 				";
 				//echo $sql;
 
-				$result = mysql_query($sql);
+				$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 
 				echo "<table border='1'>
 								<thead>
@@ -470,7 +470,7 @@
 				$totaljmlskko = 0;
 				$totalnilaiskko = 0;
 
-				while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+				while ($row = mysqli_fetch_array($result)) {
 					
 					$totaljmlskki += $row["jmlskki"];
 					$totalnilaiskki += $row["nilaiskki"];
@@ -500,7 +500,7 @@
 						</tfoot>
 					</table>";
 
-				mysql_free_result($result);
+				mysqli_free_result($result);
 			}
 			
 			if($_SESSION["roleid"] == 1 || $_SESSION["roleid"] == 21){
@@ -572,7 +572,7 @@
 				";
 				//echo $sql;
 
-				$result = mysql_query($sql);
+				$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 
 				echo "<table border='1'>
 								<thead>
@@ -599,7 +599,7 @@
 				$totaljmlskko = 0;
 				$totalnilaiskko = 0;
 
-				while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+				while ($row = mysqli_fetch_array($result)) {
 					
 					$totaljmlskki += $row["jmlskki"];
 					$totalnilaiskki += $row["nilaiskki"];
@@ -629,10 +629,10 @@
 								</tfoot>
 							</table>";
 
-				mysql_free_result($result);
+				mysqli_free_result($result);
 			}
 	}
-	mysql_close($kon);
+	$mysqli->close();($kon);
 	
 	//echo $hasil;
 ?>

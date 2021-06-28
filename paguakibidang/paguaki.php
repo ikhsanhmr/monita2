@@ -55,7 +55,7 @@
 				// ";
 		$sql = "Select * From bidang a Inner Join saldoakibidang b On a.id = b.kdbidang AND tahun = '$_REQUEST[prd]' WHERE a.id <> 3 Order By a.namaunit";
 		
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 		
 		echo "Tahun <input type='text' name='tprd' id='tprd' value='$_REQUEST[prd]' size='4' readonly><br><br>";
 		echo "<a href='#' onclick='tambahaki($_REQUEST[prd])'>(+) Tambah/Edit Pagu Aki</a><br><br>";
@@ -69,7 +69,7 @@
 				</tr>";
 	
 		$no = 0;
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
 			$no++;
 			echo "
 				<tr>
@@ -79,8 +79,8 @@
 					<td align='right'>" . number_format($row["rpaki"]) . "</td>
 				</tr>";
 		}
-		mysql_free_result($result);
-		mysql_close($link);	
+		mysqli_free_result($result);
+		$mysqli->close();($link);	
 		echo "</table>";
 	}
 ?>

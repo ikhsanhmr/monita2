@@ -41,16 +41,16 @@
 		$sql = "SELECT sum(akipos) as akipos FROM saldoakibidang WHERE tahun = $_REQUEST[prd]";
 //		echo "$sql<br>";
 			
-		$result = mysql_query($sql);
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {$tot = $row["akipos"]; }
-		mysql_free_result($result);		
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {$tot = $row["akipos"]; }
+		mysqli_free_result($result);		
 
 		$bidangselect = "";
 		
 		$sql = "SELECT * FROM bidang";
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 		
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
 			$bidangselect .= "<option value='$row[id]' >$row[namaunit]</option>"; 
 		}
 		
@@ -78,7 +78,7 @@
 		
 		echo "</form>";
 		
-		mysql_close($link);
+		$mysqli->close();($link);
 
 		echo "Total pagu = Rp." . number_format($tot) . "<br>";
 		echo "<div id='sudah'>Pagu yang sudah dirinci = Rp.<span id='akiterpakai'>0</span></div><br>";

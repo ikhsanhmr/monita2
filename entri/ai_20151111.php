@@ -65,11 +65,11 @@
 		$vo = "<select name='o' id='o' onchange='onlyme()'><option value=''></option>";
 
 		$sql = "SELECT * FROM bidang WHERE NOT namaunit LIKE '%wilayah%'";
-		$result = mysql_query($sql);
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+		while ($row = mysqli_fetch_array($result)) {
 			$vo .= "<option value='$row[id]'" . ($row["id"]==$o? " selected": "") .">$row[namaunit]</option>";
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 
 		$vo .= "</select>";
 //	}
@@ -146,8 +146,8 @@ WHERE YEAR(tanggalskki) = " . date("Y") . " AND NOT /*nomorkontrak*/ nomorskki I
 	$konbay = 0;
 	$dummy = "";
 	
-	$result = mysql_query($sql);
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+	while ($row = mysqli_fetch_array($result)) {
 		if($dummy!=$row["nomorskki"]) {
 			$no++;
 			$diskon = $row["nilaidisburse"]; 
@@ -251,8 +251,8 @@ WHERE YEAR(tanggalskki) = " . date("Y") . " AND NOT /*nomorkontrak*/ nomorskki I
 			</tr>";
 	
 	echo "</table>";
-	mysql_free_result($result);
-	mysql_close($link);	  
+	mysqli_free_result($result);
+	$mysqli->close();($link);	  
 ?>
 </body>
 </html>

@@ -49,10 +49,10 @@
 
 		//echo "$sql";
 		$sqlskk = "SELECT DISTINCT noskk FROM notadinas_detail d left join notadinas n on d.nomornota = n.nomornota LEFT JOIN kontrak k ON d.noskk = k.nomorskkoi WHERE d.progress in(7,9)   " . ($org=="" || $rog=="1"? "": "AND (nipuser = '$nip' or pelaksana = '$org') ") . "ORDER BY noskk";
-		$result_skk = mysql_query($sqlskk);
+		$result_skk = mysqli_query($sqlskk);
 
 		$skk = "<select name='skk' id='skk' onChange='viewposskk(this.value, \"subpos\");checkskk(this.value);' required><option value=''></option>";
-		while ($rowskk = mysql_fetch_array($result_skk, MYSQL_ASSOC)) {
+		while ($rowskk = mysqli_fetch_array($result_skk)) {
 			$skk .= "<option value='$rowskk[noskk]'>$rowskk[noskk]</option>";
 		}
 		$skk .= "</select>";	

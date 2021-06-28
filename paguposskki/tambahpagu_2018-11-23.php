@@ -25,7 +25,7 @@
 	mysql_select_db($db);
 	
 	$sql = "SELECT * FROM posinduk p LEFT JOIN saldopos s ON kdindukpos = kdsubpos AND tahun = '$_REQUEST[prd]' where kdindukpos = '62'";
-	$result = mysql_query($sql);
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	
 	echo "<h2>FORM TAMBAH PAGU POS<br></h2>";
 	//echo "Tahun $_REQUEST[prd]<br><br>";
@@ -42,7 +42,7 @@
 			</tr>";
 	
 	$tot = 0;
-	while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+	while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
 		$tot += $row['rppos'];
 		echo "
 			<tr>
@@ -56,8 +56,8 @@
 				</td>
 			</tr>";
 	}	
-	mysql_free_result($result);
-	mysql_close($link);	
+	mysqli_free_result($result);
+	$mysqli->close();($link);	
 	
 	echo "
 			<tr>

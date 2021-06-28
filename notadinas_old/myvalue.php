@@ -41,14 +41,14 @@
 	";
 //	echo $query;
 	
-	if ($result = mysql_query($query)) {
+	if ($result = mysqli_query($query)) {
 		$rp = "";
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
 			$rp = $row["rppos"];
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 	}
-	mysql_close($kon);
+	$mysqli->close();($kon);
 	
 	echo $rp;
 ?>

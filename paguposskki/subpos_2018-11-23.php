@@ -43,16 +43,16 @@
 			" WHERE tahun = $_REQUEST[prd] AND kdsubpos = '$_REQUEST[pos]'";
 //		echo "$sql<br>";
 			
-		$result = mysql_query($sql);
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {$tot = $row["rppos"]; }
-		mysql_free_result($result);		
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {$tot = $row["rppos"]; }
+		mysqli_free_result($result);		
 
 		$sql = "SELECT p.*, rppos FROM posinduk2 p LEFT JOIN saldopos2 s ON p.kdsubpos = s.kdsubpos AND tahun = $_REQUEST[prd] WHERE kdindukpos = '$_REQUEST[pos]' ORDER BY p.kdsubpos";
 
 		$sql = "SELECT p.*, rppos FROM posinduk" . ($_REQUEST["ke"]+1) . " p LEFT JOIN saldopos" . ($_REQUEST["ke"]+1) . 
 			" s ON p.kdsubpos = s.kdsubpos AND tahun = $_REQUEST[prd] WHERE kdindukpos = '$_REQUEST[pos]' ORDER BY p.kdsubpos";
 		//echo "$sql<br>";
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 		
 		echo "
 			<table border='1'>
@@ -69,7 +69,7 @@
 	
 		$no = 0;
 		$sudah = 0;
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
 			$dummy = str_replace('.', '_', $row['kdsubpos']);
 			$sudah += $row['rppos'];
 			$no++;
@@ -96,7 +96,7 @@
 					</td>
 				</tr>";
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 		
 		echo "
 				<tr>
@@ -113,7 +113,7 @@
 			</table>";
 		echo "</form>";
 		
-		mysql_close($link);
+		$mysqli->close();($link);
 
 		echo "Total pagu = Rp." . number_format($tot) . "<br>";
 		echo "<div id='sudah'>Pagu yang sudah dirinci = Rp." . number_format($sudah) . "</div><br>";

@@ -29,14 +29,14 @@
 	$sql = "SELECT * FROM notadinas WHERE COALESCE(progress,0) <= 2";
 //	echo $sql;
 	
-	$result = mysql_query($sql);
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 
 	$nd = "<textarea hidden name='jobnd' id='jobnd'></textarea> &nbsp;<select name='nd' id='nd' size='10'>";
-	while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+	while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
 		$nd .= ($row["nip"]==null? "<option value='$row[nomornota]'>$row[nipuser]-$row[perihal]</option>": "");
 	}
 	$nd .= "</select>&nbsp;";
-	mysql_free_result($result);
+	mysqli_free_result($result);
 	
 	$th = "";
 	$td = "";
@@ -44,8 +44,8 @@
 	$usr = "&nbsp;<select name='usr' id='usr' size='10'>";
 	
 	$sql = "SELECT * FROM USER WHERE adm = 1 and nama != 'GM'";
-	$result = mysql_query($sql);
-	while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+	while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
 		$usr .= "<option value='$row[nip]'>$row[nama]</option>";
 
 		$column++;
@@ -53,17 +53,17 @@
 		$td .= "<td><textarea hidden name='job$row[nip]' id='job$row[nip]'></textarea> &nbsp;<select name='s$row[nip]' id='s$row[nip]' size='10'>";
 
 		$insql = "SELECT * FROM notadinas WHERE COALESCE(progress,0) <= 2 and nip='$row[nip]'";
-		$inresult = mysql_query($insql);
-		while ($inrow = mysql_fetch_array($inresult, MYSQL_BOTH)) {
+		$inresult = mysqli_query($insql);
+		while ($inrow = mysqli_fetch_array($inresult, MYSQL_BOTH)) {
 			$td .= "<option value='$inrow[nomornota]'>$inrow[nipuser]-$inrow[perihal]</option>";
 		}
-		mysql_free_result($inresult);
+		mysqli_free_result($inresult);
 
 		$td .= "</select>&nbsp;</td>";
 	}
 	$usr .= "</select>&nbsp;";
-	mysql_free_result($result);
-	mysql_close($link);	
+	mysqli_free_result($result);
+	$mysqli->close();	
 
 	echo "
 		<div align='center'>

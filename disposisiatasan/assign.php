@@ -18,11 +18,11 @@
 						($usr=="nd"? "null": "'$usr'" . ", assigndt = SYSDATE() ") . 
 						",progress=".($usr=="nd"? "null": ($param_name=="jobuser"? "1": "2"))." WHERE nomornota = '$dummy[$i]'";
 					//echo $sql .'</br>';
-					mysql_query($sql) or die(mysql_error());
+					mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die(mysql_error());
 				}
 			}
 		}
 	}
-	mysql_close($link);	
+	$mysqli->close();($link);	
 	echo "<script>window.open('index.php','_self');</script>";
 ?>

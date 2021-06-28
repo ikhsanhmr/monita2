@@ -16,23 +16,23 @@
 				
 //				$sql = "SELECT COUNT(*) jumlah FROM saldopos2 WHERE tahun = $_REQUEST[prd] AND kdsubpos = '$sub'";
 				$sql = "SELECT COUNT(*) jumlah FROM saldopos$idx WHERE tahun = $_REQUEST[prd] AND kdsubpos = '$sub'";
-				$result = mysql_query($sql);
-				while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+				$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+				while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
 					$jumlah = $row["jumlah"];
 				}
-				mysql_free_result($result);
+				mysqli_free_result($result);
 				
 				$rp = str_replace(".", "", str_replace(",", "", $param_val));
 				$sql = ($jumlah==0? 
 					"INSERT INTO saldopos$idx(tahun, kdsubpos, rppos) VALUES ($_REQUEST[prd], '$sub', $rp)": 
 					"UPDATE saldopos$idx SET rppos = $rp WHERE tahun = $_REQUEST[prd] AND kdsubpos = '$sub'");
-				mysql_query($sql) or die(mysql_error());
+				mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die(mysql_error());
 //				echo "$sql<br>";
 			}
 		}
 
 	}
-	mysql_close($link);	
+	$mysqli->close();($link);	
 	
 	$ke = count(explode(".", $_REQUEST["pos"]));
 	$url = "subpos.php?prd=$_REQUEST[prd]&pos=$_REQUEST[pos]&ke=$ke";

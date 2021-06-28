@@ -47,7 +47,7 @@ $sql ="
 	WHERE nomornota='$nonotadinas'";
 echo $sql;
 
-$hasil=mysql_query($sql); 
+$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)); 
 
 
 echo '

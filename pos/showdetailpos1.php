@@ -15,14 +15,14 @@
             where kdindukpos like '$kdsubpos%'
             ";
       
-      $hasil=mysql_query($sql);
+      $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 
       $sql="delete 
             from posinduk3
             where kdindukpos like '$kdsubpos%'
             ";
       
-      $hasil=mysql_query($sql);    
+      $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));    
 
       $sql="delete 
             from posinduk2
@@ -30,7 +30,7 @@
             and kdindukpos='$pos'
             ";
       
-      $hasil=mysql_query($sql);   
+      $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));   
     }
     else
     {
@@ -41,8 +41,8 @@
                 where kdindukpos='$pos'
             ";
 	  
-	  $hasil = mysql_query($sql);
-	  $row = mysql_fetch_array($hasil); 
+	  $hasil = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+	  $row = mysqli_fetch_array($hasil); 
  	  $namapos=$row['namaindukpos'];
 	  
     }
@@ -81,7 +81,7 @@
         ";
   
   $no=0;
-  $hasil=mysql_query($sql);
+  $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
   $rs = mysql_num_rows($hasil);
   if($rs==0)
   {
@@ -98,8 +98,8 @@
         <th>Aksi</th>
       </tr>';
         
-while ($row = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
-	//$row = mysql_fetch_array($hasil, MYSQL_ASSOC);
+while ($row = mysqli_fetch_array($hasil)) {
+	//$row = mysqli_fetch_array($hasil);
       $no++;
       echo '
       <tr>

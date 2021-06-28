@@ -28,7 +28,7 @@
        skkoi='$skkoi',
        nilaiusulan='$nilaiusulan'
        WHERE nomornota='$nomornotaawal'";
-	 $hasil=mysql_query($sql); 
+	 $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)); 
 
                 echo '
                 <script language="javascript">
@@ -43,7 +43,7 @@
 				  from notadinas
 				  where nomornota='$nomornota'";
 			//echo $sql;
-			$hasil=mysql_query($sql) or die (mysql_error());  
+			$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());  
 			$result = mysql_num_rows($hasil);  	 
 			 if($result > 0 )
 			 {
@@ -68,7 +68,7 @@
 			   WHERE nomornota='$nomornotaawal'";
 			 
 		
-		$hasil=mysql_query($sql); 
+		$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)); 
 		
 						echo '
 						<script language="javascript">
@@ -83,7 +83,7 @@
 */	
 if($cek==2) {
 	$sql="select * from notadinas where nomornota='$nomornota'";
-	$hasil=mysql_query($sql) or die (mysql_error());  
+	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());  
 	$result = mysql_num_rows($hasil);  	 
 
 	if($result > 0 ) {
@@ -109,13 +109,13 @@ $sql ="
 	WHERE nomornota='$nomornotaawal'";
 
 
-$hasil=mysql_query($sql); 
+$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)); 
 
 $sql ="
 	UPDATE skkoterbit SET
 		nomornota='$nomornota'
 	WHERE nomornota='$nomornotaawal'";
-$hasil=mysql_query($sql); 
+$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)); 
 
 echo '
 	<script language="javascript">

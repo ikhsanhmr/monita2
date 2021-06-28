@@ -21,12 +21,12 @@
 			($_SESSION['adm']==1? " and nip = '$nip'": "") .
 			" ORDER BY nid";
 
-	if ($result = mysql_query($query)) {
+	if ($result = mysqli_query($query)) {
 		$nota = "<option value=''>Pilih Nota dinas</option>";
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
 			$nota .= "<option value='$row[nn]'>$row[pp]</option>";
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 	}
 	$nota = "<select name='nota$t' id='nota$t' onchange='notacheck($t)'>$nota</select>";
 	

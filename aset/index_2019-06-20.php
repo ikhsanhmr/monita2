@@ -68,17 +68,17 @@
 		$org=$_SESSION['org'];
 		
 		$sql = "SELECT DISTINCT YEAR(inputdt) tahun FROM kontrak";
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 
 		$v = isset($_REQUEST["v"])? $_REQUEST["v"]: "";
 		$p = isset($_REQUEST["p"])? $_REQUEST["p"]: "";
 
 		$th = "<select name='th' id='th'><option value=''></option>";
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$th .= "<option value='$row[tahun]'" . ($row["tahun"]==$p? " selected": "") . ">$row[tahun]</option>";
 		}
 		$th .= "</select>";
-		mysql_free_result($result);
+		mysqli_free_result($result);
 	
 	?>
 </head>
@@ -137,8 +137,8 @@
 		$dummyskk = "";
 		$dummypos = "";
 		
-		$result = mysql_query($sql);
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {  
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+		while ($row = mysqli_fetch_array($result)) {  
 			$no++;
 			echo "
 				<tr>
@@ -159,9 +159,9 @@
 			$dummypos = ($dummypos==""? $row["pos1"]: ($dummypos==$row["pos1"]? $dummypos: $row["pos1"]));
 		}
 		echo "</table>";
-		mysql_free_result($result);
+		mysqli_free_result($result);
 	}
-	mysql_close($kon);	
+	$mysqli->close();($kon);	
 
 ?>
 	<div id="showhere"></div>

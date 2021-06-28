@@ -69,13 +69,13 @@
 /*
 					$ceksql = "SELECT COUNT(*) jumlah FROM kontrak WHERE nomorkontrak = '$kontrak'";
 					//echo "$ceksql<br>";
-					$result = mysql_query($ceksql);
-					while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) { $jumlah = $row["jumlah"]; }
-					mysql_free_result($result);
+					$result = mysqli_query($ceksql);
+					while ($row = mysqli_fetch_array($result)) { $jumlah = $row["jumlah"]; }
+					mysqli_free_result($result);
 						
 					if(($edit=="") && ($jumlah>0)) {
 						//if($jumlah > 0) {
-						mysql_close($link);	 
+						$mysqli->close();($link);	 
 						//echo $jumlah . "<br>";
 						echo "<script>alert('Gagal membuat kontrak. Nomor Kontrak $kontrak sudah ada!');</script>";
 						echo "<script>window.open('index.php', '_self')</script>";
@@ -107,15 +107,15 @@
 					
 					// echo "$sql<br>";
 					// return;
-					$sukses = mysql_query($sql);// or die(mysql_error());
+					$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 					$message = "";
 					
 					// input bayar - kontrak petty cash
 					if($sukses==1 && $pc==1) {
 						$sql = "INSERT INTO realisasibayar(nokontrak, nilaibayar, tglbayar) VALUES('$kontrak', '$nilai', date(sysdate()))";	
 						//echo $sql;
-						mysql_query($sql);// or die(mysql_error());
-						$update=mysql_query("update rab set status='1' where no_rab='$nrab'");
+						mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+						$update=mysqli_query("update rab set status='1' where no_rab='$nrab'");
 					}else{
 						if($sukses != 1){
 							
@@ -126,8 +126,8 @@
 					
 					if($sukses==1) {
 						$sql = "UPDATE notadinas_detail SET progress = 9 WHERE noskk = '$skk' and pos1 = '$pos'";
-						$sukses = mysql_query($sql);// or die(mysql_error());
-						$update=mysql_query("update rab set status='1' where no_rab='$nrab'");
+						$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+						$update=mysqli_query("update rab set status='1' where no_rab='$nrab'");
 						echo '<script>alert("Penyimpanan berhasil");</script>';
 					}
 					$pc = 0;
@@ -136,10 +136,10 @@
 		}
 	}
 	
-	//$sukses = mysql_query($sql);// or die(mysql_error());
+	//$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 	// echo "$sukses<br>";
 	
 	//
-	mysql_close($kon);
+	$mysqli->close();($kon);
 	echo '<script>window.open("index.php?msg='.$message.'", "_self")</script>';
 ?>

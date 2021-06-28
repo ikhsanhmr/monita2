@@ -16,8 +16,8 @@
 	
 	$sql = "INSERT INTO realisasibayar(nokontrak, nilaibayar, tglbayar) VALUES('$k', '$n', '$t')";	
 	//echo $sql;
-	$sukses = mysql_query($sql);// or die(mysql_error());
-	mysql_close($link);	  							
+	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+	$mysqli->close();($link);	  							
 	echo $sukses;
 */
 	$url = $_POST["url"];
@@ -30,12 +30,12 @@
 				if($n!="" && $d!="") {
 					$sql = "INSERT INTO realisasibayar(nokontrak, nilaibayar, tglbayar) VALUES('$k', '$n', '$d')";	
 					//echo $sql;
-					mysql_query($sql);// or die(mysql_error());
+					mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 				}
 		}
 		//echo "$name - $value<br>";
 	}
-	mysql_close($kon);
+	$mysqli->close();($kon);
 	echo "<script>
 		var url = encodeURI('$url');
 		window.open(url, '_self')

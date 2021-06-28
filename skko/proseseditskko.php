@@ -33,7 +33,7 @@
 		nip = '$nip'
 	where nomorskko = '$noskko'";
 	
-	$sukses = mysql_query($sql);// or die(mysql_error());
+	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 	//echo "$sukses<br>";
 // diremark karena notadinas_detail tidak mengalami perubahan
 /*
@@ -45,7 +45,7 @@
 		if(substr($param_name, 0 ,3)=="nil") {
 			$nil = $param_val;
 			$sql = "update notadinas_detail set noskk = '$noskko', progress = 7 where nid = '$pic'";
-			$sukses = mysql_query($sql);// or die(mysql_error());
+			$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 		}
 	}
 */	

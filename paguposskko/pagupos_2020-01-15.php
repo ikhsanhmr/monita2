@@ -56,7 +56,7 @@ LEFT JOIN (SELECT posinduk, SUM(nilaitunai) nt FROM skkoterbit GROUP BY posinduk
 				ORDER BY kdindukpos
 				";
 		//echo $sql;
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 		
 		echo "Tahun <input type='text' name='tprd' id='tprd' value='$_REQUEST[prd]' size='4' readonly><br><br>";
 		echo "<a href='#' onclick='tambahpagu($_REQUEST[prd])'>(+) Tambah/Edit Pagu Pos</a><br><br>";
@@ -73,7 +73,7 @@ LEFT JOIN (SELECT posinduk, SUM(nilaitunai) nt FROM skkoterbit GROUP BY posinduk
 				</tr>";
 	
 		$no = 0;
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
 			$no++;
 			echo "
 				<tr>
@@ -89,8 +89,8 @@ LEFT JOIN (SELECT posinduk, SUM(nilaitunai) nt FROM skkoterbit GROUP BY posinduk
 					</td>
 				</tr>";
 		}
-		mysql_free_result($result);
-		mysql_close($link);	
+		mysqli_free_result($result);
+		$mysqli->close();($link);	
 		echo "</table>";
 	}
 ?>

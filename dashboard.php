@@ -209,9 +209,9 @@
 			Where (signlevel = 3 AND actiontype = 1) $parm";
 		//echo "$sql<br>";
 
-		$result = mysql_query($sql) or die(mysql_error());
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die(mysql_error());
 
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$ib = $row["jumlah"];
 		}
 		mysqli_free_result($result);
@@ -257,8 +257,8 @@
 	// 					notadinas n ON d.nomornota = n.nomornota
 	// 			Where $where AND (signlevel = 1 AND actiontype = 1)";
 	// 	//echo "$sql<br>";
-	// 	$result = mysql_query($sql) or die (mysql_error());
-	// 	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	// 	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());
+	// 	while ($row = mysqli_fetch_array($result)) {
 	// 		$ib = $row["jumlah"];
 	// 	}
 	// 	mysqli_free_result($result);
@@ -600,7 +600,7 @@
 		}
 	}
 
-	mysqli_close($mysqli);
+	$mysqli->close();($mysqli);
 
 	//echo json_encode($dataakibidang);
 

@@ -49,16 +49,16 @@
 		$sql = "select distinct noskk from notadinas n inner join notadinas_detail d ON n.nomornota = d.nomornota where d.progress = 7 " . ($adm>=1? "" : "AND (nipuser = '$nip' or pelaksana = '$org')") . " order by noskk";
 //		echo "$sql";
 			
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 		
 		$skk = "<select name='skk' id='skk' onChange='viewposskk(this.value, \"subpos\")' required><option value=''></option>";
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$skk .= "<option value='$row[noskk]'>$row[noskk]</option>";
 		}
 		$skk .= "</select>";
 		
-		mysql_free_result($result);
-		mysql_close($link);	  			
+		mysqli_free_result($result);
+		$mysqli->close();($link);	  			
 
 		echo "
 			<h2>INPUT KONTRAK</h2>

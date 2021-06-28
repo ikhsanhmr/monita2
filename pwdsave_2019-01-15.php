@@ -11,13 +11,13 @@
 	$pwd = $_REQUEST["pwd"];
 
     $sql = "select * from user where nip = '$nip' and password = '$opwd'";
-    $hasil = mysql_query($sql);
+    $hasil = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
     $chasil = mysql_num_rows($hasil);
     
     if($chasil==0) { 
 		echo "User atau Password Tidak Sesuai";
 	} else {
         $sql = "update user set password = '$pwd' where nip ='$nip' and password='$opwd'";
-   		$hasil=mysql_query($sql); 
+   		$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)); 
 	}	
 ?>

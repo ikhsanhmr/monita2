@@ -11,7 +11,7 @@ $sql ="
 	WHERE nomornota='$nd'";
 
 
-$hasil=mysql_query($sql); 
+$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)); 
 echo "<script type='text/javascript'>window.open('index.php', '_self')</script>";
 
 /*
@@ -29,7 +29,7 @@ if ($jenis=='SKKO' )
                 )
                 ";
      	
-		$hasil=mysql_query($sql); 
+		$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)); 
 		}
 		else
 		{
@@ -42,7 +42,7 @@ if ($jenis=='SKKO' )
                 )
                 ";
 				
-     	$hasil=mysql_query($sql); 	
+     	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)); 	
 		
 		}
 	echo $sql;		

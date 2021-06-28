@@ -20,15 +20,15 @@
 	$v = isset($_REQUEST["v"])? $_REQUEST["v"]: "";
 	
 	$sql = "SELECT * FROM bidang ORDER BY LPAD(id, 2, '0')";
-	$result = mysql_query($sql);
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	
 	$p = "";
 	$b = "";
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	while ($row = mysqli_fetch_array($result)) {
 		$b = ($row["id"]==$b0? $row["namaunit"]: $b);
 		$p = ($row["id"]==$p0? $row["namaunit"]: $p);
 	}
-	mysql_free_result($result);
+	mysqli_free_result($result);
 
 	$parm = "";
 	// $parm .= ($p1==""? "": " and YEAR(inputdt) = " . substr($p1,0,4));
@@ -166,8 +166,8 @@
 
 		$no = 0;
 		$parm = "";
-		$result = mysql_query($sql);
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+		while ($row = mysqli_fetch_array($result)) {
 			$no++;
 			$kontrak += $row["kontrak"];
 			$bayar += $row["bayar"];
@@ -247,7 +247,7 @@
 					<td align='right'>".number_format($total_bayar)."</td>
 				</tr>";
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 		
 		echo "
 			<table border='1'>
@@ -341,5 +341,5 @@
 			</table>
 		";
 	}
-	mysql_close($kon);
+	$mysqli->close();($kon);
 ?>

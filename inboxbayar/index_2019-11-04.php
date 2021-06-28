@@ -51,7 +51,7 @@
 		require_once "../config/koneksi.php";
 			$sql = "SELECT * FROM bidang ORDER BY LPAD(id, 2, '0')";
 
-			$result = mysql_query($sql);
+			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 			
 			$p1 = isset($_REQUEST["p1"])? $_REQUEST["p1"]: "";
 			$p2 = isset($_REQUEST["p2"])? $_REQUEST["p2"]: "";
@@ -87,7 +87,7 @@
 		$b = "<select name='bidang' id='bidang'>" . ($_SESSION["org"]=="" || $_SESSION["org"]==1 || $_SESSION["org"]==3 || $_SESSION["org"]>5? "<option value=''></option>": "");
 		$p = "<select name='pelaksana' id='pelaksana'>" . ($_SESSION["org"]>5? "": "<option value=''></option>");
 
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		while ($row = mysqli_fetch_array($result)) {
 			if($row["id"]<6) {
 				$b .= ($_SESSION["org"]=="" || $_SESSION["org"]==1 || $_SESSION["org"]==3 || $_SESSION["org"]>5)?
 					"<option value='$row[id]' " . ($row["id"]==$b0? "selected": "") . ">$row[namaunit]</option>":
@@ -101,19 +101,19 @@
 					($row["id"]==$_SESSION["org"]? "<option value='$row[id]' " . ($row["id"]==$p0? "selected": "") . ">$row[namaunit]</option>": "");
 			}
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 
 		if ($userlvl == 4){
 			$sql = "SELECT * FROM bidang b INNER JOIN akses_bidang ab ON b.id = ab.akses WHERE ab.nip = '$_SESSION[cnip]' ORDER BY LPAD(id, 2, '0')";
-			$result = mysql_query($sql);
+			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 
-			while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+			while ($row = mysqli_fetch_array($result)) {
 				
 				$p .= ($_SESSION["org"]=="" || $_SESSION["org"]<=5)? 
 						"<option value='$row[id]' " . ($row["id"]==$p0? "selected": "") . ">$row[namaunit]</option>":
 						($row["id"]==$_SESSION["org"]? "<option value='$row[id]' " . ($row["id"]==$p0? "selected": "") . ">$row[namaunit]</option>": "");
 			}
-			mysql_free_result($result);
+			mysqli_free_result($result);
 		}
 
 		$b .= "</select>";
@@ -511,8 +511,8 @@
 			$body = "";
 			$infopic = "";
 			//$dummy = 0;
-			$result = mysql_query($sql);
-			while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+			while ($row = mysqli_fetch_array($result)) {
 				$no++;
 
 				$nilaitagihan = $row["nilaitagihan"];
@@ -556,7 +556,7 @@
 					</tr>";
 					//min='0' max='$dummy' 
 			}
-			mysql_free_result($result);
+			mysqli_free_result($result);
 
 			if($_SESSION["roleid"] == 1){
 
@@ -627,7 +627,7 @@
 				";
 				//echo $sql;
 
-				$result = mysql_query($sql);
+				$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 
 				$infopic .= "<table id='dataTables2' class='display' cellspacing='0' width='100%'>
 								<thead>
@@ -654,7 +654,7 @@
 				$totaljmlskko = 0;
 				$totalnilaiskko = 0;
 
-				while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+				while ($row = mysqli_fetch_array($result)) {
 					
 					$totaljmlskki += $row["jmlskki"];
 					$totalnilaiskki += $row["nilaiskki"];
@@ -684,7 +684,7 @@
 								</tfoot>
 							</table>";
 
-				mysql_free_result($result);
+				mysqli_free_result($result);
 			}
 			
 			if($_SESSION["roleid"] == 1 || $_SESSION["roleid"] == 21){
@@ -756,7 +756,7 @@
 				";
 				//echo $sql;
 
-				$result = mysql_query($sql);
+				$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 
 				$infopic .= "<table id='dataTables3' class='display' cellspacing='0' width='100%'>
 								<thead>
@@ -783,7 +783,7 @@
 				$totaljmlskko = 0;
 				$totalnilaiskko = 0;
 
-				while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+				while ($row = mysqli_fetch_array($result)) {
 					
 					$totaljmlskki += $row["jmlskki"];
 					$totalnilaiskki += $row["nilaiskki"];
@@ -813,7 +813,7 @@
 								</tfoot>
 							</table>";
 
-				mysql_free_result($result);
+				mysqli_free_result($result);
 			}
 			
 			echo "
@@ -855,7 +855,7 @@
 				$infopic
 			";
 		//}
-		mysql_close($kon);
+		$mysqli->close();($kon);
 	?>
 
 	</body>

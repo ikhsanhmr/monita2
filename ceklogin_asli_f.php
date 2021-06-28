@@ -12,8 +12,8 @@ $pasword_md5 = md5($pasword);
 
 // query untuk mendapatkan record dari username
 $query = "SELECT * FROM user WHERE nip = '$nip'";
-$hasil = mysql_query($query);
-$data = mysql_fetch_array($hasil);
+$hasil = mysqli_query($query);
+$data = mysqli_fetch_array($hasil);
 
 // cek kesesuaian password
 if ($pasword == $data['pasword'])

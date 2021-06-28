@@ -38,8 +38,8 @@ $(document).ready(function() {
 $sql="select * 
         from costcenter 
         where nocostcenter='$costcenter'";
-	$hasil=mysql_query($sql) or die (mysql_error());    
-	while ($row = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
+	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());    
+	while ($row = mysqli_fetch_array($hasil)) {
 	$hierarkiarea=$row['hierarkiarea'];
     $uraian=$row['uraian'];
     $nocostcenterawal=$row['nocostcenter'];  

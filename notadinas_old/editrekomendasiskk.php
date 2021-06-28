@@ -8,14 +8,14 @@
 	
 	// pelaksana
 	$query = "SELECT * FROM bidang ORDER BY CONVERT(id, UNSIGNED)";
-	if ($result = mysql_query($query)) {
+	if ($result = mysqli_query($query)) {
 		$i = -1;
 		$plks = array();
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
 			$i++;
 			$plks[$i] = array($row["id"], $row["namaunit"]);
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 	}
 /*	
 	for($i=0; $i<count($plks); $i++) {
@@ -25,14 +25,14 @@
 	// pos
 	$query = "SELECT v.* FROM USER u INNER JOIN v_pos v ON u.nip = v.nip " . 
 		($nip=="admin"? "": "WHERE u.nip = '$nip'") . " order by akses";
-	if ($result = mysql_query($query)) {
+	if ($result = mysqli_query($query)) {
 		$i = -1;
 		$ipos = array();
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
 			$i++;
 			$ipos[$i] = array($row["akses"], $row["nama"]);
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 	}
 /*	
 	for($i=0; $i<count($ipos); $i++) {
@@ -60,8 +60,8 @@
 	
 	$t = -1;
 	$i = -1;
-	$result=mysql_query($sql) or die (mysql_error());
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	$result=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());
+	while ($row = mysqli_fetch_array($result)) {
 		if($dummy != $row["pelaksana"]) {
 			$i = -1;
 			$t++;
@@ -96,7 +96,7 @@
 		$rslt .= "<input name='btnm$t.$i' id='btnm$t.$i' type='button' value='--' onclick='kurangpos(\"$t.$i\")'><br>";
 		$rslt .= "</div>";
 	}
-	mysql_free_result($result);
+	mysqli_free_result($result);
 	$rslt .= ($rslt==""? "": "</div>");
 	$mydiv1 = $rslt;
 ?>
@@ -142,8 +142,8 @@ $(document).ready(function() {
  $sql="select * 
         from notadinas 
         where nomornota='$nonotadinas'";
-	$hasil=mysql_query($sql) or die (mysql_error());    
-	while ($row = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
+	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());    
+	while ($row = mysqli_fetch_array($hasil)) {
 	$nomornota=$row['nomornota'];
     $tanggal=$row['tanggal'];
     $unit1=$row['unit'];  
@@ -154,7 +154,7 @@ $(document).ready(function() {
     $noskkoi=$row['noskkoi'];
 	$nilaiusulan=number_format($row['nilaiusulan']);  
 	}
-	mysql_free_result($hasil);
+	mysqli_free_result($hasil);
 ?>
 <body>
 

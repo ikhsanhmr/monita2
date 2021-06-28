@@ -19,15 +19,15 @@
 	
 	require_once "../config/koneksi.php";
 	$sql = "SELECT * FROM bidang ORDER BY LPAD(id, 2, '0')";
-	$result = mysql_query($sql);
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	
 	$b = "";
 	$p = "";
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	while ($row = mysqli_fetch_array($result)) {
 		$b = ($row["id"]==$b0? $row["namaunit"]: $b);
 		$p = ($row["id"]==$p0? $row["namaunit"]: $p);
 	}
-	mysql_free_result($result);
+	mysqli_free_result($result);
 	
 	$sql = "
 		SELECT kdindukpos pos, namaindukpos namapos FROM posinduk UNION
@@ -35,13 +35,13 @@
 		SELECT kdsubpos pos, namasubpos namapos FROM posinduk3 UNION
 		SELECT kdsubpos pos, namasubpos namapos FROM posinduk4
 		ORDER BY pos";
-	$result = mysql_query($sql);
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	
 	$kdpos = "";
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	while ($row = mysqli_fetch_array($result)) {
 		$kdpos = ($row["pos"]==$kdpos0? "$row[pos] - $row[namapos]": $kdpos);
 	}
-	mysql_free_result($result);
+	mysqli_free_result($result);
 
 	$parm = "";
 //	$parm .= ($p1==""? "": " and SUBSTR(tanggalskki, 1, 7) >= '$p1'");
@@ -236,7 +236,7 @@
 					<td style='background-color:rgb(127,255,127)'>RP</td>
 				</tr>
 			";
-			$result = mysql_query($sql);
+			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 			
 			$no = 0;
 			$dummy = "";
@@ -313,7 +313,7 @@
 			$rea_sl3_rpt = 0;
 			$rea_kp_rpt = 0;
 
-			while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+			while ($row = mysqli_fetch_array($result)) {
 				$cskk = ($dummy == $row["noskk"]? true: false);
 				
 				if($dummy != $row["noskk"] || $dummypos != $row["pos1"]) {
@@ -640,7 +640,7 @@
 					</tr>
 				";
 			}
-			mysql_free_result($result);
+			mysqli_free_result($result);
 			
 			$hasilp .= "
 					<td align='right'>".(empty($prab)? "" : number_format($prab))."</td>
@@ -815,7 +815,7 @@
 				</tr>";
 			echo "</table>";
 	}
-	mysql_close($kon);
+	$mysqli->close();($kon);
 	
 	//echo $hasil;
 ?>

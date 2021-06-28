@@ -20,14 +20,14 @@ echo '<form name="frm" id="frm"  method="post" action="assign.php" onSubmit="ret
 	mysql_select_db($db);
 
 	$sql = "SELECT * FROM notadinas WHERE COALESCE(progress,0) < 8";
-	$result = mysql_query($sql);
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 
 	$nd = "<textarea hidden name='jobnd' id='jobnd'></textarea> &nbsp;<select name='nd' id='nd' size='10'>";
-	while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+	while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
 		$nd .= ($row["nip"]==null? "<option value='$row[nomornota]'>$row[perihal]</option>": "");
 	}
 	$nd .= "</select>&nbsp;";
-	mysql_free_result($result);
+	mysqli_free_result($result);
 	
 	$th = "";
 	$td = "";
@@ -35,8 +35,8 @@ echo '<form name="frm" id="frm"  method="post" action="assign.php" onSubmit="ret
 	$usr = "&nbsp;<select name='usr' id='usr' size='10'>";
 	
 	$sql = "SELECT * FROM USER WHERE adm = 1";
-	$result = mysql_query($sql);
-	while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+	while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
 		$usr .= "<option value='$row[nip]'>$row[nama]</option>";
 
 		$column++;
@@ -44,17 +44,17 @@ echo '<form name="frm" id="frm"  method="post" action="assign.php" onSubmit="ret
 		$td .= "<td><textarea hidden name='job$row[nip]' id='job$row[nip]'></textarea> &nbsp;<select name='s$row[nip]' id='s$row[nip]' size='10'>";
 
 		$insql = "SELECT * FROM notadinas WHERE COALESCE(progress,0) < 7 and nip='$row[nip]'";
-		$inresult = mysql_query($insql);
-		while ($inrow = mysql_fetch_array($inresult, MYSQL_BOTH)) {
+		$inresult = mysqli_query($insql);
+		while ($inrow = mysqli_fetch_array($inresult, MYSQL_BOTH)) {
 			$td .= "<option value='$inrow[nomornota]'>$inrow[perihal]</option>";
 		}
-		mysql_free_result($inresult);
+		mysqli_free_result($inresult);
 
 		$td .= "</select>&nbsp;</td>";
 	}
 	$usr .= "</select>&nbsp;";
-	mysql_free_result($result);
-	mysql_close($link);	
+	mysqli_free_result($result);
+	$mysqli->close();($link);	
 
 	echo "
 		<div align='center'>
@@ -117,7 +117,7 @@ echo '<form name="frm" id="frm" onSubmit="return submitme()">';
 ON COALESCE(n.progress, 0) = p.pid
 WHERE nip = '$nip' AND COALESCE(progress,0) < 8
 ";
-	$result = mysql_query($sql);
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	echo "
 		<table border='1'>
 			<tr>
@@ -135,7 +135,7 @@ WHERE nip = '$nip' AND COALESCE(progress,0) < 8
 			</tr>";
 	
 	$no = 0;
-	while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+	while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
 		$no++;
 		echo "
 			<tr>
@@ -154,8 +154,8 @@ WHERE nip = '$nip' AND COALESCE(progress,0) < 8
 	}
 	echo "</table>";
 
-	mysql_free_result($result);
-	mysql_close($link);	
+	mysqli_free_result($result);
+	$mysqli->close();($link);	
 
 
 echo '</form>';

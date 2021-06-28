@@ -19,7 +19,7 @@
             from notadinas
             where nomornota='$notadinas'
             ";
-      $hasil=mysql_query($sql);
+      $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
            
     }    
 
@@ -69,8 +69,8 @@ LEFT JOIN notadinas n ON s.nomornota = n.nomornota where n.nip='$nip'
    echo 'tes';
   }
   
-$hasil=mysql_query($sql) or die (mysql_error());    
-	while ($row = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
+$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());    
+	while ($row = mysqli_fetch_array($hasil)) {
     
     $no++;
     echo '

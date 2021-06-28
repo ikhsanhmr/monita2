@@ -42,10 +42,10 @@
 		$sql = "update notadinas_detail set progress = 7 where (noskk,pos1) = 
 			(SELECT nomorskkoi, pos FROM kontrak  WHERE nomorkontrak = '$kon')";
 //		echo $sql;
-		$result = mysql_query($sql);		
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));		
 
 		$sql = "delete from kontrak where nomorkontrak='$kon'";
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 //		echo "$sql<br>";		
 	}
 
@@ -112,8 +112,8 @@ WHERE NOT noskk IS NULL " . ($adm==1? " and nip = '$nip'": ($bidang==2? " and (n
 	$dummyskk = "";
 	$dummypos = "";
 	
-	$result = mysql_query($sql);
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {  
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+	while ($row = mysqli_fetch_array($result)) {  
 		$no++;
 		echo "
 			<tr>
@@ -142,8 +142,8 @@ WHERE NOT noskk IS NULL " . ($adm==1? " and nip = '$nip'": ($bidang==2? " and (n
 		$dummypos = ($dummypos==""? $row["pos1"]: ($dummypos==$row["pos1"]? $dummypos: $row["pos1"]));
 	}
 	echo "</table>";
-	mysql_free_result($result);
-	mysql_close($link);	  
+	mysqli_free_result($result);
+	$mysqli->close();($link);	  
 ?>
 </body>
 </html>

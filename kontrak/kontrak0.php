@@ -120,29 +120,29 @@
 			"SELECT nomorskkoi noskk FROM kontrak WHERE nomorkontrak = '$con'"
 		);
 		//echo "$sql";
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 		
 		$skk = "<select name='skk' id='skk' onChange='viewposskk(this.value, \"subpos\");checkskk(this.value);getskkdata(this.value);' required><option value=''></option>";
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$skk .= "<option value='$row[noskk]'>$row[noskk]</option>";
 		}
 		$skk .= "</select>";
 		
-		mysql_free_result($result);
+		mysqli_free_result($result);
 
 		$sql = "SELECT * FROM kontrak_type ORDER BY nama ASC";
 		//echo "$sql";
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 		
 		$kontrak_type = "";
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$kontrak_type .= "<option value='$row[id]'>$row[nama]</option>";
 		}
 		
-		mysql_free_result($result);
+		mysqli_free_result($result);
 
 
-		mysql_close($kon);	
+		$mysqli->close();($kon);	
 
 		echo "
 			<h2>INPUT KONTRAK</h2>

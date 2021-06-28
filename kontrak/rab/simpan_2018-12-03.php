@@ -16,13 +16,13 @@
 	$uraian = $_POST["uraian"];
 	//$nilai = $_REQUEST["nilai"];
 
-	$sql=mysql_query("insert into rab(skk, no_rab,nilai_rp,tgl_rab,uraian_kegiatan,nip) values('$skk','$norab','$nilai','$tanggalrab','$uraian','$nip')");
+	$sql=mysqli_query("insert into rab(skk, no_rab,nilai_rp,tgl_rab,uraian_kegiatan,nip) values('$skk','$norab','$nilai','$tanggalrab','$uraian','$nip')");
 
 
 
 	
 	
-	//$sukses = mysql_query($sql);// or die(mysql_error());
+	//$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 	// echo "$sukses<br>";
 	
 	//	

@@ -40,13 +40,13 @@
 /*
 					$ceksql = "SELECT COUNT(*) jumlah FROM kontrak WHERE nomorkontrak = '$kontrak'";
 					//echo "$ceksql<br>";
-					$result = mysql_query($ceksql);
-					while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) { $jumlah = $row["jumlah"]; }
-					mysql_free_result($result);
+					$result = mysqli_query($ceksql);
+					while ($row = mysqli_fetch_array($result)) { $jumlah = $row["jumlah"]; }
+					mysqli_free_result($result);
 						
 					if(($edit=="") && ($jumlah>0)) {
 						//if($jumlah > 0) {
-						mysql_close($link);	 
+						$mysqli->close();($link);	 
 						//echo $jumlah . "<br>";
 						echo "<script>alert('Gagal membuat kontrak. Nomor Kontrak $kontrak sudah ada!');</script>";
 						echo "<script>window.open('index.php', '_self')</script>";
@@ -74,18 +74,18 @@
 					);
 					
 					//echo "$sql<br>";
-					$sukses = mysql_query($sql);// or die(mysql_error());
+					$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 					
 					// input bayar - kontrak petty cash
 					if($sukses==1 && $pc==1) {
 						$sql = "INSERT INTO realisasibayar(nokontrak, nilaibayar, tglbayar) VALUES('$kontrak', '$nilai', date(sysdate()))";	
 						//echo $sql;
-						mysql_query($sql);// or die(mysql_error());
+						mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 					}
 					
 					if($sukses==1) {
 						$sql = "UPDATE notadinas_detail SET progress = 9 WHERE noskk = '$skk' and pos1 = '$pos'";
-						$sukses = mysql_query($sql);// or die(mysql_error());
+						$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 					}
 					$pc = 0;
 					//echo "$sql<br>";
@@ -93,10 +93,10 @@
 		}
 	}
 	
-	//$sukses = mysql_query($sql);// or die(mysql_error());
+	//$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 	// echo "$sukses<br>";
 	
 	//
-	mysql_close($kon);	  							
+	$mysqli->close();($kon);	  							
 	echo "<script>window.open('index.php', '_self')</script>";
 ?>

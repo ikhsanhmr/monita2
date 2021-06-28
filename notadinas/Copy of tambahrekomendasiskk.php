@@ -83,12 +83,12 @@ $(document).ready(function() {
             <td>Bidang/ Area</td>                   
             <td><?php                 
                   $sql="SELECT * FROM BIDANG";
-                  $hasil=mysql_query($sql);   
+                  $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));   
                 ?>
                 <select name='bidang' id='bidang'/>
                     <option value=''>Pilih Bidang/ Area</option>
                     <?php
-				while ($row = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
+				while ($row = mysqli_fetch_array($hasil)) {
                 echo "<option value='".$row['id']."-".$row['namaunit']."'>".$row['namaunit']."</option>";
                       }
                     ?>           

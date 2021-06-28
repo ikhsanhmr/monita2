@@ -107,7 +107,7 @@
 						$mn .= "</div>";
 					}
 					mysqli_free_result($result);
-					//mysql_close($link);	  
+					//$mysqli->close();($link);	  
 
 					$mn .= "</ul></li>";
 					echo $mn;

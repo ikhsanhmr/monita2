@@ -23,7 +23,7 @@
 	$sheet = $loadexcel->getActiveSheet()->toArray(null, true, true ,true);
 	$message = "";
 	
-	$sql=mysql_query("select bayarid from realisasibayar order by bayarid desc");
+	$sql=mysqli_query("select bayarid from realisasibayar order by bayarid desc");
 	$query=mysql_fetch_assoc($sql);
 	$numid=$query['bayarid']+1;
 	
@@ -47,7 +47,7 @@
 
 			$datetime=date("Y-m-d H:i:s");
 
-			$sqlkon3 = mysql_query("SELECT * FROM kontrak where nomorkontrak='$nokontrak'");
+			$sqlkon3 = mysqli_query("SELECT * FROM kontrak where nomorkontrak='$nokontrak'");
 
 			$countkontrak = mysql_num_rows($sqlkon3);
 
@@ -57,7 +57,7 @@
 				continue;
 			}
 
-			$sqlkon1 = mysql_query("
+			$sqlkon1 = mysqli_query("
 				SELECT 	nd.noskk, skktype
 				FROM 	notadinas_detail nd inner join 
 						(
@@ -82,7 +82,7 @@
 
 				if(!empty($nrab)){
 
-					$sqlrab = mysql_query("
+					$sqlrab = mysqli_query("
 						SELECT 	(a.nilai_rp - coalesce(jumlah, 0)) as sisa
 						FROM	rab a inner Join 
 								( 
@@ -104,7 +104,7 @@
 				}
 			}
 
-			$sqlkon2 = mysql_query("
+			$sqlkon2 = mysqli_query("
 				SELECT 	(nilai1 - COALESCE(kontrak, 0)) as sisa
 				FROM 	notadinas_detail d LEFT JOIN 
 						(
@@ -130,7 +130,7 @@
 			'$nilaikontrak', sysdate(), '0','$nodokumen','$tgltagih','$nrab','$user','$rutin')";	
 			// echo $sql;
 			// return;
-			$sukses = mysql_query($sql);// or die(mysql_error());
+			$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 			//$message = "";
 
 			if ($sukses != 1){
@@ -142,7 +142,7 @@
 
 				if(!empty($tglbayar)){
 
-					$suksesbayar = mysql_query("insert into realisasibayar(nokontrak,nodokrep,nilaibayar,tglbayar,bayarid,pmn) values('$nokontrak','$nodokumen','$nilaikontrak','$tglbayar','$numid','$pmn')");
+					$suksesbayar = mysqli_query("insert into realisasibayar(nokontrak,nodokrep,nilaibayar,tglbayar,bayarid,pmn) values('$nokontrak','$nodokumen','$nilaikontrak','$tglbayar','$numid','$pmn')");
 
 					if($suksesbayar != 1 ){
 
@@ -151,7 +151,7 @@
 
 					}else{
 
-						mysql_query("update kontrak set signed = '$user',signeddt = sysdate() where nomorkontrak = '$nokontrak'");
+						mysqli_query("update kontrak set signed = '$user',signeddt = sysdate() where nomorkontrak = '$nokontrak'");
 
 						$numid++;
 						$message .= " - Baris ke #$numrow: kontrak berhasil disimpan dan berhasil masuk ke Realisasi Bayar <br />";	
@@ -166,7 +166,7 @@
 	}
 
 	// echo '<script>alert("'.$message.'");</script>';
-	// mysql_close($kon);
+	// $mysqli->close();($kon);
 	// echo '<script>window.open("index.php?msg='.$message.'", "_self")</script>';
 
 	echo "<a href='index.php'>Back</a><hr>";

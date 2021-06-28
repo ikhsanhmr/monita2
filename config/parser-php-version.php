@@ -133,7 +133,7 @@ if (!extension_loaded('mysql')) {
 	# bundled both with PHP 4 and Windows binaries
 	# of PHP 5.
 
-	# mysql_fetch_array() uses a constant for the different types of result arrays. The following constants are defined:
+	# mysqli_fetch_array() uses a constant for the different types of result arrays. The following constants are defined:
 
 	# MySQL fetch constants
 	define('MYSQL_ASSOC', MYSQLI_ASSOC);	# Columns are returned into the array having
@@ -239,20 +239,20 @@ if (!extension_loaded('mysql')) {
 		return $temp;
 	}
 
-	# mysql_close - Close MySQL connection
-	# bool mysql_close ([ resource $link_identifier = NULL ] )
-	# bool mysqli_close ( mysqli $link )
-	function mysql_close($link = NULL)
+	# $mysqli->close(); - Close MySQL connection
+	# bool $mysqli->close(); ([ resource $link_identifier = NULL ] )
+	# bool $mysqli->close(); ( mysqli $link )
+	function $mysqli->close();($link = NULL)
 	{
 
-		# mysql_close/mysqli_close = returns TRUE on success or FALSE on failure.
+		# $mysqli->close();/$mysqli->close(); = returns TRUE on success or FALSE on failure.
 
 		global $mysql_links;
 		$link = mysql_ensure_link($link);
 
 		$thread_id = isset($link->thread_id) && is_numeric($link->thread_id) ? $link->thread_id : false;
 
-		$result = mysqli_close($link);
+		$result = $mysqli->close();($link);
 
 		# did the removal suceed and and we have thread id
 		if ($result && $thread_id) {
@@ -328,8 +328,8 @@ if (!extension_loaded('mysql')) {
 	# CREATE DATABASE
 	function mysql_create_db($database_name, $link_identifier = NULL)
 	{
-		# mysql_create_db/mysql_query+CREATE DATABASE = false on error
-		return mysql_query('CREATE DATABASE ' . mysql_real_escape_string($database_name), $link_identifier);
+		# mysql_create_db/mysqli_query+CREATE DATABASE = false on error
+		return mysqli_query('CREATE DATABASE ' . mysql_real_escape_string($database_name), $link_identifier);
 	}
 
 	# mysql_data_seek - Move internal result pointer
@@ -350,7 +350,7 @@ if (!extension_loaded('mysql')) {
 	# SELECT DATABASE()
 	function mysql_db_name($result, $row, $field = NULL)
 	{
-		# return mysql_query('SELECT DATABASE()', mysql_ensure_link($link_identifier));
+		# return mysqli_query('SELECT DATABASE()', mysql_ensure_link($link_identifier));
 
 		# null does not fit mysql_result
 		$field = $field === null ? 0 : $field;
@@ -363,11 +363,11 @@ if (!extension_loaded('mysql')) {
 	# mysqli_select_db() then the query
 	function mysql_db_query($database, $query, $link_identifier = NULL)
 	{
-		# mysql_db_query = false on error, mysql_query+sql = false on error
+		# mysql_db_query = false on error, mysqli_query+sql = false on error
 		if (mysql_select_db($database, $link_identifier) !== true) {
 			return false;
 		}
-		return mysql_query($query, $link_identifier);
+		return mysqli_query($query, $link_identifier);
 	}
 
 	# mysql_drop_db - Drop (delete) a MySQL database
@@ -375,8 +375,8 @@ if (!extension_loaded('mysql')) {
 	# DROP DATABASE
 	function mysql_drop_db($database_name, $link_identifier = NULL)
 	{
-		# mysql_drop_db = false on error, mysql_query+DROP DATABASE = false on error
-		return mysql_query('DROP DATABASE ' . mysql_real_escape_string($database_name), $link_identifier);
+		# mysql_drop_db = false on error, mysqli_query+DROP DATABASE = false on error
+		return mysqli_query('DROP DATABASE ' . mysql_real_escape_string($database_name), $link_identifier);
 	}
 
 	# mysql_errno -Returns the numerical value of the error message from previous MySQL operation
@@ -405,7 +405,7 @@ if (!extension_loaded('mysql')) {
 		return $temp;
 	}
 
-	# mysql_escape_string - Escapes a string for use in a # mysql_query
+	# mysql_escape_string - Escapes a string for use in a # mysqli_query
 	# string mysql_escape_string ( string $unescaped_string )
 	# string mysqli::real_escape_string ( string $escapestr )
 	function mysql_escape_string($unescaped_string)
@@ -415,13 +415,13 @@ if (!extension_loaded('mysql')) {
 		return mysql_real_escape_string($unescaped_string);
 	}
 
-	# mysql_fetch_array - Fetch a result row as an associative array, a numeric array, or both
-	# array mysql_fetch_array ( resource $result [, int $result_type = MYSQL_BOTH ] )
+	# mysqli_fetch_array - Fetch a result row as an associative array, a numeric array, or both
+	# array mysqli_fetch_array ( resource $result [, int $result_type = MYSQL_BOTH ] )
 	# mixed mysqli_fetch_array ( mysqli_result $result [, int $resulttype = MYSQLI_BOTH ] )
-	function mysql_fetch_array($result, $result_type = MYSQL_BOTH)
+	function mysqli_fetch_array($result, $result_type = MYSQL_BOTH)
 	{
 
-		# mysql_fetch_array = Returns an array of strings that corresponds to the fetched row, or FALSE if there are no more rows
+		# mysqli_fetch_array = Returns an array of strings that corresponds to the fetched row, or FALSE if there are no more rows
 		# mysqli_fetch_array = Returns an array of strings that corresponds to the fetched row or NULL if there are no more rows in resultset
 
 		# store the result in a temporarily array
@@ -610,12 +610,12 @@ if (!extension_loaded('mysql')) {
 		return isset($tmp['type']) ? mysql_field_bittypes_to_types($tmp['type']) : false;
 	}
 
-	# mysql_free_result - Free result memory
-	# bool mysql_free_result ( resource $result )
+	# mysqli_free_result - Free result memory
+	# bool mysqli_free_result ( resource $result )
 	# void mysqli_free_result ( mysqli_result $result )
-	function mysql_free_result($result)
+	function mysqli_free_result($result)
 	{
-		# mysql_free_result = FALSE on failure
+		# mysqli_free_result = FALSE on failure
 		# mysqli_free_result = No value is returned.
 		mysqli_free_result($result);
 		# note that mysqli does not return any boolean, so we do it
@@ -709,8 +709,8 @@ if (!extension_loaded('mysql')) {
 	{
 		global $mysql_list_dbs_cache;
 
-		# mysql_list_dbs/mysql_query = FALSE on failure
-		$temp = mysql_query('SHOW DATABASES', mysql_ensure_link($link_identifier));
+		# mysql_list_dbs/mysqli_query = FALSE on failure
+		$temp = mysqli_query('SHOW DATABASES', mysql_ensure_link($link_identifier));
 
 		$mysql_list_dbs_cache = $temp;
 
@@ -727,8 +727,8 @@ if (!extension_loaded('mysql')) {
 	# SQL Query: SHOW COLUMNS FROM sometable
 	function mysql_list_fields($database_name, $table_name, $link_identifier = NULL)
 	{
-		# mysql_list_fields/mysql_query = FALSE on failure
-		return mysql_query('SHOW COLUMNS FROM ' . mysql_real_escape_string($database_name) . '.`' . mysql_real_escape_string($table_name) . '`', mysql_ensure_link($link_identifier));
+		# mysql_list_fields/mysqli_query = FALSE on failure
+		return mysqli_query('SHOW COLUMNS FROM ' . mysql_real_escape_string($database_name) . '.`' . mysql_real_escape_string($table_name) . '`', mysql_ensure_link($link_identifier));
 	}
 
 	# mysql_list_processes - List MySQL processes
@@ -737,7 +737,7 @@ if (!extension_loaded('mysql')) {
 	function mysql_list_processes($link_identifier = NULL)
 	{
 		# mysql_list_processes = FALSE on failure
-		$temp = mysql_query("SHOW PROCESSLIST", mysql_ensure_link($link_identifier));
+		$temp = mysqli_query("SHOW PROCESSLIST", mysql_ensure_link($link_identifier));
 		if ($temp === null) {
 			return false;
 		}
@@ -749,8 +749,8 @@ if (!extension_loaded('mysql')) {
 	# SQL Query: SHOW TABLES FROM sometable
 	function mysql_list_tables($database_name, $table_name, $link_identifier = NULL)
 	{
-		# mysql_list_tables/mysql_query = FALSE on failure
-		return mysql_query('SHOW TABLES FROM ' . mysql_real_escape_string($database_name), mysql_ensure_link($link_identifier));
+		# mysql_list_tables/mysqli_query = FALSE on failure
+		return mysqli_query('SHOW TABLES FROM ' . mysql_real_escape_string($database_name), mysql_ensure_link($link_identifier));
 	}
 
 	# mysql_num_fields - Get number of fields in result
@@ -802,12 +802,12 @@ if (!extension_loaded('mysql')) {
 		return $temp;
 	}
 
-	# mysql_query - Send a MySQL query
-	# resource mysql_query ( string $query [, resource $link_identifier = NULL ] )
+	# mysqli_query - Send a MySQL query
+	# resource mysqli_query ( string $query [, resource $link_identifier = NULL ] )
 	# mixed mysqli_query ( mysqli $link , string $query [, int $resultmode = MYSQLI_STORE_RESULT ] )
-	function mysql_query($query, $link_identifier = NULL)
+	function mysqli_query($query, $link_identifier = NULL)
 	{
-		# mysql_query/mysqli_query = FALSE on error
+		# mysqli_query/mysqli_query = FALSE on error
 		return mysqli_query(mysql_ensure_link($link_identifier), $query);
 	}
 
@@ -871,7 +871,7 @@ if (!extension_loaded('mysql')) {
 	# no mysqli equivalent exists - SHOW TABLES [FROM db_name] [LIKE 'pattern']
 	function mysql_tablename($result, $i)
 	{
-		#	return mysql_query('SHOW COLUMNS FROM "'.mysql_real_escape_string($database_name).'.'.mysql_real_escape_string($table_name).'"', mysql_ensure_link($link_identifier));
+		#	return mysqli_query('SHOW COLUMNS FROM "'.mysql_real_escape_string($database_name).'.'.mysql_real_escape_string($table_name).'"', mysql_ensure_link($link_identifier));
 		return mysql_result($result, $i);
 	}
 

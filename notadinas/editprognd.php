@@ -57,9 +57,9 @@
 			WHERE nomornota = '$nd'";
 			mysql_set_charset("UTF8");
 			//echo "$sql";
-			$result = mysql_query($sql);
+			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 			
-			while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+			while ($row = mysqli_fetch_array($result)) {
 				@$nomornota     = $row["nomornota"];
 				@$uraian     = $row["perihal"];
 				@$info     = $row["info"];
@@ -67,18 +67,18 @@
 				@$nilai     = $row["nilaitengah"];
 			}
 		
-			mysql_free_result($result);
-			//mysql_close($link);
+			mysqli_free_result($result);
+			//$mysqli->close();($link);
 
 			$sql = "SELECT * FROM progress ORDER BY pid";
-			$result = mysql_query($sql);
+			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 			$selection = "<select name='progress' id='progress'>";
 
-			while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+			while ($row = mysqli_fetch_array($result)) {
 				
 				$selection .= "<option value='$row[pid]' " . ($progress==$row["pid"]? "selected": "") . ">$row[info]</option>";
 			}
-			mysql_free_result($result);
+			mysqli_free_result($result);
 			$selection .= "</select>";
 
 			echo "

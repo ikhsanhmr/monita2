@@ -28,7 +28,7 @@
 	// echo $qry;
 	// return;
 	
-	$sukses = mysql_query($qry);
+	$sukses = mysqli_query($qry);
 	$message = "";
 
 	if($sukses==1) {
@@ -39,7 +39,7 @@
 	}
 	
 	
-	//$sukses = mysql_query($sql);// or die(mysql_error());
+	//$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 	// echo "$sukses<br>";
 	
 	//	

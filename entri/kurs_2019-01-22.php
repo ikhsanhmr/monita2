@@ -44,7 +44,7 @@
 		$noskk=$_GET['del'];
 		$sql="delete from kurs_dollar where id=$noskk";
 
-		$hasil=mysql_query($sql);
+		$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	}
 
 	$prd = "";
@@ -67,7 +67,7 @@
 		
 		$sql = "Select * From kurs_dollar WHERE Year(tanggal) = '$_REQUEST[prd]' Order By tanggal";
 		
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 		
 		echo "Tahun <input type='text' name='tprd' id='tprd' value='$_REQUEST[prd]' size='4' readonly><br><br>";
 		echo "<a href='tambahkurs.php'>(+) Tambah Nilai Kurs Dollar</a><br><br>";
@@ -81,7 +81,7 @@
 				</tr>";
 	
 		$no = 0;
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
 			$no++;
 			echo "
 				<tr>
@@ -91,8 +91,8 @@
 					<td><a href='#' onClick='edit(\"$row[id]\")'>Edit</a><br><a href='#' onClick='hapus(\"$row[tanggal]\", \"$row[id]\")'>Hapus</a></td>
 				</tr>";
 		}
-		mysql_free_result($result);
-		mysql_close($link);	
+		mysqli_free_result($result);
+		$mysqli->close();($link);	
 		echo "</table>";
 	}
 ?>

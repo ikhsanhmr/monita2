@@ -17,9 +17,9 @@ function db_connect()
 function db_select($query)
 {
 	db_connect();
-	$result = mysql_query($query);
+	$result = mysqli_query($query);
 	$res_array = array();
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	while ($row = mysqli_fetch_array($result)) {
 		$res_array[] = $row;
 	}
 	return $res_array;
@@ -28,8 +28,8 @@ function db_select($query)
 function db_select_column($query)
 {
 	db_connect();
-	$result = mysql_query($query);
-	while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
+	$result = mysqli_query($query);
+	while ($row = mysqli_fetch_array($result, MYSQL_NUM)) {
 		$res_array = $row[0];
 	}
 	return $res_array;
@@ -38,7 +38,7 @@ function db_select_column($query)
 function db_insert($query)
 {
 	$a = db_connect();
-	$result = mysql_query($query, $a);
+	$result = mysqli_query($query, $a);
 	return mysql_error($a);
 	//return mysql_affected_rows($a);
 }
@@ -46,6 +46,6 @@ function db_insert($query)
 function db_check_exists($query)
 {
 	$a = db_connect();
-	$result = mysql_query($query, $a);
+	$result = mysqli_query($query, $a);
 	return mysql_num_rows($result);
 }

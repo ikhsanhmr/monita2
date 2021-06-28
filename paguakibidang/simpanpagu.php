@@ -11,11 +11,11 @@
 			$akipos = $_REQUEST["aki".$sub];
 			if($_REQUEST["c".$sub] !== $param_val or $_REQUEST["oldaki".$sub] !== $akipos) {
 				$sql = "SELECT COUNT(*) jumlah FROM saldopos WHERE tahun = $_REQUEST[prd] AND kdsubpos = '$sub'";
-				$result = mysql_query($sql);
-				while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+				$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+				while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
 					$jumlah = $row["jumlah"];
 				}
-				mysql_free_result($result);
+				mysqli_free_result($result);
 				
 				$rp = str_replace(".", "", str_replace(",", "", $param_val));
 				$aki = str_replace(".", "", str_replace(",", "", $akipos));
@@ -23,10 +23,10 @@
 				$sql = ($jumlah==0? 
 					"INSERT INTO saldopos(tahun, kdsubpos, rppos, akipos) VALUES ($_REQUEST[prd], '$sub', $rp, $aki)": 
 					"UPDATE saldopos SET rppos = $rp, akipos = $aki WHERE tahun = $_REQUEST[prd] AND kdsubpos = '$sub'");
-				mysql_query($sql) or die(mysql_error());
+				mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die(mysql_error());
 			}
 		}
 	}
-	mysql_close($link);	
+	$mysqli->close();($link);	
 	echo "<script>window.open('tambahpagu.php?prd=$_REQUEST[prd]','_self');</script>";
 ?>

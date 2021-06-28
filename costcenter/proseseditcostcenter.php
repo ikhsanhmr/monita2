@@ -5,7 +5,7 @@
 	
 	$sql="select * from costcenter where nocostcenter='$nocostcenter'";
     
-	$hasil=mysql_query($sql);
+	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
     $cek_costcenter = mysql_num_rows($hasil);
 	
 
@@ -33,7 +33,7 @@
                 tahunperiode='$tahuncostcenter'
                 WHERE nocostcenter='$nomorcostcenterawal'";
 		
-   		$hasil=mysql_query($sql); 
+   		$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)); 
 	
 	    echo '
         <script language="javascript">

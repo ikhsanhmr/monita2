@@ -42,10 +42,10 @@
 //      $notadinas=base64_decode($_GET['del']);
       $noskk=base64_decode($_GET['del']);
       $sql="delete from skkoterbit where nomorskko='$noskk'";
-      $hasil=mysql_query($sql);
+      $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
       
 	  $sql="update notadinas_detail set progress = null, noskk = null where noskk='$noskk'";
-      $hasil=mysql_query($sql);     
+      $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));     
     }    
 
 ?>
@@ -105,8 +105,8 @@ $sql = "SELECT 	s.*, n.nomornota nota, n.pelaksana, pos1, nilai1, coalesce(progr
 
 $dummyskk = "";
 $no = 1;
-$hasil=mysql_query($sql) or die (mysql_error());    
-	while ($row = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
+$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());    
+	while ($row = mysqli_fetch_array($hasil)) {
     
 //     <td>'.$row['nomornota'].'</td>   
     echo '

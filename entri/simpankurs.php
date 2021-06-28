@@ -23,7 +23,7 @@
 							 where id= $id"
 			);
 		
-	$sukses = mysql_query($sql);// or die(mysql_error());
+	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 
 	if($sukses==1) {
 		echo '<script>alert("Nilai Kurs berhasil disimpan.");</script>';
@@ -32,6 +32,6 @@
 		echo '<script>alert("Penyimpanan Gagal. '.$message.'");</script>';
 	}
 
-	mysql_close($kon);
+	$mysqli->close();($kon);
 	echo '<script>window.open("kurs.php", "_self")</script>';
 ?>

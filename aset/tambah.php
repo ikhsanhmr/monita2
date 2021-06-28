@@ -12,11 +12,11 @@
 
 		// echo $sql;
 		// return;
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 		
 		$dummy = 0;
 		$ada = false;
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) { 
+		while ($row = mysqli_fetch_array($result)) { 
 			$dummy = ($row["pdpid"]==null? 0: 1);
 			$ada = ($row["nilaikontrak"]==null? false: true);
 			$nilai = $row["nilaikontrak"];
@@ -37,8 +37,8 @@
 			$kp = $row["keypointaset"];
 			$kpr = $row["keypointrp"];
 		}
-		mysql_free_result($result);
-		mysql_close($kon);	  
+		mysqli_free_result($result);
+		$mysqli->close();($kon);	  
 		
 		echo "
 			<table border='1'>
