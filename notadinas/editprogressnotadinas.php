@@ -64,11 +64,8 @@ require_once "../config/control.inc.php";
 if($v!="") {
 	echo "<form name='frm' id='frm' method='post' action='editprognd.php'>";
 
-	$link = mysql_connect($srv, $usr, $pwd);
-	if (!$link) {
-		die('Could not connect: ' . mysql_error());
-	}
-	mysql_select_db($db);
+	
+	//mysql_select_db($db);
 
 	$sql = "SELECT 	n.nomornota as nomornota, n.tanggal, n.perihal, n.skkoi as skkoi, n.nilaiusulan, 
 					n.progress as progress, n.nip, n.assigndt, n.nipuser, p.pid, p.info, p.keterangan, u.nama, 
@@ -82,7 +79,7 @@ if($v!="") {
 	";
 //AND COALESCE(progress,0) >= 2 and COALESCE(progress,0) < 8 
 //echo $sql;
-	$result = mysql_query($sql);
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	echo "
 		<table border='1'>
 			<tr>
@@ -101,7 +98,7 @@ if($v!="") {
 	";
 	
 	$no = 0;
-	while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+	while ($row = mysqli_fetch_array($result)) {
 		$no++;
 
 		echo "
@@ -125,8 +122,8 @@ if($v!="") {
 	}
 	echo "</table>";
 
-	mysql_free_result($result);
-	mysql_close($link);	
+	mysqli_free_result($result);
+	$mysqli->close();($link);	
 
 
 echo '</form>';

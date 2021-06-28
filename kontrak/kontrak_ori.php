@@ -24,11 +24,8 @@
 	}
 	
 	require_once "../config/koneksi.php";
-	$link = mysql_connect($srv, $usr, $pwd);
-	if (!$link) {
-		die('Could not connect: ' . mysql_error());
-	}
-	mysql_select_db($db);
+	
+	//mysql_select_db($db);
 
 	echo "<a href='index.php'>Kembali</a><br><br>
 			<form name='myForm' id='myForm' method='POST' action='simpan.php' onSubmit='return validateContract(\"$_REQUEST[skk]\")'>
@@ -37,15 +34,15 @@
 					<tr><th>No</th><th>No Kontrak</th><th>Uraian</th><th>Vendor</th><th>Tgl Awal</th><th>Tgl Akhir</th><th>Nilai</th></tr>";
 
 	$sql="SELECT * FROM kontrak WHERE nomorskkoi = '$_REQUEST[skk]'";
-	$result = mysql_query($sql);
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 
 	$no = 1;
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {  
+	while ($row = mysqli_fetch_array($result)) {  
 		cetakbaris($no, $row["nomorkontrak"], $row["uraian"], $row["vendor"], $row["tglawal"], $row["tglakhir"], $row["nilaikontrak"]);
 		$no++;
 	}
-	mysql_free_result($result);
-	mysql_close($link);	
+	mysqli_free_result($result);
+	$mysqli->close();($link);	
 	
 	cetakbaris($no);
 	echo 

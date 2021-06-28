@@ -26,13 +26,13 @@
 	$y = (isset($_REQUEST["y"])? $_REQUEST["y"]: "");
 
 	$sql = "SELECT DISTINCT tahun FROM saldopos ORDER BY tahun";
-	$result = mysql_query($sql);
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 
 	$p = "<select name='y' id='y' onchange='viewme(this.value)'><option value=''></option>";
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	while ($row = mysqli_fetch_array($result)) {
 		$p .= "<option value='$row[tahun]' " . ($row["tahun"]==$y? "selected": "") . ">$row[tahun]</option>";
 	}
-	mysql_free_result($result);
+	mysqli_free_result($result);
 	$p .= "</select>";
 
 	echo "
@@ -174,8 +174,8 @@
 			<th>TERBAYAR</th>
 			<th>SISA BAYAR (KONTRAK - BAYAR)</th>");
 			
-		$result = mysql_query($sql);
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+		while ($row = mysqli_fetch_array($result)) {
 			echo "
 				<tr>
 					<td align='left'>$row[akses]</td>
@@ -192,8 +192,8 @@
 		echo "</table>";
 		
 		
-		mysql_free_result($result);
-		mysql_close($kon);	  
+		mysqli_free_result($result);
+		$mysqli->close();($kon);	  
 	}
 ?>
 </body>

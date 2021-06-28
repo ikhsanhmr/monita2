@@ -11,8 +11,8 @@
               where kdindukpos='$kdindukpos'
               ";
 	
-	$hasil = mysql_query($sql);
-	$row = mysql_fetch_array($hasil); 
+	$hasil = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+	$row = mysqli_fetch_array($hasil); 
  	$namaindukpos=$row['namaindukpos'];
   }
   
@@ -33,7 +33,7 @@
           where kdindukpos='$kdindukpos'
           ";
     
-	$hasil = mysql_query($sql);
+	$hasil = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	$ceknomorsub = mysql_num_rows($hasil);
 
     
@@ -67,7 +67,7 @@
             namaindukpos='$namaindukpos'
             where kdindukpos='$kdindukpos'
             ";
-      $hasil=mysql_query($sql);  
+      $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));  
       
       echo '
       <script language="javascript">

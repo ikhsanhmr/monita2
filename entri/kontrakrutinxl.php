@@ -20,15 +20,15 @@
 	
 	require_once "../config/koneksi.php";
 	$sql = "SELECT * FROM bidang ORDER BY LPAD(id, 2, '0')";
-	$result = mysql_query($sql);
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	
 	$p = "";
 	$b = "";
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	while ($row = mysqli_fetch_array($result)) {
 		$b = ($row["id"]==$b0? $row["namaunit"]: $b);
 		$p = ($row["id"]==$p0? $row["namaunit"]: $p);
 	}
-	mysql_free_result($result);
+	mysqli_free_result($result);
 
 	$parm = "";
 	// $parm .= ($p1==""? "": " and YEAR(inputdt) = " . substr($p1,0,4) . " AND MONTH(inputdt) >= " . substr($p1,-2));
@@ -117,8 +117,8 @@
 		$bayar = 0;
 		$no = 0;
 		$parm = "";
-		$result = mysql_query($sql);
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+		while ($row = mysqli_fetch_array($result)) {
 			$no++;
 			$kontrak += $row["nilaikontrak"];
 			$bayar += $row["bayar"];
@@ -145,7 +145,7 @@
 				</tr>";
 				//min='0' max='$dummy' 
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 		
 		echo "
 			<table border='1'>
@@ -176,5 +176,5 @@
 				$parm
 			</table>";
 	}
-	mysql_close($kon);
+	$mysqli->close();($kon);
 ?>

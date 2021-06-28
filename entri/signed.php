@@ -14,7 +14,7 @@
 		"update kontrak set signed = '$nip', signeddt = sysdate() where nomorkontrak = '$c'"
 	);
 	//echo "$sql<br>";
-	$sukses = mysql_query($sql);// or die(mysql_error());
+	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 	echo json_encode(array($c, $s, $i));
 	
 	// echo "<script>window.open('ai.php', '_self')</script>";

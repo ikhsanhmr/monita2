@@ -213,8 +213,8 @@ function fill(thisValue)
               <option value="">--Pilih Pos Induk--</option>
               <?php
 //mengambil nama-nama propinsi yang ada di database
-$posinduk = mysql_query("SELECT * FROM POSINDUK where kdindukpos <= 54  ORDER BY kdindukpos");
-while($row=mysql_fetch_array($posinduk)){
+$posinduk = mysqli_query("SELECT * FROM POSINDUK where kdindukpos <= 54  ORDER BY kdindukpos");
+while($row=mysqli_fetch_array($posinduk)){
       echo "<option value='".$row['kdindukpos']."'>".$row['kdindukpos']."-".$row['namaindukpos']."</option>";
 }
 ?>
@@ -282,12 +282,12 @@ while($row=mysql_fetch_array($posinduk)){
             <td>Pelaksana</td>                   
             <td><?php                 
                   $sql="SELECT * FROM BIDANG";
-                  $hasil=mysql_query($sql);   
+                  $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));   
                 ?>
                 <select name='unit1' id='unit1'/>
                     <option value=''>Pilih Pelaksana</option>
                     <?php
-				while ($row = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
+				while ($row = mysqli_fetch_array($hasil)) {
                 echo "<option value='".$row['id']."-".$row['namaunit']."'>".$row['namaunit']."</option>";
                       }
                     ?>           

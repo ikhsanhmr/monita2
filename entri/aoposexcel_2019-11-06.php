@@ -82,7 +82,7 @@
 				<td align='center'>k=f-h</td>
 			</tr>
 		";
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 		
 		$no = 0;
 		$d = 0;
@@ -93,7 +93,7 @@
 		$b1 = 0;
 		
 		$dummy = "";
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$show = false;
 			if($dummy != $row["pelaksana"]) {
 				if($no>0) {
@@ -145,7 +145,7 @@
 					<td align='right'>" . number_format($row["kontrak"]-$row["bayar"]) . "</td>
 				</tr>";
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 		
 		echo "
 			<tr>
@@ -178,7 +178,7 @@
 			</tr>
 			";
 	}
-	mysql_close($kon);
+	$mysqli->close();($kon);
 	
 	//echo $hasil;
 ?>

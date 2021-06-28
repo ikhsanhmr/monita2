@@ -15,16 +15,16 @@
 		WHERE nomornota = '$i' AND COALESCE(progress,0) = 0";
 //	echo "$query<br>";
 	
-	if ($result = mysql_query($query)) {
+	if ($result = mysqli_query($query)) {
 //		echo "result : $result<br>";
 		$nota .= "<option value=''>Pilih Pelaksana</option>";
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result)) {
 //			echo "$row[nid] - $row[namaunit]<br>";
 			$nota .= "<option value='$row[nid]'>$row[namaunit]</option>";
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 	}
-	mysql_close($kon);
+	$mysqli->close();($kon);
 	$nota .= "</select>&nbsp;";
 	echo $nota;
 ?>

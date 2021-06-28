@@ -38,11 +38,11 @@
 	
 	if(isset($_REQUEST['prd'])) {
 		require_once "../config/control.inc.php";
-		$link = mysql_connect($srv, $usr, $pwd);
+		$link = new mysqli($srv, $usr, $pwd,$db);
 		if (!$link) {
-			die('Could not connect: ' . mysql_error());
+			echo "Failed to connect to MySQL: " . $mysqli -> connect_error; exit();
 		}
-		mysql_select_db($db);
+		//mysql_select_db($db);
 		
 		//$sql = "SELECT * FROM posinduk p inner JOIN saldopos s ON kdindukpos = kdsubpos AND tahun = '$_REQUEST[prd]' where  kdindukpos < '61' order by kdindukpos";
 		$sql = "SELECT *
@@ -56,7 +56,7 @@ LEFT JOIN (SELECT posinduk, SUM(nilaitunai) nt FROM skkoterbit GROUP BY posinduk
 				ORDER BY kdindukpos
 				";
 		//echo $sql;
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 		
 		echo "Tahun <input type='text' name='tprd' id='tprd' value='$_REQUEST[prd]' size='4' readonly><br><br>";
 		echo "<a href='#' onclick='tambahpagu($_REQUEST[prd])'>(+) Tambah/Edit Pagu Pos</a><br><br>";
@@ -73,7 +73,7 @@ LEFT JOIN (SELECT posinduk, SUM(nilaitunai) nt FROM skkoterbit GROUP BY posinduk
 				</tr>";
 	
 		$no = 0;
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$no++;
 			echo "
 				<tr>
@@ -89,8 +89,8 @@ LEFT JOIN (SELECT posinduk, SUM(nilaitunai) nt FROM skkoterbit GROUP BY posinduk
 					</td>
 				</tr>";
 		}
-		mysql_free_result($result);
-		mysql_close($link);	
+		mysqli_free_result($result);
+		$mysqli->close();($link);	
 		echo "</table>";
 	}
 ?>

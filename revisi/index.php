@@ -90,16 +90,16 @@
 				WHERE d.noskk = '$k0'
 				ORDER BY pos1, pelaksana";
 			
-			$result = mysql_query($sql);
+			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 			if(mysql_num_rows($result)>0) {
 				$sql = "select * from bidang";
-				$hasil = mysql_query($sql);
+				$hasil = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 				
 				$no=0;
 				$parm = "<tr><th>POS</th><th></th><th>Nilai</th></tr>";
 				$inputbasket = "";
 				$jenis = "";
-				while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+				while ($row = mysqli_fetch_array($result)) {
 					$no++;
 					$jenis = $row["jenis"];
 					$nom = $row["nom"];
@@ -199,8 +199,8 @@
 					</table>
 					</form>";
 			}
-			mysql_free_result($result);
+			mysqli_free_result($result);
 		}
-		mysql_close($kon);
+		$mysqli->close();($kon);
 	?>
 </html>

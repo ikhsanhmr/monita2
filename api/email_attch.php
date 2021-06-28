@@ -1,10 +1,11 @@
 <?php
 
-    function generateLapPeta($p, $p0, $nick){
-    
-        $p1 = date('Y');
+function generateLapPeta($p, $p0, $nick)
+{
 
-        $fileContent = "
+    $p1 = date('Y');
+
+    $fileContent = "
             <h2>Peta Pagu</h2>
             <table>
                 <tr>
@@ -18,14 +19,14 @@
                     <td>$p</td>
                 </tr>
                 <tr>
-                    <td colspan='3' align='right'>".
-                    date("d-m-Y H:i:s")
-                    ."</td>
+                    <td colspan='3' align='right'>" .
+        date("d-m-Y H:i:s")
+        . "</td>
                 </tr>
             </table>		
         ";
-        
-        $fileContent .=  "
+
+    $fileContent .=  "
             <table border='1'>
                 <tr>
                     <th rowspan='2' scope='col'>No</th>
@@ -60,7 +61,7 @@
                     <td align='center'>k=f-h</td>
                 </tr>";
 
-        $sql = "
+    $sql = "
             SELECT  v.*, rppos, nilai, kontrak, bayar 
             FROM 	(
                         SELECT 	pos1, SUM(nilai1) nilai 
@@ -122,106 +123,105 @@
                     ) b ON v.akses = b.pos
             order by akses
         ";
-            
-        // echo $sql;
-        //echo $parm;
-        
-        $no = 0;
-        $a = 0;
-        $a1 = 0;
-        $d = 0;
-        $d1 = 0;
-        $k = 0;
-        $k1 = 0;
-        $b = 0;
-        $b1 = 0;
-        $dummy = "";
-        $result = mysql_query($sql);
-        while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-            if($dummy!=$row["akses"]) {
-                $no++;
-                $dummy = $row["akses"];
-                
-                if($no>1) {
-                    $fileContent .=  "
+
+    // echo $sql;
+    //echo $parm;
+
+    $no = 0;
+    $a = 0;
+    $a1 = 0;
+    $d = 0;
+    $d1 = 0;
+    $k = 0;
+    $k1 = 0;
+    $b = 0;
+    $b1 = 0;
+    $dummy = "";
+    $result = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
+    while ($row = mysqli_fetch_array($result)) {
+        if ($dummy != $row["akses"]) {
+            $no++;
+            $dummy = $row["akses"];
+
+            if ($no > 1) {
+                $fileContent .=  "
                             <td align='right'>" . number_format($d1) . "</td>
                             <td align='right'>" . number_format($k1) . "</td>
-                            <td align='right'>" . number_format(@($k1/$d1)*100,2) . "</td>
+                            <td align='right'>" . number_format(@($k1 / $d1) * 100, 2) . "</td>
                             <td align='right'>" . number_format($b1) . "</td>
-                            <td align='right'>" . number_format(@($b1/$k1)*100,2) ."</td>
-                            <td align='right'>" . number_format($d1-$k1) . "</td>
-                            <td align='right'>" . number_format($k1-$b1) . "</td>
+                            <td align='right'>" . number_format(@($b1 / $k1) * 100, 2) . "</td>
+                            <td align='right'>" . number_format($d1 - $k1) . "</td>
+                            <td align='right'>" . number_format($k1 - $b1) . "</td>
                         </tr>
                     ";
-                    
-                    $d1 = 0;
-                    $k1 = 0;
-                    $b1 = 0;
-                    $a += $a1;
-                }
-                
-                $fileContent .=  "
+
+                $d1 = 0;
+                $k1 = 0;
+                $b1 = 0;
+                $a += $a1;
+            }
+
+            $fileContent .=  "
                     <tr>
                         <td>$no</td>
                         <td>$row[akses]</td>
                         <td>$row[nama]</td>
                         <td align='right'></td>
                 ";
-
-            }
-            
-            $a1 = $row["rppos"];
-            $d += $row["nilai"];
-            $d1 += $row["nilai"];
-            $k += $row["kontrak"];
-            $k1 += $row["kontrak"];
-            $b += $row["bayar"];
-            $b1 += $row["bayar"];
-
         }
-        mysql_free_result($result);
-            
-        $a += $a1;
-        $fileContent .=  "
+
+        $a1 = $row["rppos"];
+        $d += $row["nilai"];
+        $d1 += $row["nilai"];
+        $k += $row["kontrak"];
+        $k1 += $row["kontrak"];
+        $b += $row["bayar"];
+        $b1 += $row["bayar"];
+    }
+    mysqli_free_result($result);
+
+    $a += $a1;
+    $fileContent .=  "
                     <td align='right'>" . number_format($d1) . "</td>
                     <td align='right'>" . number_format($k1) . "</td>
-                    <td align='right'>" . number_format(($d1 == 0 ? 0 : $k1/$d1*100),2) . "</td>
+                    <td align='right'>" . number_format(($d1 == 0 ? 0 : $k1 / $d1 * 100), 2) . "</td>
                     <td align='right'>" . number_format($b1) . "</td>
-                    <td align='right'>" . number_format(($k1 == 0 ? 0 : $b1/$k1*100),2) . "</td>
-                    <td align='right'>" . number_format($d1-$k1) . "</td>
-                    <td align='right'>" . number_format($k1-$b1) . "</td>
+                    <td align='right'>" . number_format(($k1 == 0 ? 0 : $b1 / $k1 * 100), 2) . "</td>
+                    <td align='right'>" . number_format($d1 - $k1) . "</td>
+                    <td align='right'>" . number_format($k1 - $b1) . "</td>
                 </tr>
                 <tr>
                     <td colspan='3'>Total</td>
                     <td align='right'>" . "" /*number_format($a)*/ . "</td>
                     <td align='right'>" . number_format($d) . "</td>
                     <td align='right'>" . number_format($k) . "</td>
-                    <td align='right'>" . number_format(@($k/$d*100),2) . "</td>
+                    <td align='right'>" . number_format(@($k / $d * 100), 2) . "</td>
                     <td align='right'>" . number_format($b) . "</td>
-                    <td align='right'>" . number_format(@($b/$k*100),2) . "</td>
-                    <td align='right'>" . number_format($d-$k) . "</td>
-                    <td align='right'>" . number_format($k-$b) . "</td>
+                    <td align='right'>" . number_format(@($b / $k * 100), 2) . "</td>
+                    <td align='right'>" . number_format($d - $k) . "</td>
+                    <td align='right'>" . number_format($k - $b) . "</td>
                 </tr>
             </table>
         ";
 
-		$file_path = __DIR__ . "/../files/excel/pagu-".$nick."-".$p1.".xls";
+    $file_path = __DIR__ . "/../files/excel/pagu-" . $nick . "-" . $p1 . ".xls";
 
-        $fd = fopen ( $file_path, "w");
+    $fd = fopen($file_path, "w");
 
-        fputs($fd, $fileContent);
-        fclose($fd);
+    fputs($fd, $fileContent);
+    fclose($fd);
 
-        return $file_path;
-    }
+    return $file_path;
+}
 
-    function generateLapAOPerJenisKontrak($p, $p0, $nick){
+function generateLapAOPerJenisKontrak($p, $p0, $nick)
+{
 
-        $p1 = date('Y');
+    $p1 = date('Y');
 
-        $parm = ($p0==""? "": " and b.pelaksana = '$p0'");
-                
-        $fileContent = "
+    $parm = ($p0 == "" ? "" : " and b.pelaksana = '$p0'");
+
+    $fileContent = "
             <strong>Laporan AO Per Jenis Kontrak Wilayah Sumatera Utara</strong><br>
             <strong>Periode	: $p1</strong><br>
             <strong>Bidang : $b</strong><br>
@@ -229,7 +229,7 @@
             Posisi Tanggal : " . date("d-m-Y  H:m:i") . " WIB	
         ";
 
-        $sql = "
+    $sql = "
             SELECT	k.id, k.nama, nilai_jan, nilai_feb, nilai_mar, nilai_apr, nilai_mei, nilai_jun, nilai_jul, 
                     nilai_ags, nilai_sep, nilai_okt, nilai_nov, nilai_des, nilai_utang, bayar_jan, bayar_feb, 
                     bayar_mar, bayar_apr, bayar_mei, bayar_jun, bayar_jul, bayar_ags, bayar_sep, bayar_okt, 
@@ -256,7 +256,7 @@
                                             (CASE WHEN MONTH(tgltagih) = 10 AND YEAR(tgltagih) = $p1 THEN nilaikontrak ELSE 0 END) AS nilai_okt, 
                                             (CASE WHEN MONTH(tgltagih) = 11 AND YEAR(tgltagih) = $p1 THEN nilaikontrak ELSE 0 END) AS nilai_nov,
                                             (CASE WHEN MONTH(tgltagih) = 12 AND YEAR(tgltagih) = $p1 THEN nilaikontrak ELSE 0 END) AS nilai_des,
-                                            (CASE WHEN YEAR(tgltagih) = ".($p1 - 1)." THEN nilaikontrak ELSE 0 END) AS nilai_utang
+                                            (CASE WHEN YEAR(tgltagih) = " . ($p1 - 1) . " THEN nilaikontrak ELSE 0 END) AS nilai_utang
                                     FROM	kontrak_type kt INNER JOIN 
                                             (
                                                 SELECT	e.*
@@ -265,7 +265,7 @@
                                                         bidang c ON b.pelaksana = c.id LEFT JOIN
                                                         skkoterbit d ON b.noskk = d.nomorskko LEFT JOIN 
                                                         kontrak e ON b.noskk = e.nomorskkoi AND b.pos1 = e.pos
-                                                WHERE	YEAR(d.tanggalskko) = $p1 and YEAR(e.tgltagih) IN (".($p1 - 1).", $p1) and a.skkoi = 'SKKO' $parm
+                                                WHERE	YEAR(d.tanggalskko) = $p1 and YEAR(e.tgltagih) IN (" . ($p1 - 1) . ", $p1) and a.skkoi = 'SKKO' $parm
                                             ) dk ON kt.id = dk.isrutin
                                 ) AS kontrak 
                         GROUP BY id, nama
@@ -292,7 +292,7 @@
                                             (CASE WHEN MONTH(tgltagih) = 10 AND YEAR(tgltagih) = $p1 THEN nilaibayar ELSE 0 END) AS bayar_okt, 
                                             (CASE WHEN MONTH(tgltagih) = 11 AND YEAR(tgltagih) = $p1 THEN nilaibayar ELSE 0 END) AS bayar_nov,
                                             (CASE WHEN MONTH(tgltagih) = 12 AND YEAR(tgltagih) = $p1 THEN nilaibayar ELSE 0 END) AS bayar_des,
-                                            (CASE WHEN YEAR(tgltagih) = ".($p1 - 1)." THEN nilaibayar ELSE 0 END) AS bayar_utang
+                                            (CASE WHEN YEAR(tgltagih) = " . ($p1 - 1) . " THEN nilaibayar ELSE 0 END) AS bayar_utang
                                     FROM	kontrak_type kt INNER JOIN 
                                             (
                                                 SELECT	e.*, f.nilaibayar
@@ -302,135 +302,135 @@
                                                         skkoterbit d ON b.noskk = d.nomorskko LEFT JOIN 
                                                         kontrak e ON b.noskk = e.nomorskkoi AND b.pos1 = e.pos LEFT JOIN
                                                         realisasibayar f ON e.nomorkontrak = f.nokontrak
-                                                WHERE	YEAR(d.tanggalskko) = $p1 and YEAR(e.tgltagih) IN (".($p1 - 1).", $p1) and a.skkoi = 'SKKO' $parm
+                                                WHERE	YEAR(d.tanggalskko) = $p1 and YEAR(e.tgltagih) IN (" . ($p1 - 1) . ", $p1) and a.skkoi = 'SKKO' $parm
                                             ) dk ON kt.id = dk.isrutin
                                 ) AS realisasibayar 
                         GROUP BY id, nama
                     ) AS r ON k.id = r.id
         ";
-            
-        // echo $sql;
-        //echo $parm;
-        
-        $kontrak = 0;
-		$bayar = 0;
-		$ttl_nilai_utang = 0;
-		$ttl_bayar_utang = 0;
-		$ttl_nilai_jan = 0;
-		$ttl_bayar_jan = 0;
-		$ttl_nilai_feb = 0;
-		$ttl_bayar_feb = 0;
-		$ttl_nilai_mar = 0;
-		$ttl_bayar_mar = 0;
-		$ttl_nilai_apr = 0;
-		$ttl_bayar_apr = 0;
-		$ttl_nilai_mei = 0;
-		$ttl_bayar_mei = 0;
-		$ttl_nilai_jun = 0;
-		$ttl_bayar_jun = 0;
-		$ttl_nilai_jul = 0;
-		$ttl_bayar_jul = 0;
-		$ttl_nilai_ags = 0;
-		$ttl_bayar_ags = 0;
-		$ttl_nilai_sep = 0;
-		$ttl_bayar_sep = 0;
-		$ttl_nilai_okt = 0;
-		$ttl_bayar_okt = 0;
-		$ttl_nilai_nov = 0;
-		$ttl_bayar_nov = 0;
-		$ttl_nilai_des = 0;
-		$ttl_bayar_des = 0;
-		$ttl_nilai = 0;
-		$ttl_bayar = 0;
 
-		$no = 0;
-		$parm = "";
-        
-        $result = mysql_query($sql);
-        while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-            $no++;
-			$kontrak += $row["kontrak"];
-			$bayar += $row["bayar"];
+    // echo $sql;
+    //echo $parm;
 
-			$ttl_nilai_utang += $row["nilai_utang"];
-			$ttl_bayar_utang += $row["bayar_utang"];
-			$ttl_nilai_jan += $row["nilai_jan"];
-			$ttl_bayar_jan += $row["bayar_jan"];
-			$ttl_nilai_feb += $row["nilai_feb"];
-			$ttl_bayar_feb += $row["bayar_feb"];
-			$ttl_nilai_mar += $row["nilai_mar"];
-			$ttl_bayar_mar += $row["bayar_mar"];
-			$ttl_nilai_apr += $row["nilai_apr"];
-			$ttl_bayar_apr += $row["bayar_apr"];
-			$ttl_nilai_mei += $row["nilai_mei"];
-			$ttl_bayar_mei += $row["bayar_mei"];
-			$ttl_nilai_jun += $row["nilai_jun"];
-			$ttl_bayar_jun += $row["bayar_jun"];
-			$ttl_nilai_jul += $row["nilai_jul"];
-			$ttl_bayar_jul += $row["bayar_jul"];
-			$ttl_nilai_ags += $row["nilai_ags"];
-			$ttl_bayar_ags += $row["bayar_ags"];
-			$ttl_nilai_sep += $row["nilai_sep"];
-			$ttl_bayar_sep += $row["bayar_sep"];
-			$ttl_nilai_okt += $row["nilai_okt"];
-			$ttl_bayar_okt += $row["bayar_okt"];
-			$ttl_nilai_nov += $row["nilai_nov"];
-			$ttl_bayar_nov += $row["bayar_nov"];
-			$ttl_nilai_des += $row["nilai_des"];
-			$ttl_bayar_des += $row["bayar_des"];
+    $kontrak = 0;
+    $bayar = 0;
+    $ttl_nilai_utang = 0;
+    $ttl_bayar_utang = 0;
+    $ttl_nilai_jan = 0;
+    $ttl_bayar_jan = 0;
+    $ttl_nilai_feb = 0;
+    $ttl_bayar_feb = 0;
+    $ttl_nilai_mar = 0;
+    $ttl_bayar_mar = 0;
+    $ttl_nilai_apr = 0;
+    $ttl_bayar_apr = 0;
+    $ttl_nilai_mei = 0;
+    $ttl_bayar_mei = 0;
+    $ttl_nilai_jun = 0;
+    $ttl_bayar_jun = 0;
+    $ttl_nilai_jul = 0;
+    $ttl_bayar_jul = 0;
+    $ttl_nilai_ags = 0;
+    $ttl_bayar_ags = 0;
+    $ttl_nilai_sep = 0;
+    $ttl_bayar_sep = 0;
+    $ttl_nilai_okt = 0;
+    $ttl_bayar_okt = 0;
+    $ttl_nilai_nov = 0;
+    $ttl_bayar_nov = 0;
+    $ttl_nilai_des = 0;
+    $ttl_bayar_des = 0;
+    $ttl_nilai = 0;
+    $ttl_bayar = 0;
 
-			$total_nilai = 	$row["nilai_utang"] + $row["nilai_jan"] + $row["nilai_feb"] + $row["nilai_mar"] + 
-							$row["nilai_apr"] + $row["nilai_mei"] + $row["nilai_jun"] + $row["nilai_jul"] + 
-							$row["nilai_ags"] + $row["nilai_sep"] + $row["nilai_okt"] + $row["nilai_nov"] + 
-							$row["nilai_des"];
+    $no = 0;
+    $parm = "";
 
-			$total_bayar = 	$row["bayar_utang"] + $row["bayar_jan"] + $row["bayar_feb"] + $row["bayar_mar"] + 
-							$row["bayar_apr"] + $row["bayar_mei"] + $row["bayar_jun"] + $row["bayar_jul"] + 
-							$row["bayar_ags"] + $row["bayar_sep"] + $row["bayar_okt"] + $row["bayar_nov"] + 
-							$row["bayar_des"];
+    $result = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
+    while ($row = mysqli_fetch_array($result)) {
+        $no++;
+        $kontrak += $row["kontrak"];
+        $bayar += $row["bayar"];
 
-			$ttl_nilai += $total_nilai;
+        $ttl_nilai_utang += $row["nilai_utang"];
+        $ttl_bayar_utang += $row["bayar_utang"];
+        $ttl_nilai_jan += $row["nilai_jan"];
+        $ttl_bayar_jan += $row["bayar_jan"];
+        $ttl_nilai_feb += $row["nilai_feb"];
+        $ttl_bayar_feb += $row["bayar_feb"];
+        $ttl_nilai_mar += $row["nilai_mar"];
+        $ttl_bayar_mar += $row["bayar_mar"];
+        $ttl_nilai_apr += $row["nilai_apr"];
+        $ttl_bayar_apr += $row["bayar_apr"];
+        $ttl_nilai_mei += $row["nilai_mei"];
+        $ttl_bayar_mei += $row["bayar_mei"];
+        $ttl_nilai_jun += $row["nilai_jun"];
+        $ttl_bayar_jun += $row["bayar_jun"];
+        $ttl_nilai_jul += $row["nilai_jul"];
+        $ttl_bayar_jul += $row["bayar_jul"];
+        $ttl_nilai_ags += $row["nilai_ags"];
+        $ttl_bayar_ags += $row["bayar_ags"];
+        $ttl_nilai_sep += $row["nilai_sep"];
+        $ttl_bayar_sep += $row["bayar_sep"];
+        $ttl_nilai_okt += $row["nilai_okt"];
+        $ttl_bayar_okt += $row["bayar_okt"];
+        $ttl_nilai_nov += $row["nilai_nov"];
+        $ttl_bayar_nov += $row["bayar_nov"];
+        $ttl_nilai_des += $row["nilai_des"];
+        $ttl_bayar_des += $row["bayar_des"];
 
-			$ttl_bayar += $total_bayar;
-			
-			$parm .= "
+        $total_nilai =     $row["nilai_utang"] + $row["nilai_jan"] + $row["nilai_feb"] + $row["nilai_mar"] +
+            $row["nilai_apr"] + $row["nilai_mei"] + $row["nilai_jun"] + $row["nilai_jul"] +
+            $row["nilai_ags"] + $row["nilai_sep"] + $row["nilai_okt"] + $row["nilai_nov"] +
+            $row["nilai_des"];
+
+        $total_bayar =     $row["bayar_utang"] + $row["bayar_jan"] + $row["bayar_feb"] + $row["bayar_mar"] +
+            $row["bayar_apr"] + $row["bayar_mei"] + $row["bayar_jun"] + $row["bayar_jul"] +
+            $row["bayar_ags"] + $row["bayar_sep"] + $row["bayar_okt"] + $row["bayar_nov"] +
+            $row["bayar_des"];
+
+        $ttl_nilai += $total_nilai;
+
+        $ttl_bayar += $total_bayar;
+
+        $parm .= "
 				<tr>
 					<td>$no</td>
 					<td>$row[nama]</td>
-					<td align='right'>".number_format($row["nilai_utang"])."</td>
-					<td align='right'>".number_format($row["bayar_utang"])."</td>
-					<td align='right'>".number_format($row["nilai_jan"])."</td>
-					<td align='right'>".number_format($row["bayar_jan"])."</td>
-					<td align='right'>".number_format($row["nilai_feb"])."</td>
-					<td align='right'>".number_format($row["bayar_feb"])."</td>
-					<td align='right'>".number_format($row["nilai_mar"])."</td>
-					<td align='right'>".number_format($row["bayar_mar"])."</td>
-					<td align='right'>".number_format($row["nilai_apr"])."</td>
-					<td align='right'>".number_format($row["bayar_apr"])."</td>
-					<td align='right'>".number_format($row["nilai_mei"])."</td>
-					<td align='right'>".number_format($row["bayar_mei"])."</td>
-					<td align='right'>".number_format($row["nilai_jun"])."</td>
-					<td align='right'>".number_format($row["bayar_jun"])."</td>
-					<td align='right'>".number_format($row["nilai_jul"])."</td>
-					<td align='right'>".number_format($row["bayar_jul"])."</td>
-					<td align='right'>".number_format($row["nilai_ags"])."</td>
-					<td align='right'>".number_format($row["bayar_ags"])."</td>
-					<td align='right'>".number_format($row["nilai_sep"])."</td>
-					<td align='right'>".number_format($row["bayar_sep"])."</td>
-					<td align='right'>".number_format($row["nilai_okt"])."</td>
-					<td align='right'>".number_format($row["bayar_okt"])."</td>
-					<td align='right'>".number_format($row["nilai_nov"])."</td>
-					<td align='right'>".number_format($row["bayar_nov"])."</td>
-					<td align='right'>".number_format($row["nilai_des"])."</td>
-					<td align='right'>".number_format($row["bayar_des"])."</td>
-					<td align='right'>".number_format($total_nilai)."</td>
-					<td align='right'>".number_format($total_bayar)."</td>
+					<td align='right'>" . number_format($row["nilai_utang"]) . "</td>
+					<td align='right'>" . number_format($row["bayar_utang"]) . "</td>
+					<td align='right'>" . number_format($row["nilai_jan"]) . "</td>
+					<td align='right'>" . number_format($row["bayar_jan"]) . "</td>
+					<td align='right'>" . number_format($row["nilai_feb"]) . "</td>
+					<td align='right'>" . number_format($row["bayar_feb"]) . "</td>
+					<td align='right'>" . number_format($row["nilai_mar"]) . "</td>
+					<td align='right'>" . number_format($row["bayar_mar"]) . "</td>
+					<td align='right'>" . number_format($row["nilai_apr"]) . "</td>
+					<td align='right'>" . number_format($row["bayar_apr"]) . "</td>
+					<td align='right'>" . number_format($row["nilai_mei"]) . "</td>
+					<td align='right'>" . number_format($row["bayar_mei"]) . "</td>
+					<td align='right'>" . number_format($row["nilai_jun"]) . "</td>
+					<td align='right'>" . number_format($row["bayar_jun"]) . "</td>
+					<td align='right'>" . number_format($row["nilai_jul"]) . "</td>
+					<td align='right'>" . number_format($row["bayar_jul"]) . "</td>
+					<td align='right'>" . number_format($row["nilai_ags"]) . "</td>
+					<td align='right'>" . number_format($row["bayar_ags"]) . "</td>
+					<td align='right'>" . number_format($row["nilai_sep"]) . "</td>
+					<td align='right'>" . number_format($row["bayar_sep"]) . "</td>
+					<td align='right'>" . number_format($row["nilai_okt"]) . "</td>
+					<td align='right'>" . number_format($row["bayar_okt"]) . "</td>
+					<td align='right'>" . number_format($row["nilai_nov"]) . "</td>
+					<td align='right'>" . number_format($row["bayar_nov"]) . "</td>
+					<td align='right'>" . number_format($row["nilai_des"]) . "</td>
+					<td align='right'>" . number_format($row["bayar_des"]) . "</td>
+					<td align='right'>" . number_format($total_nilai) . "</td>
+					<td align='right'>" . number_format($total_bayar) . "</td>
 				</tr>";
-        }
-        mysql_free_result($result);
-            
-        $a += $a1;
-        $fileContent .=  "
+    }
+    mysqli_free_result($result);
+
+    $a += $a1;
+    $fileContent .=  "
             <table border='1'>
                 <thead>
                     <tr>
@@ -489,46 +489,46 @@
                 <tfoot>
                     <tr>
                         <td colspan='2'>Total</td>
-                        <td align='right'>".number_format($ttl_nilai_utang)."</td>
-                        <td align='right'>".number_format($ttl_bayar_utang)."</td>
-                        <td align='right'>".number_format($ttl_nilai_jan)."</td>
-                        <td align='right'>".number_format($ttl_bayar_jan)."</td>
-                        <td align='right'>".number_format($ttl_nilai_feb)."</td>
-                        <td align='right'>".number_format($ttl_bayar_feb)."</td>
-                        <td align='right'>".number_format($ttl_nilai_mar)."</td>
-                        <td align='right'>".number_format($ttl_bayar_mar)."</td>
-                        <td align='right'>".number_format($ttl_nilai_apr)."</td>
-                        <td align='right'>".number_format($ttl_bayar_apr)."</td>
-                        <td align='right'>".number_format($ttl_nilai_mei)."</td>
-                        <td align='right'>".number_format($ttl_bayar_mei)."</td>
-                        <td align='right'>".number_format($ttl_nilai_jun)."</td>
-                        <td align='right'>".number_format($ttl_bayar_jun)."</td>
-                        <td align='right'>".number_format($ttl_nilai_jul)."</td>
-                        <td align='right'>".number_format($ttl_bayar_jul)."</td>
-                        <td align='right'>".number_format($ttl_nilai_ags)."</td>
-                        <td align='right'>".number_format($ttl_bayar_ags)."</td>
-                        <td align='right'>".number_format($ttl_nilai_sep)."</td>
-                        <td align='right'>".number_format($ttl_bayar_sep)."</td>
-                        <td align='right'>".number_format($ttl_nilai_okt)."</td>
-                        <td align='right'>".number_format($ttl_bayar_okt)."</td>
-                        <td align='right'>".number_format($ttl_nilai_nov)."</td>
-                        <td align='right'>".number_format($ttl_bayar_nov)."</td>
-                        <td align='right'>".number_format($ttl_nilai_des)."</td>
-                        <td align='right'>".number_format($ttl_bayar_des)."</td>
-                        <td align='right'>".number_format($ttl_nilai)."</td>
-                        <td align='right'>".number_format($ttl_bayar)."</td>
+                        <td align='right'>" . number_format($ttl_nilai_utang) . "</td>
+                        <td align='right'>" . number_format($ttl_bayar_utang) . "</td>
+                        <td align='right'>" . number_format($ttl_nilai_jan) . "</td>
+                        <td align='right'>" . number_format($ttl_bayar_jan) . "</td>
+                        <td align='right'>" . number_format($ttl_nilai_feb) . "</td>
+                        <td align='right'>" . number_format($ttl_bayar_feb) . "</td>
+                        <td align='right'>" . number_format($ttl_nilai_mar) . "</td>
+                        <td align='right'>" . number_format($ttl_bayar_mar) . "</td>
+                        <td align='right'>" . number_format($ttl_nilai_apr) . "</td>
+                        <td align='right'>" . number_format($ttl_bayar_apr) . "</td>
+                        <td align='right'>" . number_format($ttl_nilai_mei) . "</td>
+                        <td align='right'>" . number_format($ttl_bayar_mei) . "</td>
+                        <td align='right'>" . number_format($ttl_nilai_jun) . "</td>
+                        <td align='right'>" . number_format($ttl_bayar_jun) . "</td>
+                        <td align='right'>" . number_format($ttl_nilai_jul) . "</td>
+                        <td align='right'>" . number_format($ttl_bayar_jul) . "</td>
+                        <td align='right'>" . number_format($ttl_nilai_ags) . "</td>
+                        <td align='right'>" . number_format($ttl_bayar_ags) . "</td>
+                        <td align='right'>" . number_format($ttl_nilai_sep) . "</td>
+                        <td align='right'>" . number_format($ttl_bayar_sep) . "</td>
+                        <td align='right'>" . number_format($ttl_nilai_okt) . "</td>
+                        <td align='right'>" . number_format($ttl_bayar_okt) . "</td>
+                        <td align='right'>" . number_format($ttl_nilai_nov) . "</td>
+                        <td align='right'>" . number_format($ttl_bayar_nov) . "</td>
+                        <td align='right'>" . number_format($ttl_nilai_des) . "</td>
+                        <td align='right'>" . number_format($ttl_bayar_des) . "</td>
+                        <td align='right'>" . number_format($ttl_nilai) . "</td>
+                        <td align='right'>" . number_format($ttl_bayar) . "</td>
                     </tr>
                 </tfoot>
             </table>
         ";
 
-		$file_path = __DIR__ . "/../files/excel/aorutin-".$nick."-".$p1.".xls";
+    $file_path = __DIR__ . "/../files/excel/aorutin-" . $nick . "-" . $p1 . ".xls";
 
-        $fd = fopen ( $file_path, "w");
+    $fd = fopen($file_path, "w");
 
-        // $fd = fopen ("../files/excel/pagu-".$nick."-".$p1.".xls", "w");
-        fputs($fd, $fileContent);
-        fclose($fd);
+    // $fd = fopen ("../files/excel/pagu-".$nick."-".$p1.".xls", "w");
+    fputs($fd, $fileContent);
+    fclose($fd);
 
-        return $file_path;
-    }
+    return $file_path;
+}

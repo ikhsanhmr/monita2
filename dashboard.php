@@ -61,19 +61,19 @@
 
 		$sql = "SELECT COUNT(*) jumlah FROM notadinas WHERE " . ($_SESSION["roleid"] == 1 ? "coalesce(progress,0) = 0" : "nip = '$_SESSION[nip]' AND coalesce(progress,0) = 2");
 		//echo "$sql<br>";
-		$result = mysql_query($sql) or die(mysql_error());
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		$result = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
+		while ($row = mysqli_fetch_array($result)) {
 			$nd = $row["jumlah"];
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 
 		$sql = "SELECT COUNT(*) jumlah FROM kontrak k INNER JOIN skkiterbit i ON k.nomorskkoi = i.nomorskki WHERE SIGNED IS NULL and Year(inputdt) = " . date("Y");
 		//echo "$sql<br>";
-		$result = mysql_query($sql) or die(mysql_error());
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		$result = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
+		while ($row = mysqli_fetch_array($result)) {
 			$kk = $row["jumlah"];
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 
 		// $sisip = "";
 
@@ -131,11 +131,11 @@
 					notadinas_detail d ON k.nomorskkoi = d.noskk AND k.pos = d.pos1
 			Where " . ($_SESSION['roleid'] > 1 ? "$parmang " : "") . " (signlevel IN (1, 2) AND actiontype = 1)";
 		//echo "$sql<br>";
-		$result = mysql_query($sql) or die(mysql_error());
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		$result = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
+		while ($row = mysqli_fetch_array($result)) {
 			$ib = $row["jumlah"];
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 
 		echo "Terdapat : <br>";
 		echo "- $nd Nota Dinas Baru<br>";
@@ -209,12 +209,12 @@
 			Where (signlevel = 3 AND actiontype = 1) $parm";
 		//echo "$sql<br>";
 
-		$result = mysql_query($sql) or die(mysql_error());
+		$result = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli)) or die(mysql_error());
 
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$ib = $row["jumlah"];
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 
 		// echo "Halo $_SESSION[nama],<br><br>";
 		echo "Terdapat : <br>";
@@ -257,11 +257,11 @@
 	// 					notadinas n ON d.nomornota = n.nomornota
 	// 			Where $where AND (signlevel = 1 AND actiontype = 1)";
 	// 	//echo "$sql<br>";
-	// 	$result = mysql_query($sql) or die (mysql_error());
-	// 	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	// 	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());
+	// 	while ($row = mysqli_fetch_array($result)) {
 	// 		$ib = $row["jumlah"];
 	// 	}
-	// 	mysql_free_result($result);
+	// 	mysqli_free_result($result);
 
 	// 	// echo "Halo $_SESSION[nama],<br><br>";
 	// 	echo "Terdapat : <br>";
@@ -294,7 +294,10 @@
 					) kr ON s.nomorskki = kr.noskk
 			WHERE	YEAR(tanggalskki) = " . date("Y") . " AND posinduk LIKE '62.%' and posinduk NOT IN ('62.01','62.1')";
 
-		$result = mysqli_query($mysqli, $sql);
+
+
+		$result = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
+
 
 		$row1 = mysqli_fetch_assoc($result);
 
@@ -364,7 +367,7 @@
 			</div>
 		';
 
-		//mysql_free_result($result);
+		//mysqli_free_result($result);
 
 		$sql = "SELECT	e.tahun, e.akipos AS nilaiaki, SUM( IFNULL( d.nilaibayar, 0 ) ) AS realisasi
 			FROM	saldopos e  left join 
@@ -379,7 +382,10 @@
 			WHERE e.kdsubpos = 62 and e.tahun = " . date("Y") . "
 			GROUP BY d.tahun";
 
-		$result = mysqli_query($mysqli, $sql);
+
+
+		$result = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
+
 
 		$row3 = mysqli_fetch_assoc($result);
 
@@ -415,7 +421,7 @@
 		<hr style="border-color: black;">
 	';
 
-		mysql_free_result($result);
+		mysqli_free_result($result);
 
 		$sql = "SELECT	id, namaunit, SUM(COALESCE(nilaibayar,0)) realisasi, COALESCE(rpaki,0) nilaiaki 
 			FROM	bidang f LEFT JOIN 
@@ -436,13 +442,13 @@
 			GROUP BY f.id, f.namaunit		 
 			ORDER BY LPAD(id, 2, '0')";
 
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
 
 		$idcount = 2;
 
 		$dataakibidang = array();
 
-		while ($row = mysql_fetch_assoc($result)) {
+		while ($row = mysqli_fetch_assoc($result)) {
 
 			$akibidang = $row['nilaiaki'];
 			$bayarbidang = $row['realisasi'];
@@ -467,9 +473,9 @@
 			// 				) kr ON s.nomorskki = kr.noskk
 			// 		WHERE	YEAR(tanggalskki) = ".date("Y")." AND posinduk IN ('62.2','62.3','62.4','62.5','62.6','62.7','62.8','62.9','62.10') AND pelaksana = ".$row['id'];
 
-			// $resultchild = mysql_query($sql);
+			// $resultchild = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 
-			// $row1 = mysql_fetch_assoc($resultchild);
+			// $row1 = mysqli_fetch_assoc($resultchild);
 
 			// $skaimurnirab = $row1['disburse'];
 			// $realisasirab = $row1['kontrak'];
@@ -479,7 +485,7 @@
 			// 	$rabvsmurnibidang = round(($realisasirab / $skaimurnirab) * 100, 2);
 			// }
 
-			//mysql_free_result($resultchild);
+			//mysqli_free_result($resultchild);
 
 			$sql = "SELECT	IFNULL(SUM(nilaidisburse), 0) disburse, IFNULL(SUM(kontrak),0) kontrak, IFNULL(SUM(rab),0) rab  
 				FROM	( 
@@ -502,9 +508,9 @@
 						) rab ON s.nomorskki = rab.noskk
 				WHERE	YEAR(tanggalskki) = " . date("Y") . " AND posinduk LIKE '62.%' AND posinduk NOT IN ('62.01','62.1') AND pelaksana = " . $row['id'];
 
-			$resultchild = mysql_query($sql);
+			$resultchild = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
 
-			$row2 = mysql_fetch_assoc($resultchild);
+			$row2 = mysqli_fetch_assoc($resultchild);
 
 			$skaimurni = $row2['disburse'];
 			$realisasikontrak = $row2['kontrak'];
@@ -517,7 +523,7 @@
 				$rabvsmurnibidang = round(($realisasirab / $skaimurni) * 100, 2);
 			}
 
-			mysql_free_result($resultchild);
+			mysqli_free_result($resultchild);
 
 			$dataakibidang[] = array(
 				'id' => $idcount,
@@ -598,7 +604,8 @@
 		}
 	}
 
-	mysqli_close($mysqli);
+	$mysqli->close();
+	($mysqli);
 
 	//echo json_encode($dataakibidang);
 

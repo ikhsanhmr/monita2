@@ -12,7 +12,7 @@
             where kdindukpos = '%kdsubpos'
             ";
      
-      $hasil=mysql_query($sql);
+      $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
             
     }
     else
@@ -23,8 +23,8 @@
             where kdsubpos='$kdindukpos'";
 			
     
-      $hasil = mysql_query($sql);
-	  $row = mysql_fetch_array($hasil); 
+      $hasil = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+	  $row = mysqli_fetch_array($hasil); 
  	  $namapos=$row['namasubpos'];    
 	  
     }
@@ -64,7 +64,7 @@
         ";
 	
   
-  $hasil=mysql_query($sql);
+  $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
   $rs = mysql_num_rows($hasil);
   if(count($rs)==0)
   {
@@ -81,7 +81,7 @@
         <th>Aksi</th>
       </tr>';
         
-while ($row = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
+while ($row = mysqli_fetch_array($hasil)) {
       $no++;
       echo '
       <tr>

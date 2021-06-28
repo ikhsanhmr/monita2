@@ -19,19 +19,19 @@
             from notadinas
             where nomornota='$notadinas'
             ";
-      $hasil=mysql_query($sql);
+      $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
       
       $sql="delete 
             from notadinas_detail
             where nomornota='$notadinas'
             ";
-      $hasil=mysql_query($sql);
+      $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
       
 	  $sql="delete 
             from skkoterbit
             where nomornota='$notadinas'
             ";
-      $hasil=mysql_query($sql);
+      $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
     }    
 
 ?>
@@ -64,10 +64,10 @@
 //	where coalesce(progress,0)<=1 " . ($nip=="admin"? "": " and n.nipuser='$nip'") .
 	//echo $sql;
 
-	$hasil=mysql_query($sql) or die (mysql_error());
+	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());
 	//echo mysql_num_rows($hasil);
 	
-	while ($row = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
+	while ($row = mysqli_fetch_array($hasil)) {
     $no++;
     echo "
     <tr>

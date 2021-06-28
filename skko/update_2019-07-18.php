@@ -10,7 +10,7 @@
 	require_once "../config/control.inc.php";	
 	
 	$query = "UPDATE notadinas_detail SET progress = NULL WHERE nomornota = '$n' AND pelaksana = '$p'";
-	mysql_query($query);
-	mysql_close($kon);
+	mysqli_query($query);
+	$mysqli->close();($kon);
 	echo "<script>window.close()</script>";		
 ?>

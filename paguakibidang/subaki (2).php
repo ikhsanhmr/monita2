@@ -30,27 +30,27 @@
 		echo "Tahun <input type='text' name='prd' id='prd' value='$_REQUEST[prd]' size='4' readonly><br>";
 		
 		require_once "../config/control.inc.php";
-		$link = mysql_connect($srv, $usr, $pwd);
+		$link = new mysqli($srv, $usr, $pwd,$db);
 		if (!$link) {
-			die('Could not connect: ' . mysql_error());
+			echo "Failed to connect to MySQL: " . $mysqli -> connect_error; exit();
 		}
-		mysql_select_db($db);
+		//mysql_select_db($db);
 		
 
 //		$sql = "SELECT rppos FROM saldopos WHERE tahun = $_REQUEST[prd] AND kdsubpos = '$_REQUEST[pos]'";
 		$sql = "SELECT sum(akipos) as akipos FROM saldoakibidang WHERE tahun = $_REQUEST[prd]";
 //		echo "$sql<br>";
 			
-		$result = mysql_query($sql);
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {$tot = $row["akipos"]; }
-		mysql_free_result($result);		
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+		while ($row = mysqli_fetch_array($result)) {$tot = $row["akipos"]; }
+		mysqli_free_result($result);		
 
 		$bidangselect = "";
 		
 		$sql = "SELECT * FROM bidang";
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 		
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$bidangselect .= "<option value='$row[id]' >$row[namaunit]</option>"; 
 		}
 		
@@ -78,7 +78,7 @@
 		
 		echo "</form>";
 		
-		mysql_close($link);
+		$mysqli->close();($link);
 
 		echo "Total pagu = Rp." . number_format($tot) . "<br>";
 		echo "<div id='sudah'>Pagu yang sudah dirinci = Rp.<span id='akiterpakai'>0</span></div><br>";

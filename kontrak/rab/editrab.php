@@ -51,9 +51,9 @@
 			$sql = "select * from rab where id = $con";
 			mysql_set_charset("UTF8");
 			//echo "$sql";
-			$result = mysql_query($sql);
+			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 			
-			while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+			while ($row = mysqli_fetch_array($result)) {
 				@$id     = $row["id"];
 				@$noskk     = $row["skk"];
 				@$no_rab     = $row["no_rab"];
@@ -62,16 +62,16 @@
 				@$uraian_kegiatan    = $row["uraian_kegiatan"];
 			}
 		
-			mysql_free_result($result);
-			//mysql_close($link);	  			
+			mysqli_free_result($result);
+			//$mysqli->close();($link);	  			
 		}
 
 		//echo "$sql";
 		$sqlskk = "SELECT DISTINCT noskk FROM notadinas_detail d left join notadinas n on d.nomornota = n.nomornota LEFT JOIN kontrak k ON d.noskk = k.nomorskkoi WHERE d.progress in(7,9)   " . ($org=="" || $rog=="1"? "": "AND (nipuser = '$nip' or pelaksana = '$org') ") . "ORDER BY noskk";
-		$result_skk = mysql_query($sqlskk);
+		$result_skk = mysqli_query($sqlskk);
 
 		$skk = "<select name='skk' id='skk' onChange='viewposskk(this.value, \"subpos\");checkskk(this.value);' required><option value=''></option>";
-		while ($rowskk = mysql_fetch_array($result_skk, MYSQL_ASSOC)) {
+		while ($rowskk = mysqli_fetch_array($result_skk)) {
 			$skk .= "<option value='$rowskk[noskk]' ".($noskk == $rowskk['noskk'] ? "selected" : "").">$rowskk[noskk]</option>";
 		}
 		$skk .= "</select>";	

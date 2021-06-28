@@ -31,23 +31,23 @@
 		echo "Tahun <input type='text' name='prd' id='prd' value='$_REQUEST[prd]' size='4' readonly><br>";
 		
 		require_once "../config/control.inc.php";
-		$link = mysql_connect($srv, $usr, $pwd);
+		$link = new mysqli($srv, $usr, $pwd,$db);
 		if (!$link) {
-			die('Could not connect: ' . mysql_error());
+			echo "Failed to connect to MySQL: " . $mysqli -> connect_error; exit();
 		}
-		mysql_select_db($db);
+		//mysql_select_db($db);
 		
 
 //		$sql = "SELECT rppos FROM saldopos WHERE tahun = $_REQUEST[prd] AND kdsubpos = '$_REQUEST[pos]'";
 		$sql = "SELECT sum(akipos) as rppos FROM saldopos WHERE tahun = $_REQUEST[prd] AND kdsubpos = 62";
 //		echo "$sql<br>";
 			
-		$result = mysql_query($sql);
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {$tot = $row["rppos"]; }
-		mysql_free_result($result);		
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+		while ($row = mysqli_fetch_array($result)) {$tot = $row["rppos"]; }
+		mysqli_free_result($result);		
 
 		$sql = "SELECT *, IFNULL( b.rpaki, 0 ) AS nilaiaki FROM bidang a LEFT JOIN saldoakibidang b ON a.id = b.kdbidang AND b.tahun = $_REQUEST[prd] WHERE a.id <> 3 Order By a.namaunit";
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 		
 		echo "
 			<table border='1'>
@@ -61,7 +61,7 @@
 	
 		$no = 0;
 		$sudah = 0;
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$dummy = $row['id'];
 			$sudah += $row['nilaiaki'];
 			$no++;
@@ -82,7 +82,7 @@
 					</td>
 				</tr>";
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 		
 		echo "
 				<tr>
@@ -95,7 +95,7 @@
 			</table>";
 		echo "</form>";
 		
-		mysql_close($link);
+		$mysqli->close();($link);
 
 		echo "Total pagu = Rp." . number_format($tot) . "<br>";
 		echo "<div id='sudah'>Pagu yang sudah dirinci = Rp." . number_format($sudah) . "</div><br>";

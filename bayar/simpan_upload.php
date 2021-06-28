@@ -21,7 +21,7 @@
 	$loadexcel = $excelreader->load('../files/excel/'.$name_uploaded);
 	$sheet = $loadexcel->getActiveSheet()->toArray(null, true, true ,true);
 	$list=array();
-	$sql=mysql_query("select bayarid from realisasibayar order by bayarid desc");
+	$sql=mysqli_query("select bayarid from realisasibayar order by bayarid desc");
 	$query=mysql_fetch_assoc($sql);
 	$numid=$query['bayarid']+1;
 	$numrow=1;
@@ -40,11 +40,11 @@
 					$nodokumen="na";
 				}
 				$datetime=date("Y-m-d H:i:s");
-				$selectkontrak=mysql_query("select * from kontrak where nomorkontrak='$nokontrak' OR nodokumen='$nodokumen'");
+				$selectkontrak=mysqli_query("select * from kontrak where nomorkontrak='$nokontrak' OR nodokumen='$nodokumen'");
 				$exekontrak=mysql_fetch_assoc($selectkontrak);
 
 				$kontrakdt=substr($exekontrak['inputdt'], 0, 10);
-				$selectbayar=mysql_query("SELECT SUM(nilaibayar) bayar FROM realisasibayar where nokontrak='$exekontrak[nomorkontrak]' OR nodokrep='$exekontrak[nodokumen]'");
+				$selectbayar=mysqli_query("SELECT SUM(nilaibayar) bayar FROM realisasibayar where nokontrak='$exekontrak[nomorkontrak]' OR nodokrep='$exekontrak[nodokumen]'");
 				$exebayar=mysql_fetch_assoc($selectbayar);
 
 				$sisa_anggaran=$exekontrak['nilaikontrak'];
@@ -89,7 +89,7 @@
 					);
 
 
-				mysql_query("insert into realisasibayar(nokontrak,nodokrep,nilaibayar,tglbayar,bayarid,pmn) values('$exekontrak[nomorkontrak]','$nodokumen','$nilaibayar','$tglbayar','$numid','$pmn')");
+				mysqli_query("insert into realisasibayar(nokontrak,nodokrep,nilaibayar,tglbayar,bayarid,pmn) values('$exekontrak[nomorkontrak]','$nodokumen','$nilaibayar','$tglbayar','$numid','$pmn')");
 
 				$updatedockontrak = '';
 				if(empty($exekontrak['nodokumen'])){
@@ -97,7 +97,7 @@
 				}
 				
 
-				mysql_query("update kontrak set signed='$nip',signeddt='$datetime' ".$updatedockontrak." where nomorkontrak='$exekontrak[nomorkontrak]' OR nodokumen='$nodokumen'");
+				mysqli_query("update kontrak set signed='$nip',signeddt='$datetime' ".$updatedockontrak." where nomorkontrak='$exekontrak[nomorkontrak]' OR nodokumen='$nodokumen'");
 				
 					// print_r($exekontrak);
 			}
@@ -109,7 +109,7 @@
 		echo "<a href='index.php'>Back</a><hr>";
 			foreach ($list as $key => $value) {
 				if ($value['action']==1) {
-				mysql_query("insert into frealisasibayar(nokontrak, nodokumen, nilaibayar, uploaddate, message) values ('$value[nokontrak]','$value[nodokumen]', '$value[nilaibayar]','$value[tglbayar]', '$value[message]')");
+				mysqli_query("insert into frealisasibayar(nokontrak, nodokumen, nilaibayar, uploaddate, message) values ('$value[nokontrak]','$value[nodokumen]', '$value[nilaibayar]','$value[tglbayar]', '$value[message]')");
 				}
 				echo "".($key+1)." - ".$value['nokontrak']."-".$value['message']."<hr>";
 			}

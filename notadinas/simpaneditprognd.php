@@ -19,7 +19,7 @@
 	if(!empty($nomornota) && !empty($progress)){
 		$sql = "update notadinas set progress = '$progress' where nomornota= '$nomornota'";
 		
-		$sukses = mysql_query($sql);// or die(mysql_error());
+		$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 
 		if($sukses==1) {
 			echo '<script>alert("Progress Nota Dinas berhasil dirubah.");</script>';
@@ -29,6 +29,6 @@
 		}
 	}
 	
-	mysql_close($kon);
+	$mysqli->close();($kon);
 	echo '<script>window.open("editprogressnotadinas.php", "_self")</script>';
 ?>

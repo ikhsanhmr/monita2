@@ -4,26 +4,26 @@
 	
 	$sql = "INSERT INTO notadinas_detail_history SELECT * FROM notadinas_detail WHERE nomornota = '$nonotadinas'";
 //	echo $sql;
-	mysql_query($sql) or die (mysql_error());
+	mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());
 	$sql = "INSERT INTO notadinas_history SELECT * FROM notadinas WHERE nomornota = '$nonotadinas'";
 //	echo $sql;
-	mysql_query($sql);// or die (mysql_error());
-//	mysql_query($sql) or die (mysql_error());
+	mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die (mysql_error());
+//	mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());
 	
 	$sql = "delete from notadinas_detail WHERE nomornota = '$nonotadinas'";
-	mysql_query($sql) or die (mysql_error());
+	mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());
 	$sql = "delete FROM notadinas WHERE nomornota = '$nonotadinas'";
-	mysql_query($sql);// or die (mysql_error());
-//	mysql_query($sql) or die (mysql_error());
+	mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die (mysql_error());
+//	mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());
 	
-    $hasil=mysql_query($sql);
+    $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	$sql = "select * from notadinas where nomornota = '$nonotadinas'";
-    $hasil=mysql_query($sql);
+    $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	
 	$sql = "select * from notadinas where nomornota = '$nonotadinas'";
-    $hasil=mysql_query($sql);
+    $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
     $cek_notadinas = mysql_num_rows($hasil);
-    mysql_free_result($hasil);
+    mysqli_free_result($hasil);
     
 	$nip=$_POST['nip'];
 	$tgl_nota=$_POST['tgl_nota'];
@@ -41,9 +41,9 @@
 			$sisa = $param_val;
 			$sql = "INSERT INTO notadinas_detail(nomornota, pelaksana, pos1, nilai1, sisa1)
 				VALUES('$nonotadinas', '$pic', '$pos', '$nilai', $sisa)";
-			$sukses = mysql_query($sql);// or die(mysql_error());
+			$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 			if($sukses) $nilairekom += $nilai;
-//					mysql_query($sql) or die(mysql_error());
+//					mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die(mysql_error());
 //					echo "$sql<br>";
 		}
 	}
@@ -51,9 +51,9 @@
 	$sql = "INSERT INTO notadinas(nomornota, tanggal, perihal, skkoi, nilaiusulan, nipuser) VALUES
 		('$nonotadinas', '$tgl_nota', '$perihal', '$jenis', '$nilairekom', '$nip')";
 //	echo $sql;
-	mysql_query($sql);// or die(mysql_error());
-//	mysql_query($sql) or die(mysql_error());
-	mysql_close($kon);
+	mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+//	mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die(mysql_error());
+	$mysqli->close();($kon);
     
 	echo "
 		<script type='text/javascript'>

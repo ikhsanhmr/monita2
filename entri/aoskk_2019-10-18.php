@@ -52,9 +52,9 @@
 
 		require_once "../config/koneksi.php";
 		$sql = "SELECT * FROM bidang ORDER BY LPAD(id, 2, '0')";
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 		
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		while ($row = mysqli_fetch_array($result)) {
 			if($row["id"]<6) {
 				$b .= ($_SESSION["org"]=="" || $_SESSION["org"]==1 || $_SESSION["org"]==3 || $_SESSION["org"]>5)?
 					"<option value='$row[id]' " . ($row["id"]==$b0? "selected": "") . ">$row[namaunit]</option>":
@@ -64,7 +64,7 @@
 				"<option value='$row[id]' " . ($row["id"]==$p0? "selected": "") . ">$row[namaunit]</option>":
 				($row["id"]==$_SESSION["org"]? "<option value='$row[id]' " . ($row["id"]==$p0? "selected": "") . ">$row[namaunit]</option>": "");
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 		$b .= "</select>";
 		$p .= "</select>";
 /*		
@@ -74,14 +74,14 @@
 			SELECT kdsubpos pos, namasubpos namapos FROM posinduk3 UNION
 			SELECT kdsubpos pos, namasubpos namapos FROM posinduk4
 			ORDER BY pos";
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 		
 		$kdpos = "<select name='kdpos' id='kdpos'><option value=''></option>";
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$kdpos .= "<option value='$row[pos]' " . ($row["pos"]==$kdpos0? "selected": "") . ">$row[pos] - $row[namapos]</option>";
 		}
 		$kdpos .= "</select>";
-		mysql_free_result($result);
+		mysqli_free_result($result);
 */
 	?>
 </head>
@@ -199,7 +199,7 @@
 					<td style='background-color:rgb(127,255,127)'>Disburse (Rp.)</td>
 				</tr>
 			";
-			$result = mysql_query($sql);
+			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 			
 			$no = 0;
 			$dummy = "";
@@ -209,7 +209,7 @@
 			$k = "";
 			$b = "";
 			
-			while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+			while ($row = mysqli_fetch_array($result)) {
 				$no++;
 				
 				$a += $row["anggaran"];
@@ -241,7 +241,7 @@
 				";
 			}
 			
-			mysql_free_result($result);		
+			mysqli_free_result($result);		
 			echo "
 				<tr>
 					<td colspan='6'>Total</td>
@@ -259,7 +259,7 @@
 				</tr>";
 			echo "</table>";
 		}
-		mysql_close($kon);
+		$mysqli->close();($kon);
 		
 		//echo $hasil;
 	?>

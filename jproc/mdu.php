@@ -33,14 +33,14 @@
 		$v = isset($_REQUEST["v"])? $_REQUEST["v"]: "";
 
 		$sql = "SELECT * FROM mdu ORDER BY mduid";
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 		
 		$mdu = "<select name='mdu' id='mdu' onchange=''><option value=''></option>";
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$mdu .= "<option value='$row[mduid]'" . ($row["mduid"]==$m? " selected": "") . ">$row[nama]</option>";
 		}
 		$mdu .= "</select>";		
-		mysql_free_result($result);
+		mysqli_free_result($result);
 		
 		
 
@@ -80,7 +80,7 @@
 					UNION
 					SELECT DISTINCT nomorskki noskk FROM skkiterbit 
 				) s WHERE noskk = '$k'";
-			$result = mysql_query($sql);
+			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 
 			if(mysql_num_rows($result) > 0) {
 				$sql = "
@@ -90,7 +90,7 @@
 						LEFT JOIN mdusub s ON m.mduid = s.mduid
 					) ms ON md.mduid = ms.mduid AND md.submduid = ms.submduid AND noskk = '$k'
 					WHERE ms.mduid = '$m'";
-				$result = mysql_query($sql);
+				$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 				
 				echo "
 					<table>
@@ -103,16 +103,16 @@
 					</table>
 				";
 				
-				while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+				while ($row = mysqli_fetch_array($result)) {
 					//echo 
 				
 				}
 			} else {
 				echo "<script>alert('SKK $k belum terbit!')</script>";
 			}
-				mysql_free_result($result);
+				mysqli_free_result($result);
 		}
-		mysql_close($kon);			
+		$mysqli->close();($kon);			
 	?>
 </body>
 </html>

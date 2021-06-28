@@ -43,25 +43,25 @@
 //	echo "u : $u - p : $p - s : $s - j : $j - o : $o";
 	
 	$sql = "select * from bidang";
-	$result = mysql_query($sql);
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	$user = "<select name='usr' id='usr' onchange='filtermonita()'><option value=''></option>";
 	$bidang = "<select name='bidang' id='bidang' onchange='filtermonita()'><option value=''></option>";
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {  
+	while ($row = mysqli_fetch_array($result)) {  
 		$user .= "<option value='$row[id]' " . ($row["id"]==$u? "selected": "") . ">$row[namaunit]</option>";
 		$bidang .= "<option value='$row[id]' " . ($row["id"]==$p? "selected": "") . ">$row[namaunit]</option>";
 	}
 	$user .= "</select>";
 	$bidang .= "</select>";
-	mysql_free_result($result);
+	mysqli_free_result($result);
 	
 	$sql = "select * from progress";
-	$result = mysql_query($sql);
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	$status = "<select name='status' id='status' onchange='filtermonita()'><option value=''></option>";
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {  
+	while ($row = mysqli_fetch_array($result)) {  
 		$status .= "<option value='$row[pid]' " . ($row["pid"]==$s? "selected": "") . ">$row[info]</option>";
 	}
 	$status .= "</select>";
-	mysql_free_result($result);
+	mysqli_free_result($result);
 	
 	$jenis = "<select name='jenis' id='jenis' onchange='filtermonita()'><option value=''></option>";
 	$jenis .= "<option value='SKKI' " . ("SKKI"==$j? "selected": "") . ">SKKI</option>";
@@ -69,13 +69,13 @@
 	$jenis .= "</select>";
 	
 	$sql = "SELECT DISTINCT akses FROM v_pos ORDER BY akses";
-	$result = mysql_query($sql);
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	$pos = "<select name='pos' id='pos' onchange='filtermonita()'><option value=''></option>";
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {  
+	while ($row = mysqli_fetch_array($result)) {  
 		$pos .= "<option value='$row[akses]' " . ($row["akses"]==$o? "selected": "") . ">$row[akses]</option>";
 	}
 	$pos .= "</select>";
-	mysql_free_result($result);
+	mysqli_free_result($result);
 	
 	
 /*
@@ -159,8 +159,8 @@
 	$dnota = "";
 	$dskk = "";
 	
-	$result = mysql_query($sql);
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+	while ($row = mysqli_fetch_array($result)) {
 		$no++;
 		echo "
 			<tr>
@@ -189,8 +189,8 @@
 		$dskk = $row["noskk"];
 	}
 	echo "</table>";
-	mysql_free_result($result);
-	mysql_close($link);	  
+	mysqli_free_result($result);
+	$mysqli->close();($link);	  
 ?>
 </body>
 </html>

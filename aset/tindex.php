@@ -65,14 +65,14 @@
 
 	// echo $sql;
 	// return;
-	$result = mysql_query($sql);
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 
 	$th = "<select name='nk' id='nk' style='width: 100%;'><option value=''></option>";
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	while ($row = mysqli_fetch_array($result)) {
 		$th .= "<option value='$row[nomorkontrak]'>$row[nomorkontrak]</option>";
 	}
 	$th .= "</select>";
-	mysql_free_result($result);
+	mysqli_free_result($result);
 
 	$k = $_GET["k"];
 

@@ -16,7 +16,7 @@
 
 	$sukses = 0;
 
-	$sqlbayarid=mysql_query("select bayarid from realisasibayar order by bayarid desc");
+	$sqlbayarid=mysqli_query("select bayarid from realisasibayar order by bayarid desc");
 	$query=mysql_fetch_assoc($sqlbayarid);
 	$numid=$query['bayarid']+1;
 
@@ -67,7 +67,7 @@
 			$sql = "INSERT INTO kontrak_approval (nomorkontrak, actiontype, signdt, signed, signlevel, nilaitagihan, catatan, catatanreject) VALUES ('$k', '$t', sysdate(), '$nip', '$lvl', $tgh, '$ctt', '$rejectreason')";	
 			/*echo $sql;
 			return;*/
-			$sukses = mysql_query($sql);// or die(mysql_error());
+			$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 			//$message = "";
 
 			if ($sukses != 1){
@@ -80,20 +80,20 @@
 
 				if($lvl == 1){
 					if(!empty($doc)){
-						mysql_query("update kontrak set nodokumen='$doc' where nomorkontrak='$k'");
+						mysqli_query("update kontrak set nodokumen='$doc' where nomorkontrak='$k'");
 					}
 				}
 
 				if ($lvl == 3 && $t == 1){
 
-					$selectkontrak=mysql_query("select * from kontrak where nomorkontrak='$k'");
+					$selectkontrak=mysqli_query("select * from kontrak where nomorkontrak='$k'");
 					$exekontrak=mysql_fetch_assoc($selectkontrak);
 
-					mysql_query("update kontrak set signed='$nip',signeddt=sysdate() where nomorkontrak='$exekontrak[nomorkontrak]'");
+					mysqli_query("update kontrak set signed='$nip',signeddt=sysdate() where nomorkontrak='$exekontrak[nomorkontrak]'");
 				}
 
 				if ($lvl == 4 && $t == 1){
-					$selectkontrak=mysql_query("select * from kontrak where nomorkontrak='$k'");
+					$selectkontrak=mysqli_query("select * from kontrak where nomorkontrak='$k'");
 					$exekontrak=mysql_fetch_assoc($selectkontrak);
 
 					$pmn = "NON PMN";
@@ -102,7 +102,7 @@
 						$pmn = "PMN";
 					}
 
-					mysql_query("insert into realisasibayar(nokontrak, nodokrep, nilaibayar, tglbayar, bayarid, pmn, keterangan) values('$k', '$exekontrak[nodokumen]', '$tgh', sysdate(), '$numid', '$pmn', '$ctt')");
+					mysqli_query("insert into realisasibayar(nokontrak, nodokrep, nilaibayar, tglbayar, bayarid, pmn, keterangan) values('$k', '$exekontrak[nodokumen]', '$tgh', sysdate(), '$numid', '$pmn', '$ctt')");
 				}
 			}
 
@@ -117,6 +117,6 @@
 		}
 	}
 
-	mysql_close($kon);
+	$mysqli->close();($kon);
 	echo '<script>window.open("index.php", "_self")</script>';
 ?>

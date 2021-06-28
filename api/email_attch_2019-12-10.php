@@ -136,8 +136,8 @@
         $b = 0;
         $b1 = 0;
         $dummy = "";
-        $result = mysql_query($sql);
-        while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+        $result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+        while ($row = mysqli_fetch_array($result)) {
             if($dummy!=$row["akses"]) {
                 $no++;
                 $dummy = $row["akses"];
@@ -179,7 +179,7 @@
             $b1 += $row["bayar"];
 
         }
-        mysql_free_result($result);
+        mysqli_free_result($result);
             
         $a += $a1;
         $fileContent .=  "
@@ -346,8 +346,8 @@
 		$no = 0;
 		$parm = "";
         
-        $result = mysql_query($sql);
-        while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+        $result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+        while ($row = mysqli_fetch_array($result)) {
             $no++;
 			$kontrak += $row["kontrak"];
 			$bayar += $row["bayar"];
@@ -427,7 +427,7 @@
 					<td align='right'>".number_format($total_bayar)."</td>
 				</tr>";
         }
-        mysql_free_result($result);
+        mysqli_free_result($result);
             
         $a += $a1;
         $fileContent .=  "

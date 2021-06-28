@@ -1,25 +1,24 @@
 <?php
-    session_start(); 
-	if(!isset($_SESSION['nip'])) {
-		echo "unauthorized user";
-		echo "<script>window.open('../index.php', '_parent')</script>";
-		exit;
-	}
+session_start();
+if (!isset($_SESSION['nip'])) {
+  echo "unauthorized user";
+  echo "<script>window.open('../index.php', '_parent')</script>";
+  exit;
+}
 
-   require_once '../config/koneksi.php';
-	$nip=$_SESSION['nip'];
-	$bidang=$_SESSION['bidang'];
-	$kdunit=$_SESSION['kdunit'];
-	
-    if(isset($_GET['del']))
-    {
-      $nocostcenter=base64_decode($_GET['del']);
-      $sql="delete 
+require_once '../config/koneksi.php';
+$nip = $_SESSION['nip'];
+$bidang = $_SESSION['bidang'];
+$kdunit = $_SESSION['kdunit'];
+
+if (isset($_GET['del'])) {
+  $nocostcenter = base64_decode($_GET['del']);
+  $sql = "delete 
             from costcenter
             where nocostcenter='$nocostcenter'
             ";
-      $hasil=mysql_query($sql);  
-    }    
+  $hasil = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
+}
 
 ?>
 <link href="../css/screen.css" rel="stylesheet" type="text/css">
@@ -35,38 +34,36 @@
     <th>Business Area</th>
     <th>Aksi</th>
   </tr>
-<?php
+  <?php
 
-if($bidang=='0' || $bidang=='1' || $bidang=='2' )
-  {
-  $sql="select * from costcenter";
+  if ($bidang == '0' || $bidang == '1' || $bidang == '2') {
+    $sql = "select * from costcenter";
+  } else {
+    //$sql="select kdindukpos, namaindukpos from posinduk";
+    echo 'tes';
+    echo $bidang;
   }
- 
-  else
-  {
-  //$sql="select kdindukpos, namaindukpos from posinduk";
-   echo 'tes';
-   echo $bidang;
-  }
- 
-$hasil=mysql_query($sql) or die (mysql_error());    
-	while ($row = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
-	
-    $no++;
+
+  $hasil = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli)) or die(mysql_error());
+  while ($row = mysqli_fetch_array($hasil)) {
+    $no = 1;
+
     echo '
     <tr>
-      <td>'.$no.'</td>
-      <td>'.$row['hierarkiarea'].'</td>   
-      <td>'.$row['uraian'].'</td>
-	   <td>'.$row['nocostcenter'].'</td>
-	   <td>'.$row['descriptionbisnis'].'</td>
-	   <td>'.$row['bisnisarea'].'</td>
+      <td>' . $no . '</td>
+      <td>' . $row['hierarkiarea'] . '</td>   
+      <td>' . $row['uraian'] . '</td>
+	   <td>' . $row['nocostcenter'] . '</td>
+	   <td>' . $row['descriptionbisnis'] . '</td>
+	   <td>' . $row['bisnisarea'] . '</td>
       <td>    
-      <a href="editcostcenter.php?nocostcenter='.base64_encode($row['nocostcenter']).'">Edit</a>&nbsp;&nbsp;&nbsp;      
-      <a href="?del='.base64_encode($row['nocostcenter']).'">Hapus</a>      
-      </td>                  
-    </tr>';
-  }  
-?>
+      <a href="editcostcenter.php?nocostcenter=' . base64_encode($row['nocostcenter']) . '">Edit</a>&nbsp;&nbsp;&nbsp;      
+      <a href="?del=' . base64_encode($row['nocostcenter']) . '">Hapus</a>      
+      </td>   
+      </tr>';
+    $no++;
+    // 
+  }
+  ?>
 </table>
-<a href="" onclick="parent.isi.print()">Cetak</a>   
+<a href="" onclick="parent.isi.print()">Cetak</a>

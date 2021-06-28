@@ -1,10 +1,10 @@
 <?php
 	$srv = "localhost";
 	$usr = "root";
-	$pwd = "";
+	$pwd = "root";
 	$db = "newmonita";
 
-$kon =mysql_connect($srv, $usr, $pwd);
+$kon =new mysqli($srv, $usr, $pwd,$db);
 if(!$kon)
 die('ERROR KARENA'.mysql_error());
 

@@ -39,17 +39,17 @@
 	";
 echo $query;
 	
-	if ($result = mysql_query($query)) {
+	if ($result = mysqli_query($query)) {
 		$rp = "";
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$pagu = $row["rppos"];
 			$pakai = $row["nilaix"];
 			$sisa = $row["sisax"];
 			echo "$pagu<data>$pakai<data>$sisa<data>";
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 	}
-	mysql_close($kon);
+	$mysqli->close();($kon);
 //	echo $rp;
 	echo "Tahun $th - Pagu POS $q : " . number_format($pagu,0) . " -- Nilai Yang Telah diusulkan : " . number_format($pakai,0) . " -- Sisa pagu : " . number_format($sisa,0);
 ?>

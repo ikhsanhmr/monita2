@@ -36,7 +36,7 @@
        WHERE nomornota='$nomornotaawal'";
 	 
 
-$hasil=mysql_query($sql); 
+$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)); 
 
                 echo '
                 <script language="javascript">
@@ -52,8 +52,8 @@ $hasil=mysql_query($sql);
 				  where nomornota='$nomornota'
 				  and tanggal='$tanggal'";
 			//echo $sql;
-			$hasil=mysql_query($sql) or die (mysql_error());    
-			while ($row = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
+			$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());    
+			while ($row = mysqli_fetch_array($hasil)) {
 			  $nomornota=$row['nomornota'];  
 			  $tanggal=$row['tanggal'];
 			}
@@ -82,7 +82,7 @@ $hasil=mysql_query($sql);
 			   WHERE nomornota='$nomornotaawal'";
 			 
 		
-		$hasil=mysql_query($sql); 
+		$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)); 
 		
 						echo '
 						<script language="javascript">

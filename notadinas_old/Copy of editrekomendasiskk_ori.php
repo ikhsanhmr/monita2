@@ -72,8 +72,8 @@ $(document).ready(function() {
  $sql="select * 
         from notadinas 
         where nomornota='$nonotadinas'";
-	$hasil=mysql_query($sql) or die (mysql_error());    
-	while ($row = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
+	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());    
+	while ($row = mysqli_fetch_array($hasil)) {
 	$nomornota=$row['nomornota'];
     $tanggal=$row['tanggal'];
     $unit1=$row['unit'];  
@@ -105,12 +105,12 @@ $(document).ready(function() {
             <td>Bidang/ Area</td>                   
             <td><?php                 
                   $sql="SELECT * FROM BIDANG";
-                  $hasil=mysql_query($sql);   
+                  $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));   
                 ?>
                 <select name='unit1' id='unit1'/>
                     <option value=''>Pilih Bidang/ Area</option>
                     <?php
-				while ($row = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
+				while ($row = mysqli_fetch_array($hasil)) {
                         echo "<option value='$row[id]-$row[namaunit]'". ($row['namaunit']==$unit1?"selected":"") . ">".$row['namaunit']."</option>";
                       }
                     ?>           

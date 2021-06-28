@@ -16,26 +16,26 @@
 	
 	$pelaksana = "";
 	$query = "SELECT * FROM bidang ORDER BY CONVERT(id, UNSIGNED)";
-	if ($result = mysql_query($query)) {
+	if ($result = mysqli_query($query)) {
 		$pelaksana = "<option value=''>Pilih Pelaksana</option>";
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$pelaksana .= "<option value='$row[id]'>$row[namaunit]</option>";
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 	}
 	$pelaksana = "<select name='pic$t' id='pic$t'>$pelaksana</select>";
 
 	$pos = "";
 	$query = "SELECT v.* FROM USER u INNER JOIN v_pos v ON u.nip = v.nip " . 
 		($nip=="admin"? "": "WHERE u.nip = '$nip'") . " order by akses";
-	if ($result = mysql_query($query)) {
+	if ($result = mysqli_query($query)) {
 		$pos = "<option value=''>Pilih POS</option>";
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$pos .= "<option value='$row[akses]'>$row[akses] - $row[nama]</option>";
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 	}
-	mysql_close($kon);	
+	$mysqli->close();($kon);	
 	
 	$rslt = "<div id='dpic$t'>";  /* class='alt'  */
 	$rslt .= "$pelaksana&nbsp;<input type='button' value='-' onclick='hapus($t)'><br>";

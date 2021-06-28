@@ -59,9 +59,10 @@
 							GROUP BY menugroup
 							ORDER BY sortmenu";
 
-					// var_dump($sql);
-					// $result = mysqli_query($mysqli, $sql);
-					$result = mysqli_query($mysqli, $sql) or die(mysqli_error($mysqli));
+
+					$result = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
+					//var_dump($result);
+
 
 					while ($row = mysqli_fetch_array($result)) {
 
@@ -107,7 +108,7 @@
 						$mn .= "</div>";
 					}
 					mysqli_free_result($result);
-					//mysql_close($link);	  
+					//$mysqli->close();($link);	  
 
 					$mn .= "</ul></li>";
 					echo $mn;
@@ -138,8 +139,8 @@
 
 
 		<script>
-			window.jQuery || document.write('<script src="js/">
-		</script>')</script>
+			window.jQuery || document.write('< src="js/">')
+		</script>
 
 		<script type="text/javascript">
 			$(function() {

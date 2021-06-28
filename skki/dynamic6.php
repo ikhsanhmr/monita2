@@ -17,7 +17,7 @@
 
 	$nomornota="";
 	if(!empty($skk)){
-		$sql_notadinas = mysql_query("select nomornota from notadinas_detail where noskk='$skk' limit 1");
+		$sql_notadinas = mysqli_query("select nomornota from notadinas_detail where noskk='$skk' limit 1");
 		$get_notadinas = mysql_fetch_assoc($sql_notadinas);
 
 		$nomornota = $get_notadinas['nomornota'];
@@ -32,11 +32,11 @@
 				
 	$nota = "<option value=''>Pilih Nota dinas</option>";
 
-	if ($result = mysql_query($query)) {
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+	if ($result = mysqli_query($query)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$nota .= "<option value='$row[nn]'>$row[pp]</option>";
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 	}
 	$nota = "<select name='nota$t' id='nota$t' onchange='notacheck($t)'>$nota</select>";
 	

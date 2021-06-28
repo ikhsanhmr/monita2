@@ -10,11 +10,8 @@
 <body>
 <?php
 	require_once "../config/control.inc.php";
-	$link = mysql_connect($srv, $usr, $pwd);
-	if (!$link) {
-		die('Could not connect: ' . mysql_error());
-	}
-	mysql_select_db($db);
+	
+	//mysql_select_db($db);
 
 	$skk = $_REQUEST["skk"];
 	$sql = "";
@@ -29,19 +26,19 @@
 			$n = $param_val;
 			
 			$sql = "SELECT count(*) jumlah from kontrak where nomorskkoi='$skk' and nomorkontrak='$k'";
-			$result = mysql_query($sql);			
-			while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {  
+			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));			
+			while ($row = mysqli_fetch_array($result)) {  
 				$jumlah = $row["jumlah"];
 			}
-			mysql_free_result($result);
+			mysqli_free_result($result);
 			
 			$sql = ($jumlah==0? "INSERT INTO kontrak(nomorskkoi, nomorkontrak, uraian, vendor, tglawal, tglakhir, nilaikontrak) values('$skk', '$k', '$u', '$v', '$a', '$r', '$n')"
 				: "update kontrak set uraian='$u', vendor='$v', tglawal='$a', tglakhir='$r', nilaikontrak='$n' where nomorskkoi='$skk' and nomorkontrak='$k'");
 			echo $sql;
-			mysql_query($sql);
+			mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 		}
 	}
-	mysql_close($link);	
+	$mysqli->close();($link);	
 //	echo "<script>window.open('kontrak.php?skk=$skk','_self')</script>";
 ?>
 </body>

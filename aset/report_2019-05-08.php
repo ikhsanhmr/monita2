@@ -29,14 +29,14 @@
 		) k ORDER BY prd";
 */
     $sql = "SELECT DISTINCT(YEAR(tglawal)) prd FROM kontrak ORDER BY tglawal";
-	$result = mysql_query($sql);
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	
     $p = "<select name='prd' id='prd' onchange='viewrpt(this)'><option value=''></option>";	
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	while ($row = mysqli_fetch_array($result)) {
 		$p .= "<option value='$row[prd]' " . (isset($_GET["p"])? ($row["prd"]==$_GET["p"]? " selected": ""): "") . ">$row[prd]</option>";
 	}
 	$p .= "</select>";
-	mysql_free_result($result);
+	mysqli_free_result($result);
 
 	$sql = "
 		SELECT namaunit, ap.* FROM bidang b 
@@ -82,8 +82,8 @@
 	$dummyskk = "";
 	$dummypos = "";
 	
-	$result = mysql_query($sql);
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {  
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+	while ($row = mysqli_fetch_array($result)) {  
 		$no++;
 		echo "
 			<tr>
@@ -102,8 +102,8 @@
 			</tr>";
 	}
 	echo "</table>";
-	mysql_free_result($result);
-	mysql_close($link);	
+	mysqli_free_result($result);
+	$mysqli->close();($link);	
 
 ?>
 	<div id="showhere"></div>

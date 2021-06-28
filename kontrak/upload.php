@@ -46,14 +46,14 @@
 
 		$sql = "SELECT * FROM kontrak_type ORDER BY nama ASC";
 		//echo "$sql";
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 		
 		$kontrak_type = "";
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$kontrak_type .= "<tr><td>".ltrim($row[id], '0')."</td><td>$row[nama]</td></tr>";
 		}
 		
-		mysql_free_result($result);
+		mysqli_free_result($result);
 		 			
 
 		echo "

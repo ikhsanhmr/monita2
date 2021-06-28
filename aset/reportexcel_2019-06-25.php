@@ -60,8 +60,8 @@
 	$dummyskk = "";
     $dummypos = "";
     
-    $result = mysql_query($sql);
-    while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+    $result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+    while ($row = mysqli_fetch_array($result)) {
 
         $no++;
 
@@ -82,8 +82,8 @@
 			</tr>";
     }
 	echo "</table>";
-    mysql_free_result($result);
-	mysql_close($kon);
+    mysqli_free_result($result);
+	$mysqli->close();($kon);
 	
 	//echo $hasil;
 ?>

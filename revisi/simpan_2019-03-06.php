@@ -16,8 +16,8 @@
 	
 	$sql = "INSERT INTO realisasibayar(nokontrak, nilaibayar, tglbayar) VALUES('$k', '$n', '$t')";	
 	//echo $sql;
-	$sukses = mysql_query($sql);// or die(mysql_error());
-	mysql_close($link);	  							
+	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+	$mysqli->close();($link);	  							
 	echo $sukses;
 
 
@@ -65,7 +65,7 @@ nilai3 - 2314929463
 			nilainontunai = '$non'
 		where nomorskk" . ($jenis=="SKKO"? "o": "i") . " = '$skk'";
 	//echo "$sql<br>";
-	mysql_query($sql);// or die(mysql_error());
+	mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 	
 
 	$n = "";
@@ -78,7 +78,7 @@ nilai3 - 2314929463
 				if($n!="" && $p!="") {
 					$sql = "update notadinas_detail set nilai1 = '$n' where noskk = '$skk' and pos1 = '$p'";
 					//echo "$sql<br>";
-					mysql_query($sql);// or die(mysql_error());
+					mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 					
 					$n = "";
 					$d = "";
@@ -86,7 +86,7 @@ nilai3 - 2314929463
 		}
 		//echo "$name - $value<br>";
 	}
-	mysql_close($kon);
+	$mysqli->close();($kon);
 	echo "<script>
 		var url = encodeURI('index.php?k=$skk&v=');
 		window.open(url, '_self')

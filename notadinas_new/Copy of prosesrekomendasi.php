@@ -3,9 +3,9 @@
     
 	$nonotadinas= trim($_POST['nonotadinas']);
 	$sql = "select * from notadinas where nomornota = '$nonotadinas'";
-    $hasil=mysql_query($sql);
+    $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
     $cek_notadinas = mysql_num_rows($hasil);
-    mysql_free_result($hasil);
+    mysqli_free_result($hasil);
     
     if($cek_notadinas==0) {
 		$nip=$_POST['nip'];
@@ -25,7 +25,7 @@
 					$nilairekom += $nilai;
 					$sql = "INSERT INTO notadinas_detail(nomornota, pelaksana, pos1, nilai1)
 						VALUES('$nonotadinas', '$pic', '$pos', '$nilai')";
-					mysql_query($sql) or die(mysql_error());
+					mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die(mysql_error());
 				} 
 			}
 		}
@@ -35,9 +35,9 @@
         $sql = "INSERT INTO notadinas(nomornota, tanggal, perihal, skkoi, nilaiusulan, nipuser) VALUES
 			('$nonotadinas', '$tgl_nota', '$perihal', '$jenis', '$nilairekom', '$nip')";
 		//echo $sql;
-		mysql_query($sql) or die(mysql_error());
+		mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die(mysql_error());
 		
-		mysql_close($kon);
+		$mysqli->close();($kon);
     } else { echo "<script>alert('No Nota Dinas Sudah Ada!')</script>"; }
     
 	echo "

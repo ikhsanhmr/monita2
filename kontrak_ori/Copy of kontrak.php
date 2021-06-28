@@ -28,9 +28,9 @@
 		$kon = (isset($_REQUEST["kon"])? $_REQUEST["kon"]: "");
 		if($kon!="") {
 			$sql = "select * from kontrak where nomorkontrak='$kon'";
-			$result = mysql_query($sql);
+			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 			
-			while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+			while ($row = mysqli_fetch_array($result)) {
 				$skk = $row["nomorskkoi"];
 				$pos = $row["pos"];
 				$uraian = $row["uraian"];
@@ -41,8 +41,8 @@
 				//echo "$skk - $pos - $uraian - $vendor - $awal - $akhir<br>";
 			}
 		
-			mysql_free_result($result);
-			mysql_close($link);	  			
+			mysqli_free_result($result);
+			$mysqli->close();($link);	  			
 		} else {
 			$skk = $_REQUEST["skk"];
 			$pos = $_REQUEST["pos"];		

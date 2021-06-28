@@ -15,7 +15,7 @@
 	
 	$sql = "INSERT INTO realisasibayar(nokontrak, nilaibayar, tglbayar) VALUES('$k', '$n', '$t')";	
 	//echo $sql;
-	$sukses = mysql_query($sql);// or die(mysql_error());
-	mysql_close($link);	  							
+	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+	$mysqli->close();($link);	  							
 	echo $sukses;
 ?>

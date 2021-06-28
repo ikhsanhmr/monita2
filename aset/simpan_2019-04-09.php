@@ -46,10 +46,10 @@
 	//echo $sql;
 	//foreach($_REQUEST as $param_name => $param_val) { echo "parameter : $param_name - $param_val <br>"; }
 	
-	$sukses = mysql_query($sql);// or die(mysql_error());
+	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
 	// echo "$sukses<br>";
 	
 	//
-	mysql_close($link);	  							
+	$mysqli->close();($link);	  							
 	echo "<script>window.open('.', '_self')</script>";
 ?>

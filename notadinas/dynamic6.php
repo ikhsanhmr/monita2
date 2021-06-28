@@ -18,12 +18,12 @@
 	$pelaksana = "";
 	$query = "SELECT * FROM bidang ORDER BY CONVERT(id, UNSIGNED)";
 	
-	if ($result = mysql_query($query)) {
+	if ($result = mysqli_query($query)) {
 		$pelaksana = "<option value=''>Pilih Pelaksana</option>";
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$pelaksana .= "<option value='$row[id]'>$row[namaunit]</option>";
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 	}
 	//$pelaksana = "<select name='pic$t' id='pic$t' onchange='unitcheck(this.id)'>$pelaksana</select>";
 $pelaksana = "<select name='pic$t' id='pic$t'>$pelaksana</select>";
@@ -62,14 +62,14 @@ $pelaksana = "<select name='pic$t' id='pic$t'>$pelaksana</select>";
 */
 
 
-	if ($result = mysql_query($query)) {
+	if ($result = mysqli_query($query)) {
 		$pos = "<option value=''>Pilih POS</option>";
-		while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$pos .= "<option value='$row[akses]'>$row[akses] - $row[nama]</option>";
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 	}
-	mysql_close($kon);	
+	$mysqli->close();($kon);	
 	
 	$rslt = ($t==0? "": "<br>");
 	$rslt .= "<div id='dpic$t'>";  /* class='alt'  */

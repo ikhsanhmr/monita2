@@ -71,14 +71,14 @@
 				<td align='center'>i=d-f</td>
 			</tr>
 		";
-		$result = mysql_query($sql);
+		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 		
 		$no = 0;
 		$a = 0;
 		$d = 0;
 		$k = 0;
 		$b = 0;
-		while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$no++;
 			$a += $row["anggaran"];
 			$d += $row["disburse"];
@@ -99,7 +99,7 @@
 					<td align='right'>" . number_format($row["kontrak"]-$row["bayar"]) . "</td>
 				</tr>";
 		}
-		mysql_free_result($result);
+		mysqli_free_result($result);
 		
 		echo "
 			<tr>
@@ -115,6 +115,6 @@
 			</tr>";
 		
 	}
-	mysql_close($kon);
+	$mysqli->close();($kon);
 /**/
 ?>

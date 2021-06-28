@@ -11,10 +11,10 @@
         $sql="SELECT * FROM costcenter 
 			  where nocostcenter like '".$queryString."%' limit 10";
 		
-		$hasil=mysql_query($sql) or die (mysql_error());  
+		$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());  
 		if(mysql_num_rows($hasil) >0)
 		{
-		while ($row = mysql_fetch_array($hasil, MYSQL_ASSOC)) {
+		while ($row = mysqli_fetch_array($hasil)) {
              //     echo "<li onClick='fill($arr[nocostcenter]')>$row[nocostcenter]  Hierarchy Area $row[hierarkiarea]<br></li>";
 				//                  echo "<li onClick=\"alert('$row[nocostcenter]')\">$row[nocostcenter]  Hierarchy Area $row[hierarkiarea]<br></li>"
 			echo "<li 

@@ -2,7 +2,7 @@
     require_once '../config/koneksi.php';
     
     $sql="select * from costcenter where nocostcenter='$_POST[costcenter]'";
-    $hasil=mysql_query($sql);
+    $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
     $cek_costcenter = mysql_num_rows($hasil);
 	
     /*
@@ -43,7 +43,7 @@
                 )
                 ";
 	
-   		$hasil=mysql_query($sql); 
+   		$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)); 
    		echo "<script>alert($hasil);</script>";
 	
 	    echo '

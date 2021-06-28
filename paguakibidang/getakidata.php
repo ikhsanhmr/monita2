@@ -15,10 +15,10 @@
 	$sisa = 0;
 	$nama = "";
 	
-	$result = mysql_query($sql);	
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));	
 	$row = mysql_fetch_assoc($result);
-	mysql_free_result($result);
-	mysql_close($kon);
+	mysqli_free_result($result);
+	$mysqli->close();($kon);
 	
 	echo json_encode($row);
 ?>

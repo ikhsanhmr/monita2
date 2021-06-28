@@ -5,13 +5,13 @@
     require_once __DIR__ . "/../config/koneksi.php";
     
     $sql = "SELECT * FROM bidang WHERE id != 3 ORDER BY LPAD(id, 2, '0')";
-	$query_result = mysql_query($sql);
+	$query_result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	
 	$p1 = date('Y');
 	
 	$p = "";
 	$nick = "";
-	while ($row = mysql_fetch_array($query_result, MYSQL_ASSOC)) {
+	while ($row = mysqli_fetch_array($query_result)) {
 
         $p = $row["namaunit"];
         $p0 = $row["id"];
@@ -163,8 +163,8 @@
             $b = 0;
             $b1 = 0;
             $dummy = "";
-            $result = mysql_query($sql);
-            while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+            $result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+            while ($row = mysqli_fetch_array($result)) {
                 if($dummy!=$row["akses"]) {
                     $no++;
                     $dummy = $row["akses"];
@@ -206,7 +206,7 @@
                 $b1 += $row["bayar"];
 
             }
-            mysql_free_result($result);
+            mysqli_free_result($result);
             
             $a += $a1;
             $fileContent .=  "
@@ -440,9 +440,9 @@
         $subject    = "Aplikasi Monita - Informasi Peta Pagu per SKK Terbit " . date("d-m-Y");
 
         $sql_user   = "SELECT * FROM user WHERE kodeorg = $p0 AND roleid IN (7,13,16)";
-        $rslt_user  = mysql_query($sql_user);
+        $rslt_user  = mysqli_query($sql_user);
 
-        while ($row_user = mysql_fetch_array($rslt_user, MYSQL_ASSOC)) {
+        while ($row_user = mysqli_fetch_array($rslt_user)) {
 
 			
             if (!empty($row_user['email'])){
@@ -458,7 +458,7 @@
             }
         }
 		
-		mysql_free_result($rslt_user);
+		mysqli_free_result($rslt_user);
 		
 		$sql_user = "";
 		
@@ -472,9 +472,9 @@
 		}
 			
 		
-		$rslt_user  = mysql_query($sql_user);
+		$rslt_user  = mysqli_query($sql_user);
 
-        while ($row_user = mysql_fetch_array($rslt_user, MYSQL_ASSOC)) {
+        while ($row_user = mysqli_fetch_array($rslt_user)) {
 
 			
             if (!empty($row_user['email'])){
@@ -537,8 +537,8 @@
             echo('<p>Message successfully sent!</p>');
         }
 	}
-	mysql_free_result($query_result);
+	mysqli_free_result($query_result);
 	
-	mysql_close($kon);
+	$mysqli->close();($kon);
 
 ?>

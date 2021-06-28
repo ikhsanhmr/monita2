@@ -2,7 +2,7 @@
     require_once '../config/koneksi.php';
     
     $sql="select * from kontrak where no_kontrak='$_POST[nonotadinas]'";
-    $hasil=mysql_query($sql);
+    $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
     $cek_notadinas = mysql_num_rows($hasil);
 	
    if($cek_notadinas==0)
@@ -41,7 +41,7 @@
                 ";
 		
    
-   		$hasil=mysql_query($sql); 
+   		$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)); 
         echo '
         <script language="javascript">
           window.location.href="index.php"

@@ -114,9 +114,9 @@
                 
     ";
 
-    $allresult = mysql_query($sql);
+    $allresult = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 
-    $result = mysql_query($sql.$limit);
+    $result = mysqli_query($sql.$limit);
 
     $no = 0;
     $dummy = "";
@@ -263,7 +263,7 @@
 
     $total_record = mysql_num_rows($allresult);
 
-    while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+    while ($row = mysqli_fetch_array($result)) {
         
         $cskk = ($dummy == $row["noskk"]? true: false);
 
@@ -619,7 +619,7 @@
 
         $urutanrow++;
     }
-    mysql_free_result($result);
+    mysqli_free_result($result);
 
 
     $data_kontrak = array(

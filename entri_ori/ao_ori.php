@@ -101,8 +101,8 @@ WHERE YEAR(tanggalskko) = " . date("Y") . " AND NOT nomorkontrak IS NULL) xy";
 	$kon = 0;
 	$bay = 0;
 	
-	$result = mysql_query($sql);
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+	while ($row = mysqli_fetch_array($result)) {
 		if($dummy!= $row["nomorskko"]) {
 			if($no==1) {
 				echo "<script>document.getElementById('n1').innerHTML = '". number_format($nkon,2) . "'</script>";
@@ -179,8 +179,8 @@ WHERE YEAR(tanggalskko) = " . date("Y") . " AND NOT nomorkontrak IS NULL) xy";
 	echo "<script>document.getElementById('s$no').innerHTML = '". number_format($ndis-$nbay,2) . "'</script>"; //number_format($ndis-$nbay,2)
 	
 	
-	mysql_free_result($result);
-	mysql_close($link);	  
+	mysqli_free_result($result);
+	$mysqli->close();($link);	  
 ?>
 </body>
 </html>

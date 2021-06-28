@@ -64,11 +64,7 @@
 	// if($v!="") {
 	echo '<form name="frm" id="frm" onSubmit="return submitme()">';
 
-	$link = mysql_connect($srv, $usr, $pwd);
-	if (!$link) {
-		die('Could not connect: ' . mysql_error());
-	}
-	mysql_select_db($db);
+	
 
 	$sql = "
 		SELECT 	n.nomornota as nomornota, n.tanggal, n.perihal, n.skkoi as skkoi, n.nilaiusulan, n.progress as progress, n.nip,
@@ -84,7 +80,7 @@
 	//AND COALESCE(progress,0) >= 2 and COALESCE(progress,0) < 8 
 	//echo $sql;
 
-	$result = mysql_query($sql);
+	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 
 	echo "
 		<table border='1'>
@@ -103,7 +99,7 @@
 				</tr>";
 	
 	$no = 0;
-	while ($row = mysql_fetch_array($result, MYSQL_BOTH)) {
+	while ($row = mysqli_fetch_array($result)) {
 		$no++;
 		echo "
 			<tr>
@@ -127,8 +123,8 @@
 	}
 	echo "</table>";
 
-	mysql_free_result($result);
-	mysql_close($link);	
+	mysqli_free_result($result);
+	
 
 
 echo '</form>';

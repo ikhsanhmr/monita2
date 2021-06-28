@@ -13,7 +13,7 @@
           where kdindukpos='$pos'
           and kdsubpos='$txtkodesub'";
     
-    $hasil = mysql_query($sql);
+    $hasil = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 	$ceknomorsub = mysql_num_rows($hasil);
     
     if($ceknomorsub==1)
@@ -31,7 +31,7 @@
             values('$pos','$txtkodesub','$txtnamasub')
             ";
       
-      $hasil=mysql_query($sql);	
+      $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));	
       
       echo '
       <script language="javascript">
@@ -50,8 +50,8 @@
               from posinduk3
               where kdsubpos='$pos'
               ";  
-	$hasil = mysql_query($sql);
-  	$row = mysql_fetch_array($hasil); 
+	$hasil = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
+  	$row = mysqli_fetch_array($hasil); 
   	$namapos=$row['namasubpos'];
   }  
     

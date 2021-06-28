@@ -12,8 +12,8 @@ $pasword = md5($_POST['pasword']);
 $pasword_md5 = md5($pasword);
 // query untuk mendapatkan record dari username
 $query = "SELECT * FROM user WHERE nip = '$nip'";
-$hasil = mysql_query($query);
-$data = mysql_fetch_array($hasil);	
+$hasil = mysqli_query($query);
+$data = mysqli_fetch_array($hasil);	
 //Connect to Active Directory
 $ad = ldap_connect($ad_server);
 ldap_set_option($ad, LDAP_OPT_PROTOCOL_VERSION, 3);

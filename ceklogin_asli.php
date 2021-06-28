@@ -9,8 +9,8 @@ $password = mysql_real_escape_string($_POST['password']);
 $password = md5($password);
 // query untuk mendapatkan record dari username
 $query = "SELECT * FROM user WHERE nip = '$nip'";
-$hasil = mysql_query($query);
-$data = mysql_fetch_array($hasil);
+$hasil = mysqli_query($query);
+$data = mysqli_fetch_array($hasil);
 
 // cek kesesuaian password
 if ($password == $data['pasword'])
