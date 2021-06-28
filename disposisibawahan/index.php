@@ -64,11 +64,7 @@
 	// if($v!="") {
 	echo '<form name="frm" id="frm" onSubmit="return submitme()">';
 
-	$link = mysql_connect($srv, $usr, $pwd);
-	if (!$link) {
-		die('Could not connect: ' . mysql_error());
-	}
-	mysql_select_db($db);
+	
 
 	$sql = "
 		SELECT 	n.nomornota as nomornota, n.tanggal, n.perihal, n.skkoi as skkoi, n.nilaiusulan, n.progress as progress, n.nip,
@@ -103,7 +99,7 @@
 				</tr>";
 	
 	$no = 0;
-	while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
+	while ($row = mysqli_fetch_array($result)) {
 		$no++;
 		echo "
 			<tr>
@@ -128,7 +124,7 @@
 	echo "</table>";
 
 	mysqli_free_result($result);
-	$mysqli->close();($link);	
+	
 
 
 echo '</form>';

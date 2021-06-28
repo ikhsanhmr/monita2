@@ -34,11 +34,8 @@
 
 <?php
 	require_once "../config/control.inc.php";
-	$link = mysql_connect($srv, $usr, $pwd);
-	if (!$link) {
-		die('Could not connect: ' . mysql_error());
-	}
-	mysql_select_db($db);
+	
+	//mysql_select_db($db);
 
 	if(isset($_GET['del'])) {
 		$noskk=$_GET['del'];
@@ -82,7 +79,7 @@
 				</tr>";
 	
 		$no = 0;
-		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$no++;
 			echo "
 				<tr>

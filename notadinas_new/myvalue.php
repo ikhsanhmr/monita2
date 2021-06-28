@@ -41,7 +41,7 @@
 	
 	if ($result = mysqli_query($query)) {
 		$rp = "";
-		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$pagu = $row["rppos"];
 			$pakai = $row["nilaix"];
 			$sisa = $row["sisax"];

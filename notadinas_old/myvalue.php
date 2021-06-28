@@ -43,7 +43,7 @@
 	
 	if ($result = mysqli_query($query)) {
 		$rp = "";
-		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$rp = $row["rppos"];
 		}
 		mysqli_free_result($result);

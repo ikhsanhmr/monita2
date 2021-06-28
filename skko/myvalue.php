@@ -18,7 +18,7 @@
 	if ($result = mysqli_query($query)) {
 //		echo "result : $result<br>";
 		$nota .= "<option value=''>Pilih Pelaksana</option>";
-		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result)) {
 //			echo "$row[nid] - $row[namaunit]<br>";
 			$nota .= "<option value='$row[nid]'>$row[namaunit]</option>";
 		}

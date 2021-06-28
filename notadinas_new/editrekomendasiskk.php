@@ -11,7 +11,7 @@
 	if ($result = mysqli_query($query)) {
 		$i = -1;
 		$plks = array();
-		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$i++;
 			$plks[$i] = array($row["id"], $row["namaunit"]);
 		}
@@ -28,7 +28,7 @@
 	if ($result = mysqli_query($query)) {
 		$i = -1;
 		$ipos = array();
-		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$i++;
 			$ipos[$i] = array($row["akses"], $row["nama"]);
 		}

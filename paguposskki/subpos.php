@@ -31,11 +31,11 @@
 		echo "Tahun <input type='text' name='prd' id='prd' value='$_REQUEST[prd]' size='4' readonly><br>";
 		
 		require_once "../config/control.inc.php";
-		$link = mysql_connect($srv, $usr, $pwd);
+		$link = new mysqli($srv, $usr, $pwd,$db);
 		if (!$link) {
-			die('Could not connect: ' . mysql_error());
+			echo "Failed to connect to MySQL: " . $mysqli -> connect_error; exit();
 		}
-		mysql_select_db($db);
+		//mysql_select_db($db);
 		
 
 //		$sql = "SELECT rppos FROM saldopos WHERE tahun = $_REQUEST[prd] AND kdsubpos = '$_REQUEST[pos]'";
@@ -44,7 +44,7 @@
 //		echo "$sql<br>";
 			
 		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
-		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {$tot = $row["rppos"]; }
+		while ($row = mysqli_fetch_array($result)) {$tot = $row["rppos"]; }
 		mysqli_free_result($result);		
 
 		// $sql = "SELECT p.*, rppos FROM posinduk2 p LEFT JOIN saldopos2 s ON p.kdsubpos = s.kdsubpos AND tahun = $_REQUEST[prd] WHERE kdindukpos = '$_REQUEST[pos]' ORDER BY p.kdsubpos";
@@ -69,7 +69,7 @@
 	
 		$no = 0;
 		$sudah = 0;
-		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$dummy = str_replace('.', '_', $row['kdsubpos']);
 			$sudah += $row['rppos'];
 			$no++;

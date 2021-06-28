@@ -1,10 +1,7 @@
 <?php
 	require_once "../config/control.inc.php";
-	$link = mysql_connect($srv, $usr, $pwd);
-	if (!$link) {
-		die('Could not connect: ' . mysql_error());
-	}
-	mysql_select_db($db);
+	
+	//mysql_select_db($db);
 	
 //	for($i=1; $i<=4; $i++) {
 	$dummy = count(explode(".", $_REQUEST["pos"]));

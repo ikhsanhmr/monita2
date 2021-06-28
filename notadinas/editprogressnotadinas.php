@@ -64,11 +64,8 @@ require_once "../config/control.inc.php";
 if($v!="") {
 	echo "<form name='frm' id='frm' method='post' action='editprognd.php'>";
 
-	$link = mysql_connect($srv, $usr, $pwd);
-	if (!$link) {
-		die('Could not connect: ' . mysql_error());
-	}
-	mysql_select_db($db);
+	
+	//mysql_select_db($db);
 
 	$sql = "SELECT 	n.nomornota as nomornota, n.tanggal, n.perihal, n.skkoi as skkoi, n.nilaiusulan, 
 					n.progress as progress, n.nip, n.assigndt, n.nipuser, p.pid, p.info, p.keterangan, u.nama, 
@@ -101,7 +98,7 @@ if($v!="") {
 	";
 	
 	$no = 0;
-	while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
+	while ($row = mysqli_fetch_array($result)) {
 		$no++;
 
 		echo "

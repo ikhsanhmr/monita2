@@ -20,7 +20,7 @@
 	
 	if ($result = mysqli_query($query)) {
 		$pelaksana = "<option value=''>Pilih Pelaksana</option>";
-		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$pelaksana .= "<option value='$row[id]'>$row[namaunit]</option>";
 		}
 		mysqli_free_result($result);
@@ -64,7 +64,7 @@ $pelaksana = "<select name='pic$t' id='pic$t'>$pelaksana</select>";
 
 	if ($result = mysqli_query($query)) {
 		$pos = "<option value=''>Pilih POS</option>";
-		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$pos .= "<option value='$row[akses]'>$row[akses] - $row[nama]</option>";
 		}
 		mysqli_free_result($result);

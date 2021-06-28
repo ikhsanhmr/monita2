@@ -14,7 +14,7 @@
 	$i = -1;
 
 	if ($result = mysqli_query($query)) {
-		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$i++;
 			$nn[$i] = $row["nn"];
 			$pp[$i] = $row["pp"];

@@ -13,17 +13,14 @@ if ($_SESSION['adm']==2)
 echo '<form name="frm" id="frm"  method="post" action="assign.php" onSubmit="return submitme()">';
 
 	
-	$link = mysql_connect($srv, $usr, $pwd);
-	if (!$link) {
-		die('Could not connect: ' . mysql_error());
-	}
-	mysql_select_db($db);
+	
+	//mysql_select_db($db);
 
 	$sql = "SELECT * FROM notadinas WHERE COALESCE(progress,0) < 8";
 	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 
 	$nd = "<textarea hidden name='jobnd' id='jobnd'></textarea> &nbsp;<select name='nd' id='nd' size='10'>";
-	while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
+	while ($row = mysqli_fetch_array($result)) {
 		$nd .= ($row["nip"]==null? "<option value='$row[nomornota]'>$row[perihal]</option>": "");
 	}
 	$nd .= "</select>&nbsp;";
@@ -36,7 +33,7 @@ echo '<form name="frm" id="frm"  method="post" action="assign.php" onSubmit="ret
 	
 	$sql = "SELECT * FROM USER WHERE adm = 1";
 	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
-	while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
+	while ($row = mysqli_fetch_array($result)) {
 		$usr .= "<option value='$row[nip]'>$row[nama]</option>";
 
 		$column++;
@@ -45,7 +42,7 @@ echo '<form name="frm" id="frm"  method="post" action="assign.php" onSubmit="ret
 
 		$insql = "SELECT * FROM notadinas WHERE COALESCE(progress,0) < 7 and nip='$row[nip]'";
 		$inresult = mysqli_query($insql);
-		while ($inrow = mysqli_fetch_array($inresult, MYSQL_BOTH)) {
+		while ($inrow = mysqli_fetch_array($inresult)) {
 			$td .= "<option value='$inrow[nomornota]'>$inrow[perihal]</option>";
 		}
 		mysqli_free_result($inresult);
@@ -107,11 +104,8 @@ else
 
 echo '<form name="frm" id="frm" onSubmit="return submitme()">';
 
-	$link = mysql_connect($srv, $usr, $pwd);
-	if (!$link) {
-		die('Could not connect: ' . mysql_error());
-	}
-	mysql_select_db($db);
+	
+	//mysql_select_db($db);
 
 	$sql = "SELECT * FROM notadinas n LEFT JOIN progress p 
 ON COALESCE(n.progress, 0) = p.pid
@@ -135,7 +129,7 @@ WHERE nip = '$nip' AND COALESCE(progress,0) < 8
 			</tr>";
 	
 	$no = 0;
-	while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
+	while ($row = mysqli_fetch_array($result)) {
 		$no++;
 		echo "
 			<tr>

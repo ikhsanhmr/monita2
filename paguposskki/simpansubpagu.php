@@ -1,10 +1,7 @@
 <?php
 	require_once "../config/control.inc.php";
-	$link = mysql_connect($srv, $usr, $pwd);
-	if (!$link) {
-		die('Could not connect: ' . mysql_error());
-	}
-	mysql_select_db($db);
+	
+	//mysql_select_db($db);
 	foreach ($_REQUEST as $param_name => $param_val) {
 		//echo "$param_name => $param_val<br>";
 
@@ -17,7 +14,7 @@
 // //				$sql = "SELECT COUNT(*) jumlah FROM saldopos2 WHERE tahun = $_REQUEST[prd] AND kdsubpos = '$sub'";
 // 				$sql = "SELECT COUNT(*) jumlah FROM saldopos$idx WHERE tahun = $_REQUEST[prd] AND kdsubpos = '$sub'";
 // 				$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
-// 				while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
+// 				while ($row = mysqli_fetch_array($result)) {
 // 					$jumlah = $row["jumlah"];
 // 				}
 // 				mysqli_free_result($result);
@@ -37,7 +34,7 @@
 
 		$sql = "SELECT COUNT(*) jumlah FROM saldopos$idx WHERE tahun = $_REQUEST[prd] AND kdsubpos = '$sub'";
 		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
-		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$jumlah = $row["jumlah"];
 		}
 		mysqli_free_result($result);

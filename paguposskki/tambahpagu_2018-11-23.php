@@ -18,11 +18,8 @@
 	echo '<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />';
 
 	require_once "../config/control.inc.php";
-	$link = mysql_connect($srv, $usr, $pwd);
-	if (!$link) {
-		die('Could not connect: ' . mysql_error());
-	}
-	mysql_select_db($db);
+	
+	//mysql_select_db($db);
 	
 	$sql = "SELECT * FROM posinduk p LEFT JOIN saldopos s ON kdindukpos = kdsubpos AND tahun = '$_REQUEST[prd]' where kdindukpos = '62'";
 	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
@@ -42,7 +39,7 @@
 			</tr>";
 	
 	$tot = 0;
-	while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
+	while ($row = mysqli_fetch_array($result)) {
 		$tot += $row['rppos'];
 		echo "
 			<tr>

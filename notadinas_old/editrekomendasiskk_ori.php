@@ -52,7 +52,7 @@
 		($nip=="admin"? "": "WHERE u.nip = '$nip'") . " order by akses";
 	$result2 = mysqli_query($query);
 	$posx = "<option value=''>Pilih POS</option>";
-	while ($row = mysqli_fetch_array($result2, MYSQL_BOTH)) {
+	while ($row = mysqli_fetch_array($result2)) {
 		$posx .= "<option value='$row[akses]'>$row[akses] - $row[nama]</option>";
 	}
 	
@@ -65,7 +65,7 @@
 		if($result1) {
 			mysql_data_seek($result1, 0);
 			$pelaksana = "<option value=''>Pilih Pelaksana</option>";
-			while ($row = mysqli_fetch_array($result1, MYSQL_BOTH)) {
+			while ($row = mysqli_fetch_array($result1)) {
 				$pelaksana .= "<option value='$row[id]' " . 
 					($row["id"]==$pic_val[$t]? " selected": "") . ">$row[namaunit]</option>";
 			}
@@ -91,7 +91,7 @@
 						
 						mysql_data_seek($result2, 0);
 						$pos1 = "<option value=''>Pilih POS</option>";
-						while ($row = mysqli_fetch_array($result2, MYSQL_BOTH)) {
+						while ($row = mysqli_fetch_array($result2)) {
 							$pos1 .= "<option value='$row[akses]' " . 
 								($row["akses"]==$arr[$l][1]? " selected": "") . ">$row[akses] - $row[nama]</option>";
 						}

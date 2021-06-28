@@ -24,11 +24,8 @@
 	}
 	
 	require_once "../config/koneksi.php";
-	$link = mysql_connect($srv, $usr, $pwd);
-	if (!$link) {
-		die('Could not connect: ' . mysql_error());
-	}
-	mysql_select_db($db);
+	
+	//mysql_select_db($db);
 
 	echo "<a href='index.php'>Kembali</a><br><br>
 			<form name='myForm' id='myForm' method='POST' action='simpan.php' onSubmit='return validateContract(\"$_REQUEST[skk]\")'>

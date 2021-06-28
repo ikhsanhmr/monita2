@@ -45,7 +45,7 @@
 		$query = "SELECT * FROM bidang ORDER BY CONVERT(id, UNSIGNED)";
 		if ($result = mysqli_query($query)) {
 			$pelaksana = "<option value=''>Pilih Pelaksana</option>";
-			while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
+			while ($row = mysqli_fetch_array($result)) {
 //				$pelaksana .= "<option value='$row[id]'>$row[namaunit]</option>";
 				$pelaksana .= "<option value='$row[id]' " . 
 					($row["id"]==$ipic[$t]? " selected": "") . ">$row[namaunit]</option>";
@@ -59,7 +59,7 @@
 		if($result1) {
 			mysql_data_seek($result1, 0);
 			$pelaksana = "<option value=''>Pilih Pelaksana</option>";
-			while ($row = mysqli_fetch_array($result1, MYSQL_BOTH)) {
+			while ($row = mysqli_fetch_array($result1)) {
 //				$pelaksana .= "<option value='$row[id]'>$row[namaunit]</option>";
 				$pelaksana .= "<option value='$row[id]' " . 
 					($row["id"]==$ipic[$t]? " selected": "") . ">$row[namaunit]</option>";
@@ -78,7 +78,7 @@
 			($nip=="admin"? "": "WHERE u.nip = '$nip'") . " order by akses";
 		if ($result = mysqli_query($query)) {
 			$pos = "<option value=''>Pilih POS</option>";
-			while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
+			while ($row = mysqli_fetch_array($result)) {
 				$pos .= "<option value='$row[akses]'>$row[akses] - $row[nama]</option>";
 			}
 			mysqli_free_result($result);

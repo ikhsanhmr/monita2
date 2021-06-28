@@ -13,7 +13,7 @@
 //	echo "$query<br>";
 	
 	if ($result = mysqli_query($query)) {
-		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result)) {
 			echo "$row[pos1]<data>$row[nilai1]";
 		}
 		mysqli_free_result($result);

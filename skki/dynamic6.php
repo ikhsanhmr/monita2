@@ -33,7 +33,7 @@
 	$nota = "<option value=''>Pilih Nota dinas</option>";
 
 	if ($result = mysqli_query($query)) {
-		while ($row = mysqli_fetch_array($result, MYSQL_BOTH)) {
+		while ($row = mysqli_fetch_array($result)) {
 			$nota .= "<option value='$row[nn]'>$row[pp]</option>";
 		}
 		mysqli_free_result($result);
