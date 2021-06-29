@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
 	<link href="../css/screen.css" rel="stylesheet" type="text/css">
 	<script type="text/javascript" src="../js/methods.js"></script>
@@ -7,56 +8,53 @@
 
 <body>
 	<?php
-		$u_agent = $_SERVER['HTTP_USER_AGENT'];
-		if(preg_match('/MSIE/i',$u_agent) && !preg_match('/Opera/i',$u_agent)) { 
-			$bname = 'Internet Explorer'; 
-			$ub = "MSIE"; 
-		} 
-		elseif(preg_match('/Firefox/i',$u_agent)) { 
-			$bname = 'Mozilla Firefox'; 
-			$ub = "Firefox"; 
-		} 
-		elseif(preg_match('/Chrome/i',$u_agent)) { 
-			$bname = 'Google Chrome'; 
-			$ub = "Chrome"; 
-		} 
-		elseif(preg_match('/Safari/i',$u_agent)) { 
-			$bname = 'Apple Safari'; 
-			$ub = "Safari"; 
-		} 
-		elseif(preg_match('/Opera/i',$u_agent)) { 
-			$bname = 'Opera'; 
-			$ub = "Opera"; 
-		} 
-		elseif(preg_match('/Netscape/i',$u_agent)) { 
-			$bname = 'Netscape'; 
-			$ub = "Netscape"; 
-		} 
-		$nice = (($ub=="Chrome" || $ub=="Opera" || $ub=="Chrome")? true: false);
-	
-		session_start(); 
-		require_once '../config/koneksi.php';
-		$nip=$_SESSION['nip'];
-		$bidang=$_SESSION['bidang'];
-		$kdunit=$_SESSION['kdunit'];
-		$nama=$_SESSION['nama'];
-		$adm=$_SESSION['adm'];
-		$org=$_SESSION['org'];
-		if($nip=="") {exit;}
+	$u_agent = $_SERVER['HTTP_USER_AGENT'];
+	if (preg_match('/MSIE/i', $u_agent) && !preg_match('/Opera/i', $u_agent)) {
+		$bname = 'Internet Explorer';
+		$ub = "MSIE";
+	} elseif (preg_match('/Firefox/i', $u_agent)) {
+		$bname = 'Mozilla Firefox';
+		$ub = "Firefox";
+	} elseif (preg_match('/Chrome/i', $u_agent)) {
+		$bname = 'Google Chrome';
+		$ub = "Chrome";
+	} elseif (preg_match('/Safari/i', $u_agent)) {
+		$bname = 'Apple Safari';
+		$ub = "Safari";
+	} elseif (preg_match('/Opera/i', $u_agent)) {
+		$bname = 'Opera';
+		$ub = "Opera";
+	} elseif (preg_match('/Netscape/i', $u_agent)) {
+		$bname = 'Netscape';
+		$ub = "Netscape";
+	}
+	$nice = (($ub == "Chrome" || $ub == "Opera" || $ub == "Chrome") ? true : false);
 
-		$sql = "SELECT * FROM kontrak_type ORDER BY nama ASC";
-		//echo "$sql";
-		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
-		
-		$kontrak_type = "";
-		while ($row = mysqli_fetch_array($result)) {
-			$kontrak_type .= "<tr><td>".ltrim($row[id], '0')."</td><td>$row[nama]</td></tr>";
-		}
-		
-		mysqli_free_result($result);
-		 			
+	session_start();
+	require_once '../config/koneksi.php';
+	$nip = $_SESSION['nip'];
+	$bidang = $_SESSION['bidang'];
+	$kdunit = $_SESSION['kdunit'];
+	$nama = $_SESSION['nama'];
+	$adm = $_SESSION['adm'];
+	$org = $_SESSION['org'];
+	if ($nip == "") {
+		exit;
+	}
 
-		echo "
+	$sql = "SELECT * FROM kontrak_type ORDER BY nama ASC";
+	//echo "$sql";
+	$result = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
+
+	$kontrak_type = "";
+	while ($row = mysqli_fetch_array($result)) {
+		$kontrak_type .= "<tr><td>" . ltrim($row['id'], '0') . "</td><td>$row[nama]</td></tr>";
+	}
+
+	mysqli_free_result($result);
+
+
+	echo "
 			<h2>Upload Kontrak</h2>
 			<form method='post' enctype='multipart/form-data' action='simpan_upload.php'>
 				<table border='1'>
@@ -104,4 +102,5 @@
 		";
 	?>
 </body>
+
 </html>

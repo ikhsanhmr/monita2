@@ -1,52 +1,53 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
-<?php
+	<?php
 	session_start();
-	if(!isset($_SESSION['nip'])) {
+	if (!isset($_SESSION['nip'])) {
 		echo "unauthorized user";
 		echo "<script>window.open('../index.php', '_parent')</script>";
 		exit;
 	}
-	$nip=$_SESSION['cnip'];
-?>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="../css/screen.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="../js/methods.js"></script>
-<title>Untitled Document</title>
+	$nip = $_SESSION['cnip'];
+	?>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link href="../css/screen.css" rel="stylesheet" type="text/css">
+	<script type="text/javascript" src="../js/methods.js"></script>
+	<title>Untitled Document</title>
 
 	<script type="text/javascript">
 		function viewk(x) {
 			var p1 = document.getElementById("p1").value;
 			var p2 = document.getElementById("p2").value;
 			//alert(kpos);
-			
-			if(p1>p2 || p1=="") {
-				if(p2!="") {
+
+			if (p1 > p2 || p1 == "") {
+				if (p2 != "") {
 					var dummy = p1;
 					p1 = p2;
 					p2 = dummy;
 				}
 			}
-			var url = encodeURI("editprogressnotadinas.php?p1="+p1+"&p2="+p2+"&v=1");
+			var url = encodeURI("editprogressnotadinas.php?p1=" + p1 + "&p2=" + p2 + "&v=1");
 			//alert(url);
 			window.open(url, "_self");
 		}
 	</script>
 	<?php
-		$p1 = isset($_REQUEST["p1"])? $_REQUEST["p1"]: "";
-		$p2 = isset($_REQUEST["p2"])? $_REQUEST["p2"]: "";
-		$v = isset($_REQUEST["v"])? $_REQUEST["v"]: "";
+	$p1 = isset($_REQUEST["p1"]) ? $_REQUEST["p1"] : "";
+	$p2 = isset($_REQUEST["p2"]) ? $_REQUEST["p2"] : "";
+	$v = isset($_REQUEST["v"]) ? $_REQUEST["v"] : "";
 	?>
 </head>
 
 <body>
-<?php
+	<?php
 
 	$parm = "";
-		$parm .= ($p1==""? "": " and YEAR(tanggal) = " . substr($p1,0,4) . " AND MONTH(tanggal) >= " . substr($p1,-2));
-		$parm .= ($p2==""? "": " and YEAR(tanggal) = " . substr($p2,0,4) . " AND MONTH(tanggal) <= " . substr($p2,-2));
-		echo "
+	$parm .= ($p1 == "" ? "" : " and YEAR(tanggal) = " . substr($p1, 0, 4) . " AND MONTH(tanggal) >= " . substr($p1, -2));
+	$parm .= ($p2 == "" ? "" : " and YEAR(tanggal) = " . substr($p2, 0, 4) . " AND MONTH(tanggal) <= " . substr($p2, -2));
+	echo "
 			<table>
 				<tr>
 					<th>Periode (yyyy-mm)</th>
@@ -60,14 +61,14 @@
 				</tr>
 			</table>";
 
-require_once "../config/control.inc.php";
-if($v!="") {
-	echo "<form name='frm' id='frm' method='post' action='editprognd.php'>";
+	require_once "../config/control.inc.php";
+	if ($v != "") {
+		echo "<form name='frm' id='frm' method='post' action='editprognd.php'>";
 
-	
-	//mysql_select_db($db);
 
-	$sql = "SELECT 	n.nomornota as nomornota, n.tanggal, n.perihal, n.skkoi as skkoi, n.nilaiusulan, 
+		//mysql_select_db($db);
+
+		$sql = "SELECT 	n.nomornota as nomornota, n.tanggal, n.perihal, n.skkoi as skkoi, n.nilaiusulan, 
 					n.progress as progress, n.nip, n.assigndt, n.nipuser, p.pid, p.info, p.keterangan, u.nama, 
 					u.kdunit as unitanggaran, u.bidang, u.adm
 			FROM 	notadinas n LEFT JOIN 
@@ -77,10 +78,10 @@ if($v!="") {
 			$parm
 			order by tanggal DESC
 	";
-//AND COALESCE(progress,0) >= 2 and COALESCE(progress,0) < 8 
-//echo $sql;
-	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
-	echo "
+		//AND COALESCE(progress,0) >= 2 and COALESCE(progress,0) < 8 
+		//echo $sql;
+		$result = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
+		echo "
 		<table border='1'>
 			<tr>
 				<th>No</th>
@@ -96,12 +97,12 @@ if($v!="") {
 				<th>Proses</th>
 			</tr>
 	";
-	
-	$no = 0;
-	while ($row = mysqli_fetch_array($result)) {
-		$no++;
 
-		echo "
+		$no = 0;
+		while ($row = mysqli_fetch_array($result)) {
+			$no++;
+
+			echo "
 				<tr>
 					<td>$no</td>
 					<td>
@@ -119,15 +120,17 @@ if($v!="") {
 					<td><input type='button' value='Ubah Progress' onclick='window.open(\"editprognd.php?nd=$row[nomornota]\",\"_self\")'></td>
 				 </tr>
 		";
+		}
+		echo "</table>";
+
+		mysqli_free_result($result);
+		$mysqli->close();
+		($link);
+
+
+		echo '</form>';
 	}
-	echo "</table>";
-
-	mysqli_free_result($result);
-	$mysqli->close();($link);	
-
-
-echo '</form>';
-}
-?>
+	?>
 </body>
+
 </html>

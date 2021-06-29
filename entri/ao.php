@@ -6,13 +6,13 @@
 	<link href="../css/screen.css" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" type="text/css" href="../css/jquery.dataTables.min.css">
 	<style type="text/css">
-		#signButton{
+		#signButton {
 			background: transparent;
 			border: none;
 			cursor: pointer;
 		}
 	</style>
-	
+
 	<script type="text/javascript">
 		function viewk(x) {
 			var p1 = document.getElementById("p1").value;
@@ -22,15 +22,15 @@
 			var k = document.getElementById("skk").value;
 			var kpos = document.getElementById("kdpos").value;
 			//alert(kpos);
-			
-			if(p1>p2 || p1=="") {
-				if(p2!="") {
+
+			if (p1 > p2 || p1 == "") {
+				if (p2 != "") {
 					var dummy = p1;
 					p1 = p2;
 					p2 = dummy;
 				}
 			}
-			var url = encodeURI((x==undefined? "ao.php": "aoexcel.php") + "?p1="+p1+"&p2="+p2+"&b="+b+"&p="+p+"&k="+k+"&kpos="+kpos+"&v=1");
+			var url = encodeURI((x == undefined ? "ao.php" : "aoexcel.php") + "?p1=" + p1 + "&p2=" + p2 + "&b=" + b + "&p=" + p + "&k=" + k + "&kpos=" + kpos + "&v=1");
 			//alert(url);
 			window.open(url, "_self");
 		}
@@ -39,130 +39,128 @@
 			//alert("ok");
 			// var url = encodeURI("signed.php?" + "c=" + c + "&s=" + s);
 			// window.open(url, "_self");
-		        $.ajax({
-		        	type: "get",
-		            url: "signed.php",
-		            data: {
-		            	"c":c,
-		            	"s":s,
-		            	"i":i
-		            },
-		            success: function(data) {
-		            	dataresult=JSON.parse(data)
-                    if (dataresult[1]=='0') {
-                    	$("#k"+dataresult[2]).html("<button id='signButton' onclick='signed("+'dataresult[0]'+", 1, "+'dataresult[2]'+")'><img src='no.png' width='24' height='24' alt='Signed' title='Signed'></img></button>");
-                    }else{
-                    	$("#k"+dataresult[2]).html("<button id='signButton' onclick='signed("+'dataresult[0]'+", 0, "+'dataresult[2]'+")'><img src='ok.png' width='24' height='24' alt='Unsigned' title='Unsigned'></img></button>");
-                    }
-                }
-		    });
+			$.ajax({
+				type: "get",
+				url: "signed.php",
+				data: {
+					"c": c,
+					"s": s,
+					"i": i
+				},
+				success: function(data) {
+					dataresult = JSON.parse(data)
+					if (dataresult[1] == '0') {
+						$("#k" + dataresult[2]).html("<button id='signButton' onclick='signed(" + 'dataresult[0]' + ", 1, " + 'dataresult[2]' + ")'><img src='no.png' width='24' height='24' alt='Signed' title='Signed'></img></button>");
+					} else {
+						$("#k" + dataresult[2]).html("<button id='signButton' onclick='signed(" + 'dataresult[0]' + ", 0, " + 'dataresult[2]' + ")'><img src='ok.png' width='24' height='24' alt='Unsigned' title='Unsigned'></img></button>");
+					}
+				}
+			});
 		}
 
 		function bayar(k, lvl, id) {
 			$.ajax({
-	        	type: "get",
-	            url: "bayar.php",
-	            data: {
-	            	"k":k,
-	            	"lvl":lvl,
-	            	"id":id,
-	            	"t":1
-	            },
-	            success: function(data) {
-	            	dataresult=JSON.parse(data);
-	            	
-	            	if (dataresult[3]){
+				type: "get",
+				url: "bayar.php",
+				data: {
+					"k": k,
+					"lvl": lvl,
+					"id": id,
+					"t": 1
+				},
+				success: function(data) {
+					dataresult = JSON.parse(data);
 
-                    	$("#b"+dataresult[2]).html("Kontrak sudah di inbox bayar.");
-	            	}
-                }
-		    });
+					if (dataresult[3]) {
+
+						$("#b" + dataresult[2]).html("Kontrak sudah di inbox bayar.");
+					}
+				}
+			});
 		}
 	</script>
-	
+
 	<?php
-//		header("Content-type: application/vnd.ms-excell");
-//		header("Content-Disposition: attachment; Filename=ao.xls");
+	//		header("Content-type: application/vnd.ms-excell");
+	//		header("Content-Disposition: attachment; Filename=ao.xls");
 
-		session_start();
-		if(!isset($_SESSION["nip"])) {
-			echo "unauthorized user";
-			echo "<script>window.open('../index.php', '_parent')</script>";
-			exit;
+	session_start();
+	if (!isset($_SESSION["nip"])) {
+		echo "unauthorized user";
+		echo "<script>window.open('../index.php', '_parent')</script>";
+		exit;
+	}
+
+	$user = $_SESSION["cnip"];
+
+	$p1 = isset($_REQUEST["p1"]) ? $_REQUEST["p1"] : "";
+	$p2 = isset($_REQUEST["p2"]) ? $_REQUEST["p2"] : "";
+	$b0 = isset($_REQUEST["b"]) ? $_REQUEST["b"] : "";
+	$p0 = isset($_REQUEST["p"]) ? $_REQUEST["p"] : "";
+	$k0 = isset($_REQUEST["k"]) ? $_REQUEST["k"] : "";
+	$kdpos0 = isset($_REQUEST["kpos"]) ? $_REQUEST["kpos"] : "";
+	$v = isset($_REQUEST["v"]) ? $_REQUEST["v"] : "";
+
+	$b = "<select name='bidang' id='bidang'>" . ($_SESSION["org"] == "" || $_SESSION["org"] == 1 || $_SESSION["org"] == 3 || $_SESSION["org"] > 5 || $user == "94171330ZY" ? "<option value=''></option>" : "");
+	$p = "<select name='pelaksana' id='pelaksana'>" . ($_SESSION["org"] > 5 ? "" : "<option value=''></option>");
+
+	require_once "../config/koneksi.php";
+	$sql = "SELECT * FROM bidang ORDER BY LPAD(id, 2, '0')";
+	$result = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
+
+	while ($row = mysqli_fetch_array($result)) {
+		if ($row["id"] < 6) {
+			// $b .= ($_SESSION["org"]=="" || $_SESSION["org"]==1 || $_SESSION["org"]==3 || $_SESSION["org"]>5)?
+			// 	"<option value='$row[id]' " . ($row["id"]==$b0? "selected": "") . ">$row[namaunit]</option>":
+			// 	($row["id"]==$_SESSION["org"]? "<option value='$row[id]' " . ($row["id"]==$b0? "selected": "") . ">$row[namaunit]</option>": "");
+			$b .= ($_SESSION["org"] == "" || $_SESSION["org"] == 1 || $_SESSION["org"] == 3 || $_SESSION["org"] > 5 || $user == "94171330ZY") ?
+				"<option value='$row[nick]' " . ($row["nick"] == $b0 ? "selected" : "") . ">$row[namaunit]</option>" : ($row["id"] == $_SESSION["org"] ? "<option value='$row[nick]' " . ($row["nick"] == $b0 ? "selected" : "") . ">$row[namaunit]</option>" : "");
 		}
-		
-		$user = $_SESSION["cnip"];
-		
-		$p1 = isset($_REQUEST["p1"])? $_REQUEST["p1"]: "";
-		$p2 = isset($_REQUEST["p2"])? $_REQUEST["p2"]: "";
-		$b0 = isset($_REQUEST["b"])? $_REQUEST["b"]: "";
-		$p0 = isset($_REQUEST["p"])? $_REQUEST["p"]: "";
-		$k0 = isset($_REQUEST["k"])? $_REQUEST["k"]: "";
-		$kdpos0 = isset($_REQUEST["kpos"])? $_REQUEST["kpos"]: "";
-		$v = isset($_REQUEST["v"])? $_REQUEST["v"]: "";
-		
-		$b = "<select name='bidang' id='bidang'>" . ($_SESSION["org"]=="" || $_SESSION["org"]==1 || $_SESSION["org"]==3 || $_SESSION["org"]>5 || $user == "94171330ZY"? "<option value=''></option>": "");
-		$p = "<select name='pelaksana' id='pelaksana'>" . ($_SESSION["org"]>5? "": "<option value=''></option>");
 
-		require_once "../config/koneksi.php";
-		$sql = "SELECT * FROM bidang ORDER BY LPAD(id, 2, '0')";
-		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
-		
-		while ($row = mysqli_fetch_array($result)) {
-			if($row["id"]<6) {
-				// $b .= ($_SESSION["org"]=="" || $_SESSION["org"]==1 || $_SESSION["org"]==3 || $_SESSION["org"]>5)?
-				// 	"<option value='$row[id]' " . ($row["id"]==$b0? "selected": "") . ">$row[namaunit]</option>":
-				// 	($row["id"]==$_SESSION["org"]? "<option value='$row[id]' " . ($row["id"]==$b0? "selected": "") . ">$row[namaunit]</option>": "");
-				$b .= ($_SESSION["org"]=="" || $_SESSION["org"]==1 || $_SESSION["org"]==3 || $_SESSION["org"]>5 || $user == "94171330ZY")?
-					"<option value='$row[nick]' " . ($row["nick"]==$b0? "selected": "") . ">$row[namaunit]</option>":
-					($row["id"]==$_SESSION["org"]? "<option value='$row[nick]' " . ($row["nick"]==$b0? "selected": "") . ">$row[namaunit]</option>": "");
-			}
-
-			if($user == "8610292Z"){
-				// $b .= ($row["id"] == 1? "<option value='$row[id]' " . ($row["id"]==$b0? "selected": "") . ">$row[namaunit]</option>": "");
-				$b .= ($row["id"] == 1? "<option value='$row[nick]' " . ($row["nick"]==$b0? "selected": "") . ">$row[namaunit]</option>": "");
-			}
-
-			$p .= ($_SESSION["org"]=="" || $_SESSION["org"]<=5)? 
-				"<option value='$row[id]' " . ($row["id"]==$p0? "selected": "") . ">$row[namaunit]</option>":
-				($row["id"]==$_SESSION["org"]? "<option value='$row[id]' " . ($row["id"]==$p0? "selected": "") . ">$row[namaunit]</option>": "");
+		if ($user == "8610292Z") {
+			// $b .= ($row["id"] == 1? "<option value='$row[id]' " . ($row["id"]==$b0? "selected": "") . ">$row[namaunit]</option>": "");
+			$b .= ($row["id"] == 1 ? "<option value='$row[nick]' " . ($row["nick"] == $b0 ? "selected" : "") . ">$row[namaunit]</option>" : "");
 		}
-		mysqli_free_result($result);
-		$b .= "</select>";
-		$p .= "</select>";
-		
-		$sql = "
+
+		$p .= ($_SESSION["org"] == "" || $_SESSION["org"] <= 5) ?
+			"<option value='$row[id]' " . ($row["id"] == $p0 ? "selected" : "") . ">$row[namaunit]</option>" : ($row["id"] == $_SESSION["org"] ? "<option value='$row[id]' " . ($row["id"] == $p0 ? "selected" : "") . ">$row[namaunit]</option>" : "");
+	}
+	mysqli_free_result($result);
+	$b .= "</select>";
+	$p .= "</select>";
+
+	$sql = "
 			SELECT kdindukpos pos, namaindukpos namapos FROM posinduk UNION
 			SELECT kdsubpos pos, namasubpos namapos FROM posinduk2 UNION
 			SELECT kdsubpos pos, namasubpos namapos FROM posinduk3 UNION
 			SELECT kdsubpos pos, namasubpos namapos FROM posinduk4
 			ORDER BY pos";
-		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
-		
-		$kdpos = "<select name='kdpos' id='kdpos'><option value=''></option>";
-		while ($row = mysqli_fetch_array($result)) {
-			$kdpos .= "<option value='$row[pos]' " . ($row["pos"]==$kdpos0? "selected": "") . ">$row[pos] - $row[namapos]</option>";
-		}
-		$kdpos .= "</select>";
-		mysqli_free_result($result);
+	$result = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
+
+	$kdpos = "<select name='kdpos' id='kdpos'><option value=''></option>";
+	while ($row = mysqli_fetch_array($result)) {
+		$kdpos .= "<option value='$row[pos]' " . ($row["pos"] == $kdpos0 ? "selected" : "") . ">$row[pos] - $row[namapos]</option>";
+	}
+	$kdpos .= "</select>";
+	mysqli_free_result($result);
 	?>
 </head>
 
 
 <body>
 	<?php
-		$parm = "";
-		$parm .= ($p1==""? "": " and SUBSTR(tanggalskko, 1, 7) >= '$p1'");
-		$parm .= ($p2==""? "": " and SUBSTR(tanggalskko, 1, 7) <= '$p2'");
-		// $parm .= ($p1==""? "": " and YEAR(tanggalskko) = " . substr($p1,0,4) . " AND MONTH(tanggalskko) >= " . substr($p1,-2));
-		// $parm .= ($p2==""? "": " and YEAR(tanggalskko) = " . substr($p2,0,4) . " AND MONTH(tanggalskko) <= " . substr($p2,-2));
-		// $parm .= ($b0==""? "": " and (g.id = '$b0' or pelaksana = '$b0')");
-		$parm .= ($b0==""? "": " and (nipuser = '$b0' or b.nick = '$b0')");
-		$parm .= ($p0==""? "": " and pelaksana = '$p0'");
-		$parm .= ($k0==""? "": " and nomorskko = '$k0'");
-		$parm .= ($kdpos0==""? "": " and pos1 = '$kdpos0'");
-		//echo "parm : $parm<br>";
-		echo "
+	$parm = "";
+	$parm .= ($p1 == "" ? "" : " and SUBSTR(tanggalskko, 1, 7) >= '$p1'");
+	$parm .= ($p2 == "" ? "" : " and SUBSTR(tanggalskko, 1, 7) <= '$p2'");
+	// $parm .= ($p1==""? "": " and YEAR(tanggalskko) = " . substr($p1,0,4) . " AND MONTH(tanggalskko) >= " . substr($p1,-2));
+	// $parm .= ($p2==""? "": " and YEAR(tanggalskko) = " . substr($p2,0,4) . " AND MONTH(tanggalskko) <= " . substr($p2,-2));
+	// $parm .= ($b0==""? "": " and (g.id = '$b0' or pelaksana = '$b0')");
+	$parm .= ($b0 == "" ? "" : " and (nipuser = '$b0' or b.nick = '$b0')");
+	$parm .= ($p0 == "" ? "" : " and pelaksana = '$p0'");
+	$parm .= ($k0 == "" ? "" : " and nomorskko = '$k0'");
+	$parm .= ($kdpos0 == "" ? "" : " and pos1 = '$kdpos0'");
+	//echo "parm : $parm<br>";
+	echo "
 			<h2>Laporan Monitoring Penyerapan Anggaran Operasi</h2>
 			<table>
 				<tr>
@@ -198,9 +196,9 @@
 					</td>
 				</tr>
 			</table>";
-		
-		if($v!="") {
-			$sql = "
+
+	if ($v != "") {
+		$sql = "
 				SELECT	n.nomornota, b.namaunit, pos1, nilai1, namapos, nomorwbs, vendor, nomorcostcenter, 
 						nomorskko noskk, s.uraian uraians, nilaianggaran anggaran, nilaiwbs wbs, k.nomorkontrak, 
 						DATE_FORMAT(tanggalskko, '%d-%m-%Y') as tanggalskko, nilaidisburse disburse, k.file_path, 
@@ -226,15 +224,15 @@
 							SELECT 	* 
 							FROM 	kontrak 
 							WHERE	1=1 
-									".($p1==""? "": " and YEAR(inputdt) >= " . substr($p1,0,4))."
-									".($p2==""? "": " and YEAR(inputdt) <= " . substr($p1,0,4))."
+									" . ($p1 == "" ? "" : " and YEAR(inputdt) >= " . substr($p1, 0, 4)) . "
+									" . ($p2 == "" ? "" : " and YEAR(inputdt) <= " . substr($p1, 0, 4)) . "
 						) k ON d.noskk = k.nomorskkoi AND d.pos1 = k.pos LEFT JOIN 
 						(
 							SELECT 	nokontrak, SUM(nilaibayar) bayar 
 							FROM 	realisasibayar 
 							WHERE	1=1 
-									".($p1==""? "": " and YEAR(tglbayar) >= " . substr($p1,0,4))."
-									".($p2==""? "": " and YEAR(tglbayar) <= " . substr($p1,0,4))."
+									" . ($p1 == "" ? "" : " and YEAR(tglbayar) >= " . substr($p1, 0, 4)) . "
+									" . ($p2 == "" ? "" : " and YEAR(tglbayar) <= " . substr($p1, 0, 4)) . "
 							GROUP BY nokontrak
 						) r ON k.nomorkontrak = r.nokontrak LEFT JOIN
 						(
@@ -269,10 +267,10 @@
 				$parm
 				ORDER BY nomorskko, LPAD(pelaksana, 2, '0'), k.pos, k.inputdt DESC, nomorkontrak 
 			";
-			//echo $sql;
-			
-			//$hasil = "
-			echo "
+		//echo $sql;
+
+		//$hasil = "
+		echo "
 			<table id='dataTables' class='display' cellspacing='0' width='100%'>
 			<thead>
 				<tr>
@@ -320,65 +318,63 @@
 				</thead>
 				<tbody>
 				";
-			
-			
-			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
-			
-			$no = 0;
-			$dummy = "";
-			$dummypos = "";
-			$hasil0 = "";
-			$pnk = 0;
-			$pnb = 0;
-			$snk = 0;
-			$snb = 0;
-			$npost = 0;
 
-			$angt = 0;
-			$disbt = 0;
-			$wbst = 0;
-			$post = 0;
-			$kont = 0;
-			$bayt = 0;
 
-			$hasilk = "";
-			$row="";
-			
-			
-			while ($row = mysqli_fetch_array($result)) {
-				$cskk = ($dummy == $row["noskk"]? true: false);
-				
-				$statusbayar = "";
+		$result = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
 
-				if($row["kontrakapproved"] == 1){
-					
-					if(($row["signlevel"] == 0 && $row["actiontype"] == 1) || ($row["signlevel"] > 1 && $row["actiontype"] == 0)){
+		$no = 0;
+		$dummy = "";
+		$dummypos = "";
+		$hasil0 = "";
+		$pnk = 0;
+		$pnb = 0;
+		$snk = 0;
+		$snb = 0;
+		$npost = 0;
+		$npos = 0;
 
-						$statusbayar = "Kontrak sudah di inbox bayar user pelaksana.";
+		$angt = 0;
+		$disbt = 0;
+		$wbst = 0;
+		$post = 0;
+		$kont = 0;
+		$bayt = 0;
 
-					} elseif ( $row["actiontype"] == 1 && ($row["signlevel"] == 2 || $row["signlevel"] == 1 )){
+		$hasilk = "";
+		$row = "";
 
-						$statusbayar = "Menunggu Persetujuan Anggaran.";
 
-					} elseif ($row["signlevel"] == 3 && $row["actiontype"] == 1){
+		while ($row = mysqli_fetch_array($result)) {
+			$cskk = ($dummy == $row["noskk"] ? true : false);
 
-						$statusbayar = "Menunggu Persetujuan Keuangan.";
+			$statusbayar = "";
 
-					} elseif ($row["kontrak"] > 0 && $row["kontrak"] - $row["bayar"] <= 0){
+			if ($row["kontrakapproved"] == 1) {
 
-						$statusbayar = "Kontrak Sudah Dibayar.";
-					}
+				if (($row["signlevel"] == 0 && $row["actiontype"] == 1) || ($row["signlevel"] > 1 && $row["actiontype"] == 0)) {
+
+					$statusbayar = "Kontrak sudah di inbox bayar user pelaksana.";
+				} elseif ($row["actiontype"] == 1 && ($row["signlevel"] == 2 || $row["signlevel"] == 1)) {
+
+					$statusbayar = "Menunggu Persetujuan Anggaran.";
+				} elseif ($row["signlevel"] == 3 && $row["actiontype"] == 1) {
+
+					$statusbayar = "Menunggu Persetujuan Keuangan.";
+				} elseif ($row["kontrak"] > 0 && $row["kontrak"] - $row["bayar"] <= 0) {
+
+					$statusbayar = "Kontrak Sudah Dibayar.";
 				}
+			}
 
-				if($dummy != $row["noskk"] || $dummypos != $row["pos1"]) {
-					if($no>0) {
-						$hasilp .= "
+			if ($dummy != $row["noskk"] || $dummypos != $row["pos1"]) {
+				if ($no > 0) {
+					$hasilp .= "
 								<td></td>
 								<td></td>
-								<td align='right'>".number_format($pnk)."</td>
-								<td align='right'>".number_format($pnb)."</td>
-								<td align='right'>".number_format($npos-$pnk)."</td>
-								<td align='right'>".number_format($pnk-$pnb)."</td>
+								<td align='right'>" . number_format($pnk) . "</td>
+								<td align='right'>" . number_format($pnb) . "</td>
+								<td align='right'>" . number_format($npos - $pnk) . "</td>
+								<td align='right'>" . number_format($pnk - $pnb) . "</td>
 								<td></td>
 								<td></td>
 								<td></td>
@@ -388,14 +384,14 @@
 								<td></td>
 							</tr>
 						";
-						
-						$hasil0 .= $hasilp . $hasilk;
-						$pnk = 0;
-						$pnb = 0;
-						$hasilk = "";
-					}
 
-					$hasilp = "
+					$hasil0 .= $hasilp . $hasilk;
+					$pnk = 0;
+					$pnb = 0;
+					$hasilk = "";
+				}
+
+				$hasilp = "
 						<tr>
 							<td></td>
 							<td></td>
@@ -408,19 +404,19 @@
 							<td align='right'></td>
 							<td>$row[pos1]</td>
 							<td>$row[namapos]</td>
-							<td align='right'>".number_format($row["nilai1"])."</td>
+							<td align='right'>" . number_format($row["nilai1"]) . "</td>
 							<td></td>
 							<td></td>
 							<td></td>
 							<td></td>
 							<td></td>
 							<td></td>";
-							
-							$npos = $row["nilai1"];
-							//if($dummy!=$row["noskk"])
-							$npost = ($dummy==$row["noskk"]? $npost+$row["nilai1"]: $npost);
-							$post += $row["nilai1"];
-/*							
+
+				$npos = $row["nilai1"];
+				//if($dummy!=$row["noskk"])
+				$npost = ($dummy == $row["noskk"] ? $npost + $row["nilai1"] : $npost);
+				$post += $row["nilai1"];
+				/*							
 							<td align='right'>".number_format($row["nilai1"])."</td>
 							<td align='right'>".number_format($row["nilai1"])."</td>
 							<td align='right'>".number_format($row["nilai1"])."</td>
@@ -429,12 +425,12 @@
 						</tr>
 					";
 */
-				}
-				
-				if($dummy != $row["noskk"]) {
-					if($no>0) {
-						$hasils .= "
-								<td align='right'>".number_format($npost)."</td>
+			}
+
+			if ($dummy != $row["noskk"]) {
+				if ($no > 0) {
+					$hasils .= "
+								<td align='right'>" . number_format($npost) . "</td>
 								<td>$nu</td>
 								<td align='right'>$row[nomorkontrak]</td>
 								<td></td>
@@ -443,10 +439,10 @@
 								<td></td>
 								<td></td>
 								<td></td>
-								<td align='right'>".number_format($snk)."</td>
-								<td align='right'>".number_format($snb)."</td>
-								<td align='right'>".number_format($disb-$snk)."</td>
-								<td align='right'>".number_format($snk-$snb)."</td>
+								<td align='right'>" . number_format($snk) . "</td>
+								<td align='right'>" . number_format($snb) . "</td>
+								<td align='right'>" . number_format($disb - $snk) . "</td>
+								<td align='right'>" . number_format($snk - $snb) . "</td>
 								<td></td>
 								<td></td>
 								<td></td>
@@ -456,39 +452,39 @@
 								<td></td>
 							</tr>
 						";
-						
-						//$hasil .= $hasils . $hasil0;
-						echo $hasils . $hasil0;
-						
-						//$hasil = "";
-						$hasil0 = "";
-						$snk = 0;
-						$snb = 0;
-					}
 
-					$no++;
-					$npost = $row["nilai1"];
-					$nu = $row["namaunit"];
-					$disb = $row["disburse"];
-					
-					$angt += $row["anggaran"];
-					$disbt += $row["disburse"];
-					$wbst += $row["wbs"];
-					
-					$hasils = "
+					//$hasil .= $hasils . $hasil0;
+					echo $hasils . $hasil0;
+
+					//$hasil = "";
+					$hasil0 = "";
+					$snk = 0;
+					$snb = 0;
+				}
+
+				$no++;
+				$npost = $row["nilai1"];
+				$nu = $row["namaunit"];
+				$disb = $row["disburse"];
+
+				$angt += $row["anggaran"];
+				$disbt += $row["disburse"];
+				$wbst += $row["wbs"];
+
+				$hasils = "
 						<tr>
 							<td>$no</td>
-							<td>" . $row["nomorwbs"] . ($row["nomorwbs"]!="" && $row["nomorcostcenter"]!=""? " / ": "") . $row["nomorcostcenter"] . "</td>
+							<td>" . $row["nomorwbs"] . ($row["nomorwbs"] != "" && $row["nomorcostcenter"] != "" ? " / " : "") . $row["nomorcostcenter"] . "</td>
 							<td>$row[nomornota]</td>
 							<td>$row[noskk]</td>
 							<td>$row[uraians]</td>
 							<td>$row[tanggalskko]</td>
-							<td align='right'>".number_format($row["anggaran"])."</td>
-							<td align='right'>".number_format($row["disburse"])."</td>
-							<td align='right'>".number_format($row["wbs"])."</td>
+							<td align='right'>" . number_format($row["anggaran"]) . "</td>
+							<td align='right'>" . number_format($row["disburse"]) . "</td>
+							<td align='right'>" . number_format($row["wbs"]) . "</td>
 							<td></td>
 							<td></td>";
-/*							
+				/*							
 							<td align='right'>".number_format($npost)."</td>
 							<td>$row[namaunit]</td>
 							<td></td>
@@ -504,22 +500,22 @@
 						</tr>
 					";
 */
-				}
-				
-				
-				$dummypos = $row["pos1"];
-				$dummy = $row["noskk"];
-				
-				$snk += $row["kontrak"];
-				$snb += $row["bayar"];
-				
-				$pnk += $row["kontrak"];
-				$pnb += $row["bayar"];
-				
-				$kont += $row["kontrak"];
-				$bayt += $row["bayar"];
-				
-				$hasilk .= "
+			}
+
+
+			$dummypos = $row["pos1"];
+			$dummy = $row["noskk"];
+
+			$snk += $row["kontrak"];
+			$snb += $row["bayar"];
+
+			$pnk += $row["kontrak"];
+			$pnb += $row["bayar"];
+
+			$kont += $row["kontrak"];
+			$bayt += $row["bayar"];
+
+			$hasilk .= "
 					<tr>
 						<td></td>
 						<td></td>
@@ -538,53 +534,42 @@
 						<td>$row[vendor]</td>
 						<td>$row[uraiank]</td>
 						<td>$row[name_type]</td>
-						<td>".(empty($row["nomorkontrak"]) ? "" : ($row["tgltagih"] != '00-0000' ? $row["tgltagih"] : '-'))."</td>
+						<td>" . (empty($row["nomorkontrak"]) ? "" : ($row["tgltagih"] != '00-0000' ? $row["tgltagih"] : '-')) . "</td>
 						<td>$row[tglawal]</td>
 						<td>$row[tglakhir]</td>
-						<td align='right'>".number_format($row["kontrak"])."</td>
-						<td align='right'>".number_format($row["bayar"])."</td>
+						<td align='right'>" . number_format($row["kontrak"]) . "</td>
+						<td align='right'>" . number_format($row["bayar"]) . "</td>
 						<td></td>
-						<td align='right'>".number_format($row["kontrak"] - $row["bayar"])."</td>
+						<td align='right'>" . number_format($row["kontrak"] - $row["bayar"]) . "</td>
 						<td>$row[inputdt]</td>
 						<td>$row[app_pel]</td>
 						<td>$row[app_ang]</td>
 						<td>$row[app_keu]</td>
-						<td>".($row["file_path"]==""? "": "<br><a href='../$row[file_path]' target='_blank'>Download</a>")."</td>
-						<td>". 
-							($row["nomorkontrak"]==""? "":
-								($row["kontrakapproved"]== 1? $statusbayar : 
-									(
-										$_SESSION["org"]=="" || $_SESSION["nip"]=="KEU" ? 
-											""
-										: "<div id='b$row[kid]'><button id='bayarButton' onclick='bayar(\"$row[nomorkontrak]\", 0, \"$row[kid]\")'>BAYAR</button></div>"
-									)
-								) 
-							) .
-						"</td>
-						<td>". 
-							($row["nomorkontrak"]==""? "": 
-								(
-									$_SESSION["roleid"] <= 3? 
-										($row["signed"]==""? 
-											"<div id='k$row[kid]'><button id='signButton' onclick='signed(\"$row[nomorkontrak]\", 1, \"$row[kid]\")'><img src='no.png' width='24' height='24' alt='Signed' title='Signed'></img></button></div>": 
-											"<div id='k$row[kid]'><button id='signButton' onclick='signed(\"$row[nomorkontrak]\", 0, \"$row[kid]\")'><img src='ok.png' width='24' height='24' alt='Unsigned' title='Unsigned'></img></button></div>"
-										)
-									: ($row["signed"]==""? "": "Signed")
-								)
-							) .
-						"</td>
+						<td>" . ($row["file_path"] == "" ? "" : "<br><a href='../$row[file_path]' target='_blank'>Download</a>") . "</td>
+						<td>" .
+				($row["nomorkontrak"] == "" ? "" : ($row["kontrakapproved"] == 1 ? $statusbayar : ($_SESSION["org"] == "" || $_SESSION["nip"] == "KEU" ?
+					""
+					: "<div id='b$row[kid]'><button id='bayarButton' onclick='bayar(\"$row[nomorkontrak]\", 0, \"$row[kid]\")'>BAYAR</button></div>"))) .
+				"</td>
+						<td>" .
+				($row["nomorkontrak"] == "" ? "" : ($_SESSION["roleid"] <= 3 ?
+					($row["signed"] == "" ?
+						"<div id='k$row[kid]'><button id='signButton' onclick='signed(\"$row[nomorkontrak]\", 1, \"$row[kid]\")'><img src='no.png' width='24' height='24' alt='Signed' title='Signed'></img></button></div>" :
+						"<div id='k$row[kid]'><button id='signButton' onclick='signed(\"$row[nomorkontrak]\", 0, \"$row[kid]\")'><img src='ok.png' width='24' height='24' alt='Unsigned' title='Unsigned'></img></button></div>")
+					: ($row["signed"] == "" ? "" : "Signed"))) .
+				"</td>
 					</tr>
 				";
-			}
-			mysqli_free_result($result);
-			
-			$hasilp .= "
+		}
+		mysqli_free_result($result);
+
+		$hasilp .= "
 					<td></td>
 					<td></td>
-					<td align='right'>".number_format($pnk)."</td>
-					<td align='right'>".number_format($pnb)."</td>
-					<td align='right'>".number_format($npos-$pnk)."</td>
-					<td align='right'>".number_format($pnk-$pnb)."</td>
+					<td align='right'>" . number_format($pnk) . "</td>
+					<td align='right'>" . number_format($pnb) . "</td>
+					<td align='right'>" . number_format($npos - $pnk) . "</td>
+					<td align='right'>" . number_format($pnk - $pnb) . "</td>
 					<td></td>
 					<td></td>
 					<td></td>
@@ -594,14 +579,14 @@
 					<td></td>
 				</tr>
 			";
-			
-			$hasil0 .= $hasilp . $hasilk;
-			$pnk = 0;
-			$pnb = 0;
-			$hasilk = "";
 
-			$hasils .= "
-					<td align='right'>".number_format($npost)."</td>
+		$hasil0 .= $hasilp . $hasilk;
+		$pnk = 0;
+		$pnb = 0;
+		$hasilk = "";
+
+		$hasils .= "
+					<td align='right'>" . number_format($npost) . "</td>
 					<td>$nu</td>
 					<td align='right'>$row[nomorkontrak]</td>
 					<td></td>
@@ -610,10 +595,10 @@
 					<td></td>
 					<td></td>
 					<td></td>
-					<td align='right'>".number_format($snk)."</td>
-					<td align='right'>".number_format($snb)."</td>
-					<td align='right'>".number_format($disb-$snk)."</td>
-					<td align='right'>".number_format($snk-$snb)."</td>
+					<td align='right'>" . number_format($snk) . "</td>
+					<td align='right'>" . number_format($snb) . "</td>
+					<td align='right'>" . number_format($disb - $snk) . "</td>
+					<td align='right'>" . number_format($snk - $snb) . "</td>
 					<td></td>
 					<td></td>
 					<td></td>
@@ -623,17 +608,17 @@
 					<td></td>
 				</tr>
 			";
-			
-			//$hasil .= $hasils . $hasil0;
-			echo $hasils . $hasil0;
-			
-			//$hasil = "";
-			$hasil0 = "";
-			$snk = 0;
-			$snb = 0;
-			
-			//$hasil .= "</table>";
-			echo "
+
+		//$hasil .= $hasils . $hasil0;
+		echo $hasils . $hasil0;
+
+		//$hasil = "";
+		$hasil0 = "";
+		$snk = 0;
+		$snb = 0;
+
+		//$hasil .= "</table>";
+		echo "
 				<tfoot>
 				<tr>
 					<td colspan='6'>Total</td>
@@ -653,8 +638,8 @@
 					<td></td>
 					<td align='right'>" . number_format($kont) . "</td>
 					<td align='right'>" . number_format($bayt) . "</td>
-					<td align='right'>" . number_format($disbt-$kont) . "</td>
-					<td align='right'>" . number_format($kont-$bayt) . "</td>
+					<td align='right'>" . number_format($disbt - $kont) . "</td>
+					<td align='right'>" . number_format($kont - $bayt) . "</td>
 					<td></td>
 					<td></td>
 					<td></td>
@@ -664,27 +649,25 @@
 					<td></td>
 				</tr>
 				</tfoot>";
-				echo "</tbody>";
-			echo "</table>"
-			;
+		echo "</tbody>";
+		echo "</table>";
+	}
+	$mysqli->close();
+	($kon);
 
-		}
-		$mysqli->close();($kon);
-		
-		//echo $hasil;
+	//echo $hasil;
 	?>
 
 </body>
-  <script type="text/javascript" src="../js/jquery-1.12.0.min.js"></script>
-  <script type="text/javascript" src="../js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../js/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="../js/jquery.dataTables.min.js"></script>
 <script>
-		$(document).ready(function() {
-		$('#dataTables').DataTable(
-			{
-	  			"bPaginate": false,
-				"ordering": false
-			}
-		);
-	} );
-	</script>
+	$(document).ready(function() {
+		$('#dataTables').DataTable({
+			"bPaginate": false,
+			"ordering": false
+		});
+	});
+</script>
+
 </html>

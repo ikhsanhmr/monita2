@@ -51,8 +51,7 @@
 	$nama = $_SESSION['nama'];
 	$adm = $_SESSION['adm'];
 	$org = $_SESSION['org'];
-	var_dump($bidang);
-	die;
+
 
 	// $sql = "SELECT * FROM kontrak WHERE Year(inputdt) = ".date("Y")." order by nomorkontrak ASC";
 	$sql = "

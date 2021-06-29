@@ -4,7 +4,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<link href="../css/screen.css" rel="stylesheet" type="text/css">
-	
+
 	<script type="text/javascript">
 		function viewk(x) {
 			var p1 = document.getElementById("p1").value;
@@ -14,91 +14,89 @@
 			var k = document.getElementById("skk").value;
 			var kpos = document.getElementById("kdpos").value;
 			//alert(kpos);
-			
-			if(p1>p2 || p1=="") {
-				if(p2!="") {
+
+			if (p1 > p2 || p1 == "") {
+				if (p2 != "") {
 					var dummy = p1;
 					p1 = p2;
 					p2 = dummy;
 				}
 			}
-			var url = encodeURI((x==undefined? "rekapao.php": "rekapaoexcel.php") + "?p1="+p1+"&p2="+p2+"&b="+b+"&p="+p+"&k="+k+"&kpos="+kpos+"&v=1");
+			var url = encodeURI((x == undefined ? "rekapao.php" : "rekapaoexcel.php") + "?p1=" + p1 + "&p2=" + p2 + "&b=" + b + "&p=" + p + "&k=" + k + "&kpos=" + kpos + "&v=1");
 			//alert(url);
 			window.open(url, "_self");
 		}
 	</script>
-	
+
 	<?php
-//		header("Content-type: application/vnd.ms-excell");
-//		header("Content-Disposition: attachment; Filename=ao.xls");
+	//		header("Content-type: application/vnd.ms-excell");
+	//		header("Content-Disposition: attachment; Filename=ao.xls");
 
-		session_start();
-		if(!isset($_SESSION["nip"])) {
-			echo "unauthorized user";
-			echo "<script>window.open('../index.php', '_parent')</script>";
-			exit;
-		}
-		
-		$p1 = isset($_REQUEST["p1"])? $_REQUEST["p1"]: "";
-		$p2 = isset($_REQUEST["p2"])? $_REQUEST["p2"]: "";
-		$b0 = isset($_REQUEST["b"])? $_REQUEST["b"]: "";
-		$p0 = isset($_REQUEST["p"])? $_REQUEST["p"]: "";
-		$k0 = isset($_REQUEST["k"])? $_REQUEST["k"]: "";
-		$kdpos0 = isset($_REQUEST["kpos"])? $_REQUEST["kpos"]: "";
-		$v = isset($_REQUEST["v"])? $_REQUEST["v"]: "";
-		
-		$b = "<select name='bidang' id='bidang'>" . ($_SESSION["org"]=="" || $_SESSION["org"]==1 || $_SESSION["org"]==3 || $_SESSION["org"]>5? "<option value=''></option>": "");
-		$p = "<select name='pelaksana' id='pelaksana'>" . ($_SESSION["org"]>5? "": "<option value=''></option>");
+	session_start();
+	if (!isset($_SESSION["nip"])) {
+		echo "unauthorized user";
+		echo "<script>window.open('../index.php', '_parent')</script>";
+		exit;
+	}
 
-		require_once "../config/koneksi.php";
-		$sql = "SELECT * FROM bidang ORDER BY LPAD(id, 2, '0')";
-		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
-		
-		while ($row = mysqli_fetch_array($result)) {
-			if($row["id"]<6) {
-				$b .= ($_SESSION["org"]=="" || $_SESSION["org"]==1 || $_SESSION["org"]==3 || $_SESSION["org"]>5)?
-					"<option value='$row[id]' " . ($row["id"]==$b0? "selected": "") . ">$row[namaunit]</option>":
-					($row["id"]==$_SESSION["org"]? "<option value='$row[id]' " . ($row["id"]==$b0? "selected": "") . ">$row[namaunit]</option>": "");
-			}
-			$p .= ($_SESSION["org"]=="" || $_SESSION["org"]<=5)? 
-				"<option value='$row[id]' " . ($row["id"]==$p0? "selected": "") . ">$row[namaunit]</option>":
-				($row["id"]==$_SESSION["org"]? "<option value='$row[id]' " . ($row["id"]==$p0? "selected": "") . ">$row[namaunit]</option>": "");
+	$p1 = isset($_REQUEST["p1"]) ? $_REQUEST["p1"] : "";
+	$p2 = isset($_REQUEST["p2"]) ? $_REQUEST["p2"] : "";
+	$b0 = isset($_REQUEST["b"]) ? $_REQUEST["b"] : "";
+	$p0 = isset($_REQUEST["p"]) ? $_REQUEST["p"] : "";
+	$k0 = isset($_REQUEST["k"]) ? $_REQUEST["k"] : "";
+	$kdpos0 = isset($_REQUEST["kpos"]) ? $_REQUEST["kpos"] : "";
+	$v = isset($_REQUEST["v"]) ? $_REQUEST["v"] : "";
+
+	$b = "<select name='bidang' id='bidang'>" . ($_SESSION["org"] == "" || $_SESSION["org"] == 1 || $_SESSION["org"] == 3 || $_SESSION["org"] > 5 ? "<option value=''></option>" : "");
+	$p = "<select name='pelaksana' id='pelaksana'>" . ($_SESSION["org"] > 5 ? "" : "<option value=''></option>");
+
+	require_once "../config/koneksi.php";
+	$sql = "SELECT * FROM bidang ORDER BY LPAD(id, 2, '0')";
+	$result = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
+
+	while ($row = mysqli_fetch_array($result)) {
+		if ($row["id"] < 6) {
+			$b .= ($_SESSION["org"] == "" || $_SESSION["org"] == 1 || $_SESSION["org"] == 3 || $_SESSION["org"] > 5) ?
+				"<option value='$row[id]' " . ($row["id"] == $b0 ? "selected" : "") . ">$row[namaunit]</option>" : ($row["id"] == $_SESSION["org"] ? "<option value='$row[id]' " . ($row["id"] == $b0 ? "selected" : "") . ">$row[namaunit]</option>" : "");
 		}
-		mysqli_free_result($result);
-		$b .= "</select>";
-		$p .= "</select>";
-		
-		$sql = "
+		$p .= ($_SESSION["org"] == "" || $_SESSION["org"] <= 5) ?
+			"<option value='$row[id]' " . ($row["id"] == $p0 ? "selected" : "") . ">$row[namaunit]</option>" : ($row["id"] == $_SESSION["org"] ? "<option value='$row[id]' " . ($row["id"] == $p0 ? "selected" : "") . ">$row[namaunit]</option>" : "");
+	}
+	mysqli_free_result($result);
+	$b .= "</select>";
+	$p .= "</select>";
+
+	$sql = "
 			SELECT kdindukpos pos, namaindukpos namapos FROM posinduk UNION
 			SELECT kdsubpos pos, namasubpos namapos FROM posinduk2 UNION
 			SELECT kdsubpos pos, namasubpos namapos FROM posinduk3 UNION
 			SELECT kdsubpos pos, namasubpos namapos FROM posinduk4
 			ORDER BY pos";
-		$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
-		
-		$kdpos = "<select name='kdpos' id='kdpos'><option value=''></option>";
-		while ($row = mysqli_fetch_array($result)) {
-			$kdpos .= "<option value='$row[pos]' " . ($row["pos"]==$kdpos0? "selected": "") . ">$row[pos] - $row[namapos]</option>";
-		}
-		$kdpos .= "</select>";
-		mysqli_free_result($result);
+	$result = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
+
+	$kdpos = "<select name='kdpos' id='kdpos'><option value=''></option>";
+	while ($row = mysqli_fetch_array($result)) {
+		$kdpos .= "<option value='$row[pos]' " . ($row["pos"] == $kdpos0 ? "selected" : "") . ">$row[pos] - $row[namapos]</option>";
+	}
+	$kdpos .= "</select>";
+	mysqli_free_result($result);
 	?>
 </head>
 
 
 <body>
 	<?php
-		$parm = "";
-//		$parm .= ($p1==""? "": " and SUBSTR(tanggalskko, 1, 7) >= '$p1'");
-//		$parm .= ($p2==""? "": " and SUBSTR(tanggalskko, 1, 7) <= '$p2'");
-		$parm .= ($p1==""? "": " and YEAR(tanggalskko) = " . substr($p1,0,4) . " AND MONTH(tanggalskko) >= " . substr($p1,-2));
-		$parm .= ($p2==""? "": " and YEAR(tanggalskko) = " . substr($p2,0,4) . " AND MONTH(tanggalskko) <= " . substr($p2,-2));
-		$parm .= ($b0==""? "": " and (g.id = '$b0' or pelaksana = '$b0')");
-		$parm .= ($p0==""? "": " and pelaksana = '$p0'");
-		$parm .= ($k0==""? "": " and nomorskko = '$k0'");
-		$parm .= ($kdpos0==""? "": " and pos1 = '$kdpos0'");
-		//echo "parm : $parm<br>";
-		echo "
+	$parm = "";
+	//		$parm .= ($p1==""? "": " and SUBSTR(tanggalskko, 1, 7) >= '$p1'");
+	//		$parm .= ($p2==""? "": " and SUBSTR(tanggalskko, 1, 7) <= '$p2'");
+	$parm .= ($p1 == "" ? "" : " and YEAR(tanggalskko) = " . substr($p1, 0, 4) . " AND MONTH(tanggalskko) >= " . substr($p1, -2));
+	$parm .= ($p2 == "" ? "" : " and YEAR(tanggalskko) = " . substr($p2, 0, 4) . " AND MONTH(tanggalskko) <= " . substr($p2, -2));
+	$parm .= ($b0 == "" ? "" : " and (g.id = '$b0' or pelaksana = '$b0')");
+	$parm .= ($p0 == "" ? "" : " and pelaksana = '$p0'");
+	$parm .= ($k0 == "" ? "" : " and nomorskko = '$k0'");
+	$parm .= ($kdpos0 == "" ? "" : " and pos1 = '$kdpos0'");
+	//echo "parm : $parm<br>";
+	echo "
 			<h2>Rekap Monitoring Penyerapan Anggaran Operasi</h2>
 			<table>
 				<tr>
@@ -134,9 +132,9 @@
 					</td>
 				</tr>
 			</table>";
-		
-		if($v!="") {
-			$sql = "
+
+	if ($v != "") {
+		$sql = "
 				SELECT 
 					n.nomornota, nipuser, g.id userid, 
 					pelaksana, b.namaunit, pos1, nilai1, namapos,
@@ -162,10 +160,10 @@
 				WHERE d.progress >= 7 AND NOT nomorskko IS NULL 
 				$parm
 				ORDER BY nomorskko, LPAD(pelaksana, 2, '0'), pos1";
-			//echo $sql;
-			
-			//$hasil = "
-			echo "
+		//echo $sql;
+
+		//$hasil = "
+		echo "
 			<table border='1'>
 				<tr>
 					<th rowspan='3' scope='col'>No Urut</th>
@@ -198,70 +196,70 @@
 					<td style='background-color:rgb(127,255,127)'>Nilai</td>
 				</tr>
 			";
-			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
-			
-			$no = 0;
-			$dummy = "";
-			$dummypos = "";
-			$hasil0 = "";
-			$pnk = 0;
-			$pnb = 0;
-			$snk = 0;
-			$snb = 0;
-			$npost = 0;
-			$angt = 0;
-			$disbt = 0;
-			$wbst = 0;
-			$post = 0;
-			$kont = 0;
-			$bayt = 0;
+		$result = mysqli_query($mysqli, $sql) or die('Unable to execute query. ' . mysqli_error($mysqli));
 
-			$hasilk = "";
-			
-			
-			while ($row = mysqli_fetch_array($result)) {
-				$cskk = ($dummy == $row["noskk"]? true: false);
-				
-				if($dummy != $row["noskk"] || $dummypos != $row["pos1"]) {
-					if($no>0) {
-						$hasilp .= "
-								<td align='right'>".number_format($pnk)."</td>
-								<td align='right'>".number_format($pnk/$npos*100,2)."</td>
-								<td align='right'>".number_format($pnb)."</td>
-								<td align='right'>".number_format($pnb/$pnk*100,2)."</td>
-								<td align='right'>".number_format($npos-$pnk)."</td>
-								<td align='right'>".number_format($pnk-$pnb)."</td>
+		$no = 0;
+		$dummy = "";
+		$dummypos = "";
+		$hasil0 = "";
+		$pnk = 0;
+		$pnb = 0;
+		$snk = 0;
+		$snb = 0;
+		$npost = 0;
+		$angt = 0;
+		$disbt = 0;
+		$wbst = 0;
+		$post = 0;
+		$kont = 0;
+		$bayt = 0;
+
+		$hasilk = "";
+
+
+		while ($row = mysqli_fetch_array($result)) {
+			$cskk = ($dummy == $row["noskk"] ? true : false);
+
+			if ($dummy != $row["noskk"] || $dummypos != $row["pos1"]) {
+				if ($no > 0) {
+					$hasilp .= "
+								<td align='right'>" . number_format($pnk) . "</td>
+								<td align='right'>" . number_format($pnk / $npos * 100, 2) . "</td>
+								<td align='right'>" . number_format($pnb) . "</td>
+								<td align='right'>" . number_format($pnb / $pnk * 100, 2) . "</td>
+								<td align='right'>" . number_format($npos - $pnk) . "</td>
+								<td align='right'>" . number_format($pnk - $pnb) . "</td>
 								<td></td>
 							</tr>
 						";
-						
-						$hasil0 .= $hasilp . $hasilk;
-						$pnk = 0;
-						$pnb = 0;
-						$hasilk = "";
-					}
 
-					$hasilp = "
+					$hasil0 .= $hasilp . $hasilk;
+					$pnk = 0;
+					$pnb = 0;
+					$hasilk = "";
+				}
+
+				$hasilp = "
 						<tr>
 							<td></td>
 							<td></td>
 							<td></td>
 							<td></td>
 							<td></td>
-							<td bgcolor='" . ($row["kontrak"]>0? "green": ($row["umur"]>90? "red": "yellow")) . "'></td>
+							<td bgcolor='" . ($row["kontrak"] > 0 ? "green" : ($row["umur"] > 90 ? "red" : "yellow")) . "'></td>
 							<td align='right'></td>
 							<td align='right'></td>
 							<td align='right'></td>
 							<td>$row[pos1]</td>
 							<td>$row[namapos]</td>
-							<td align='right'>".number_format($row["nilai1"])."</td>
+							<td align='right'>" . number_format($row["nilai1"]) . "</td>
 							<td></td>";
-							
-							$npos = $row["nilai1"];
-							//if($dummy!=$row["noskk"])
-							$npost = ($dummy==$row["noskk"]? $npost+$row["nilai1"]: $npost);
-							$post += $row["nilai1"];
-/*							
+
+				$npos = $row["nilai1"];
+				//if($dummy!=$row["noskk"])
+				$npost = ($dummy == $row["noskk"] ? $npost + $row["nilai1"] : $npost);
+				$post += $row["nilai1"];
+				/*							
 							<td align='right'>".number_format($row["nilai1"])."</td>
 							<td align='right'>".number_format($row["nilai1"])."</td>
 							<td align='right'>".number_format($row["nilai1"])."</td>
@@ -270,55 +268,55 @@
 						</tr>
 					";
 */
-				}
-				
-				if($dummy != $row["noskk"]) {
-					if($no>0) {
-						$hasils .= "
-								<td align='right'>".number_format($npost)."</td>
+			}
+
+			if ($dummy != $row["noskk"]) {
+				if ($no > 0) {
+					$hasils .= "
+								<td align='right'>" . number_format($npost) . "</td>
 								<td>$nu</td>
-								<td align='right'>".number_format($snk)."</td>
-								<td align='right'>".number_format($snk/$npost*100,2)."</td>
-								<td align='right'>".number_format($snb)."</td>
-								<td align='right'>".number_format($snb/$snk*100,2)."</td>
-								<td align='right'>".number_format($disb-$snk)."</td>
-								<td align='right'>".number_format($snk-$snb)."</td>
+								<td align='right'>" . number_format($snk) . "</td>
+								<td align='right'>" . number_format($snk / $npost * 100, 2) . "</td>
+								<td align='right'>" . number_format($snb) . "</td>
+								<td align='right'>" . number_format($snb / $snk * 100, 2) . "</td>
+								<td align='right'>" . number_format($disb - $snk) . "</td>
+								<td align='right'>" . number_format($snk - $snb) . "</td>
 								<td></td>
 							</tr>
 						";
-						
-						//$hasil .= $hasils . $hasil0;
-						echo $hasils . $hasil0;
-						
-						//$hasil = "";
-						$hasil0 = "";
-						$snk = 0;
-						$snb = 0;
-					}
 
-					$no++;
-					$npost = $row["nilai1"];
-					$nu = $row["namaunit"];
-					$disb = $row["disburse"];
-					
-					$angt += $row["anggaran"];
-					$disbt += $row["disburse"];
-					$wbst += $row["wbs"];
-					
-					$hasils = "
+					//$hasil .= $hasils . $hasil0;
+					echo $hasils . $hasil0;
+
+					//$hasil = "";
+					$hasil0 = "";
+					$snk = 0;
+					$snb = 0;
+				}
+
+				$no++;
+				$npost = $row["nilai1"];
+				$nu = $row["namaunit"];
+				$disb = $row["disburse"];
+
+				$angt += $row["anggaran"];
+				$disbt += $row["disburse"];
+				$wbst += $row["wbs"];
+
+				$hasils = "
 						<tr>
 							<td>$no</td>
-							<td>" . $row["nomorwbs"] . ($row["nomorwbs"]!="" && $row["nomorcostcenter"]!=""? " / ": "") . $row["nomorcostcenter"] . "</td>
+							<td>" . $row["nomorwbs"] . ($row["nomorwbs"] != "" && $row["nomorcostcenter"] != "" ? " / " : "") . $row["nomorcostcenter"] . "</td>
 							<td>$row[noskk]</td>
 							<td>$row[uraians]</td>
 							<td>$row[tanggalskko]</td>
-							<td bgcolor='" . ($row["kontrak"]>0? "green": ($row["umur"]>90? "red": "yellow")) . "'>$row[umur]</td>
-							<td align='right'>".number_format($row["anggaran"])."</td>
-							<td align='right'>".number_format($row["disburse"])."</td>
-							<td align='right'>".number_format($row["wbs"])."</td>
+							<td bgcolor='" . ($row["kontrak"] > 0 ? "green" : ($row["umur"] > 90 ? "red" : "yellow")) . "'>$row[umur]</td>
+							<td align='right'>" . number_format($row["anggaran"]) . "</td>
+							<td align='right'>" . number_format($row["disburse"]) . "</td>
+							<td align='right'>" . number_format($row["wbs"]) . "</td>
 							<td></td>
 							<td></td>";
-/*							
+				/*							
 							<td align='right'>".number_format($npost)."</td>
 							<td>$row[namaunit]</td>
 							<td></td>
@@ -334,21 +332,21 @@
 						</tr>
 					";
 */
-				}
-				
-				
-				$dummypos = $row["pos1"];
-				$dummy = $row["noskk"];
-				
-				$snk += $row["kontrak"];
-				$snb += $row["bayar"];
-				
-				$pnk += $row["kontrak"];
-				$pnb += $row["bayar"];
-				
-				$kont += $row["kontrak"];
-				$bayt += $row["bayar"];
-				/*
+			}
+
+
+			$dummypos = $row["pos1"];
+			$dummy = $row["noskk"];
+
+			$snk += $row["kontrak"];
+			$snb += $row["bayar"];
+
+			$pnk += $row["kontrak"];
+			$pnb += $row["bayar"];
+
+			$kont += $row["kontrak"];
+			$bayt += $row["bayar"];
+			/*
 				$hasilk .= "
 					<tr>
 						<td></td>
@@ -376,48 +374,48 @@
 					</tr>
 				";
 				*/
-			}
-			mysqli_free_result($result);
-			
-			$hasilp .= "
-					<td align='right'>".number_format($pnk)."</td>
-					<td align='right'>".number_format($pnk/$npos*100,2)."</td>
-					<td align='right'>".number_format($pnb)."</td>
-					<td align='right'>".number_format($pnb/$pnk*100,2)."</td>
-					<td align='right'>".number_format($npos-$pnk)."</td>
-					<td align='right'>".number_format($pnk-$pnb)."</td>
-					<td></td>
-				</tr>
-			";
-			
-			$hasil0 .= $hasilp . $hasilk;
-			$pnk = 0;
-			$pnb = 0;
-			$hasilk = "";
+		}
+		mysqli_free_result($result);
 
-			$hasils .= "
-					<td align='right'>".number_format($npost)."</td>
-					<td>$nu</td>
-					<td align='right'>".number_format($snk)."</td>
-					<td align='right'>".number_format($snk/$npost*100,2)."</td>
-					<td align='right'>".number_format($snb)."</td>
-					<td align='right'>".number_format($snb/$snk*100,2)."</td>
-					<td align='right'>".number_format($disb-$snk)."</td>
-					<td align='right'>".number_format($snk-$snb)."</td>
+		$hasilp .= "
+					<td align='right'>" . number_format($pnk) . "</td>
+					<td align='right'>" . number_format($pnk / $npos * 100, 2) . "</td>
+					<td align='right'>" . number_format($pnb) . "</td>
+					<td align='right'>" . number_format($pnb / $pnk * 100, 2) . "</td>
+					<td align='right'>" . number_format($npos - $pnk) . "</td>
+					<td align='right'>" . number_format($pnk - $pnb) . "</td>
 					<td></td>
 				</tr>
 			";
-			
-			//$hasil .= $hasils . $hasil0;
-			echo $hasils . $hasil0;
-			
-			//$hasil = "";
-			$hasil0 = "";
-			$snk = 0;
-			$snb = 0;
-			
-			//$hasil .= "</table>";
-			echo "
+
+		$hasil0 .= $hasilp . $hasilk;
+		$pnk = 0;
+		$pnb = 0;
+		$hasilk = "";
+
+		$hasils .= "
+					<td align='right'>" . number_format($npost) . "</td>
+					<td>$nu</td>
+					<td align='right'>" . number_format($snk) . "</td>
+					<td align='right'>" . number_format($snk / $npost * 100, 2) . "</td>
+					<td align='right'>" . number_format($snb) . "</td>
+					<td align='right'>" . number_format($snb / $snk * 100, 2) . "</td>
+					<td align='right'>" . number_format($disb - $snk) . "</td>
+					<td align='right'>" . number_format($snk - $snb) . "</td>
+					<td></td>
+				</tr>
+			";
+
+		//$hasil .= $hasils . $hasil0;
+		echo $hasils . $hasil0;
+
+		//$hasil = "";
+		$hasil0 = "";
+		$snk = 0;
+		$snb = 0;
+
+		//$hasil .= "</table>";
+		echo "
 				<tr>
 					<td colspan='6'>Total</td>
 					<td align='right'>" . number_format($angt) . "</td>
@@ -428,18 +426,19 @@
 					<td align='right'>" . number_format($post) . "</td>
 					<td></td>
 					<td align='right'>" . number_format($kont) . "</td>
-					<td align='right'>" . number_format($kont/$post*100,2) . "</td>
+					<td align='right'>" . number_format($kont / $post * 100, 2) . "</td>
 					<td align='right'>" . number_format($bayt) . "</td>
-					<td align='right'>" . number_format($bayt/$kont*100,2) . "</td>
-					<td align='right'>" . number_format($disbt-$kont) . "</td>
-					<td align='right'>" . number_format($kont-$bayt) . "</td>
+					<td align='right'>" . number_format($bayt / $kont * 100, 2) . "</td>
+					<td align='right'>" . number_format($disbt - $kont) . "</td>
+					<td align='right'>" . number_format($kont - $bayt) . "</td>
 					<td></td>
 				</tr>";
-			echo "</table>";
+		echo "</table>";
+	}
+	$mysqli->close();
+	($kon);
 
-		}
-		$mysqli->close();($kon);
-		
-		//echo $hasil;
+	//echo $hasil;
 	?>
+
 </html>

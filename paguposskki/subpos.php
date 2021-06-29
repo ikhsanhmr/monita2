@@ -98,7 +98,7 @@
 				(number_format($row['rpaki']) == 0 ? "" : number_format($row['rpaki'])) .
 				"' onchange=\"formatme(this); nilaisubpagu(this, '$tot')\">
 					</td>
-					<td align='right'>" . number_format($row[""]) . "</td>
+					<td align='right'>" . number_format($row["rpaki"]) . "</td>
 					<td>
 						<a href='#' onclick=\"detailpagu('$row[kdsubpos]', $_REQUEST[prd])\">Detail</a>&nbsp;&nbsp;&nbsp; 
 						<a href='#' onclick=\"hapuspagu('$row[kdsubpos]', $_REQUEST[prd])\">Hapus</a>       
