@@ -14,7 +14,7 @@ echo '<form name="frm" id="frm"  method="post" action="assign.php" onSubmit="ret
 
 	
 	
-	//mysql_select_db($db);
+	//mysqli_select_db($db);
 
 	$sql = "SELECT * FROM notadinas WHERE COALESCE(progress,0) < 8";
 	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
@@ -105,7 +105,7 @@ else
 echo '<form name="frm" id="frm" onSubmit="return submitme()">';
 
 	
-	//mysql_select_db($db);
+	//mysqli_select_db($db);
 
 	$sql = "SELECT * FROM notadinas n LEFT JOIN progress p 
 ON COALESCE(n.progress, 0) = p.pid

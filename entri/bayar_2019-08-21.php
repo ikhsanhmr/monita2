@@ -13,7 +13,7 @@
 	$sql = "INSERT INTO kontrak_approval (nomorkontrak, actiontype, signdt, signed, signlevel) VALUES ('$k', '$t', sysdate(), '$nip', '$lvl')";
 
 	//echo "$sql<br>";
-	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysqli_error());
 	echo json_encode(array($k, $lvl, $id, $sukses));
 	
 	// echo "<script>window.open('ai.php', '_self')</script>";

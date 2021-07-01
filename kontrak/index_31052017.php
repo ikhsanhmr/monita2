@@ -172,7 +172,7 @@ session_start();?>
 		";
 		
 		//if($v!="") 
-		if (mysql_num_rows($v) > 0 || $v!="" ){
+		if (mysqli_num_rows($v) > 0 || $v!="" ){
 			$sql = "
 				SELECT 
 					skkoi, n.nomornota nd, nip, nipuser, pelaksana, g.id nick, pos1, namapos, b.namaunit, skk, oi.uraian oiuraian, 

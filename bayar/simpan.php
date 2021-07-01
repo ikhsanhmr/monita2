@@ -16,7 +16,7 @@
 	
 	$sql = "INSERT INTO realisasibayar(nokontrak, nilaibayar, tglbayar) VALUES('$k', '$n', '$t')";	
 	//echo $sql;
-	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysqli_error());
 	$mysqli->close();($link);	  							
 	echo $sukses;
 */
@@ -30,7 +30,7 @@
 				if($n!="" && $d!="") {
 					$sql = "INSERT INTO realisasibayar(nokontrak, nilaibayar, tglbayar) VALUES('$k', '$n', '$d')";	
 					//echo $sql;
-					mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+					mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysqli_error());
 				}
 		}
 		//echo "$name - $value<br>";

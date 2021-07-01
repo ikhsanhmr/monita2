@@ -91,7 +91,7 @@
 				ORDER BY pos1, pelaksana";
 			
 			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
-			if(mysql_num_rows($result)>0) {
+			if(mysqli_num_rows($result)>0) {
 				$sql = "select * from bidang";
 				$hasil = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 				

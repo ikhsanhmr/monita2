@@ -81,7 +81,7 @@ $sql = "SELECT * FROM rab where nip='$_SESSION[nip]'";
 
 $dummyskk = "";
 $no = 1;
-$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());    
+$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysqli_error());    
 	while ($row = mysqli_fetch_array($hasil)) {
     
 //     <td>'.$row['nomornota'].'</td>   

@@ -6,7 +6,7 @@
 	$sql="select * from costcenter where nocostcenter='$nocostcenter'";
     
 	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
-    $cek_costcenter = mysql_num_rows($hasil);
+    $cek_costcenter = mysqli_num_rows($hasil);
 	
 
    if($cek_costcenter==0)

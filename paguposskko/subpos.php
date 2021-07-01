@@ -35,7 +35,7 @@
 		if (!$link) {
 			echo "Failed to connect to MySQL: " . $mysqli -> connect_error; exit();
 		}
-		//mysql_select_db($db);
+		//mysqli_select_db($db);
 		
 
 //		$sql = "SELECT rppos FROM saldopos WHERE tahun = $_REQUEST[prd] AND kdsubpos = '$_REQUEST[pos]'";
@@ -75,9 +75,9 @@
 		$belum=0;
 		
 		/*if($result === FALSE) { 
-			die(mysql_error()); // TODO: better error handling
+			die(mysqli_error()); // TODO: better error handling
 		}
-		$exec=mysqli_query($query) or die("Query failed with error: ".mysql_error());*/
+		$exec=mysqli_query($query) or die("Query failed with error: ".mysqli_error());*/
 		if($result>"0"){
 		
 		while ($row = mysqli_fetch_array($result))  {

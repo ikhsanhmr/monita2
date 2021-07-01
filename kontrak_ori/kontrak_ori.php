@@ -25,7 +25,7 @@
 	
 	require_once "../config/koneksi.php";
 	
-	//mysql_select_db($db);
+	//mysqli_select_db($db);
 
 	echo "<a href='index.php'>Kembali</a><br><br>
 			<form name='myForm' id='myForm' method='POST' action='simpan.php' onSubmit='return validateContract(\"$_REQUEST[skk]\")'>

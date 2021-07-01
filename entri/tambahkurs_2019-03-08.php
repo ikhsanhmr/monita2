@@ -49,7 +49,7 @@
 		
 		if($id!="") {
 			$sql = "select * from kurs_dollar where id = $id";
-			mysql_set_charset("UTF8");
+			mysqli_set_charset("UTF8");
 			//echo "$sql";
 			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 			

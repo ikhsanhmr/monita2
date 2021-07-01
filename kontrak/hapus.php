@@ -13,7 +13,7 @@
 //	$p = $_REQUEST["p"];
 
 	$sql = "SELECT * FROM kontrak WHERE (nomorskkoi, pos) = (SELECT nomorskkoi, pos FROM kontrak WHERE kid = '$k')";
-	$num_rows = mysql_num_rows(mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)));
+	$num_rows = mysqli_num_rows(mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)));
 	
 	if($num_rows==1) {
 		$sql = "update notadinas_detail set progress = 7 where (noskk,pos1) = 

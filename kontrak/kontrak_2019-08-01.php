@@ -101,7 +101,7 @@
 			$sql = "select 	a.*, COALESCE(b.bayar, 0) as bayar
 					from 	kontrak a left join
 							(SELECT nokontrak, SUM(nilaibayar) bayar FROM realisasibayar GROUP BY nokontrak) b ON a.nomorkontrak = b.nokontrak where kid LIKE '%$kon%'";
-			mysql_set_charset("UTF8");
+			mysqli_set_charset("UTF8");
 			//echo "$sql";
 			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 			

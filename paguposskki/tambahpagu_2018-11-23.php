@@ -19,7 +19,7 @@
 
 	require_once "../config/control.inc.php";
 	
-	//mysql_select_db($db);
+	//mysqli_select_db($db);
 	
 	$sql = "SELECT * FROM posinduk p LEFT JOIN saldopos s ON kdindukpos = kdsubpos AND tahun = '$_REQUEST[prd]' where kdindukpos = '62'";
 	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));

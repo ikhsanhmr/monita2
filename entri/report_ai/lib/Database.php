@@ -14,7 +14,7 @@ class Database {
     {
         try
         {
-            $this->pdo = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD, array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES '" . DB_CHARACSET . "';"));
+            $this->pdo = new PDO(DB_DSN, DB_USERNAME, DB_PASSWORD, array(PDO::mysqli_ATTR_INIT_COMMAND => "SET NAMES '" . DB_CHARACSET . "';"));
             $this->pdo->exec("SET CHARACTER SET " . DB_CHARACSET);
             $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $this->pdo->query("set names " . DB_CHARACSET);

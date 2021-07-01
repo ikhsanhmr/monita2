@@ -83,7 +83,7 @@
 		where nomorskki = '$noskki'";
 		
 	//echo "$sql<br>";
-	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysqli_error());
 	//echo "$sukses<br>";
 // disable karena notadinas_detail tidak mengalami perubahan
 /*
@@ -97,7 +97,7 @@
 			$nil = $param_val;
 			$sql = "update notadinas_detail set noskk = '$noskki', progress = 7 where nid = '$pic'";
 			echo "$sql<br>";
-			$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+			$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysqli_error());
 			//echo "$sukses<br>";
 		}
 	}

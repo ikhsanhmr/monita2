@@ -17,7 +17,7 @@
 	$sukses = 0;
 
 	$sqlbayarid=mysqli_query("select bayarid from realisasibayar order by bayarid desc");
-	$query=mysql_fetch_assoc($sqlbayarid);
+	$query=mysqli_fetch_assoc($sqlbayarid);
 	$numid=$query['bayarid']+1;
 
 	$gagal = 0;
@@ -61,12 +61,12 @@
 		$sql = "INSERT INTO kontrak_approval (nomorkontrak, actiontype, signdt, signed, signlevel, nilaitagihan, catatan, catatanreject) VALUES ('$k', '$t', sysdate(), '$nip', '$lvl', $tgh, '$ctt', '$rejectreason')";	
 		/*echo $sql;
 		return;*/
-		$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+		$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysqli_error());
 		//$message = "";
 
 		if ($sukses != 1){
 			$gagal++;
-			$gagalmsg .= " - Kontrak $k : ".mysql_error()."\\n";
+			$gagalmsg .= " - Kontrak $k : ".mysqli_error()."\\n";
 			continue;
 			// echo '<script>alert("Penyimpanan Gagal untuk kontrak '.$k.'. '.$message.'");</script>';
 			// break;
@@ -80,7 +80,7 @@
 
 			if ($lvl == 4){
 				$selectkontrak=mysqli_query("select * from kontrak where nomorkontrak='$k'");
-				$exekontrak=mysql_fetch_assoc($selectkontrak);
+				$exekontrak=mysqli_fetch_assoc($selectkontrak);
 
 				$pmn = "NON PMN";
 

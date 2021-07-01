@@ -106,7 +106,7 @@
 						WHERE 	noskk = '$skk' AND pos1 = '$pos'
 					");
 
-					$exeNilaiPagu = mysql_fetch_assoc($cekNilaiPagu);
+					$exeNilaiPagu = mysqli_fetch_assoc($cekNilaiPagu);
 
 					$nilai_pagu = $exeNilaiPagu['nilai1'];
 					$total_kontrak = $exeNilaiPagu['kontrak'];
@@ -150,26 +150,26 @@
 					
 					// echo "$sql<br>";
 					// return;
-					$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+					$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysqli_error());
 					$message = "";
 					
 					// input bayar - kontrak petty cash
 					if($sukses==1 && $pc==1) {
 						$sql = "INSERT INTO realisasibayar(nokontrak, nilaibayar, tglbayar) VALUES('$kontrak', '$nilai', date(sysdate()))";	
 						//echo $sql;
-						mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+						mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysqli_error());
 						$update=mysqli_query("update rab set status='1' where no_rab='$nrab'");
 					}else{
 						if($sukses != 1){
 							
-							$message = mysql_error();
+							$message = mysqli_error();
 							echo '<script>alert("Penyimpanan Gagal. '.$message.'");</script>';
 						}
 					}
 					
 					if($sukses==1) {
 						$sql = "UPDATE notadinas_detail SET progress = 9 WHERE noskk = '$skk' and pos1 = '$pos'";
-						$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+						$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysqli_error());
 						$update=mysqli_query("update rab set status='1' where no_rab='$nrab'");
 						echo '<script>alert("Penyimpanan berhasil");</script>';
 					}
@@ -179,7 +179,7 @@
 		}
 	}
 	
-	//$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+	//$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysqli_error());
 	// echo "$sukses<br>";
 	
 	//

@@ -66,7 +66,7 @@
 		echo "<form name='frm' id='frm' method='post' action='editprognd.php'>";
 
 
-		//mysql_select_db($db);
+		//mysqli_select_db($db);
 
 		$sql = "SELECT 	n.nomornota as nomornota, n.tanggal, n.perihal, n.skkoi as skkoi, n.nilaiusulan, 
 					n.progress as progress, n.nip, n.assigndt, n.nipuser, p.pid, p.info, p.keterangan, u.nama, 

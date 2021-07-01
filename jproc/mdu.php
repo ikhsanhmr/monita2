@@ -82,7 +82,7 @@
 				) s WHERE noskk = '$k'";
 			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 
-			if(mysql_num_rows($result) > 0) {
+			if(mysqli_num_rows($result) > 0) {
 				$sql = "
 					SELECT noskk, butuh, alokasi, ms.* FROM mdudata md
 					RIGHT JOIN (

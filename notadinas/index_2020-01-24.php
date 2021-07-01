@@ -64,8 +64,8 @@
 //	where coalesce(progress,0)<=1 " . ($nip=="admin"? "": " and n.nipuser='$nip'") .
 	//echo $sql;
 
-	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());
-	//echo mysql_num_rows($hasil);
+	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysqli_error());
+	//echo mysqli_num_rows($hasil);
 	
 	while ($row = mysqli_fetch_array($hasil)) {
     $no++;

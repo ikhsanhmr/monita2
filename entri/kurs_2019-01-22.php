@@ -35,7 +35,7 @@
 <?php
 	require_once "../config/control.inc.php";
 	
-	//mysql_select_db($db);
+	//mysqli_select_db($db);
 
 	if(isset($_GET['del'])) {
 		$noskk=$_GET['del'];

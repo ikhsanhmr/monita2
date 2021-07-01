@@ -11,7 +11,7 @@
 <?php
 	require_once "../config/control.inc.php";
 	
-	//mysql_select_db($db);
+	//mysqli_select_db($db);
 
 	$skk = $_REQUEST["skk"];
 	$sql = "";

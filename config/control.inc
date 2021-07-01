@@ -6,9 +6,9 @@
 
 $kon =new mysqli($srv, $usr, $pwd,$db);
 if(!$kon)
-die('ERROR KARENA'.mysql_error());
+die('ERROR KARENA'.mysqli_error());
 
-$dbkon  =mysql_select_db($db,$kon);
+$dbkon  =mysqli_select_db($db,$kon);
 if(!$dbkon)
-die('ERROR KARENA'.mysql_error());
+die('ERROR KARENA'.mysqli_error());
 ?>

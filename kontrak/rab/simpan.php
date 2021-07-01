@@ -21,7 +21,7 @@
 
 	if ($edit != ""){
 		$ceklimitrab = mysqli_query("select SUM(nilaikontrak) as totalkontrak from kontrak where no_rab = '$norab' group by no_rab");
-		$query=mysql_fetch_assoc($ceklimitrab);
+		$query=mysqli_fetch_assoc($ceklimitrab);
 		$totalkontrak=$query['totalkontrak'];
 
 		if($nilai < $totalkontrak){
@@ -47,7 +47,7 @@
 		if($sukses==1) {
 			echo '<script>alert("RAB '.$norab.' berhasil disimpan.");</script>';
 		}else{
-			$message = mysql_error();
+			$message = mysqli_error();
 			echo '<script>alert("Penyimpanan Gagal. '.$message.'");</script>';
 		}
 	}else{
@@ -55,7 +55,7 @@
 	}
 	
 	
-	//$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+	//$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysqli_error());
 	// echo "$sukses<br>";
 	
 	//	

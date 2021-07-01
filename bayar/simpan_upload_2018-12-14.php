@@ -22,7 +22,7 @@
 	$sheet = $loadexcel->getActiveSheet()->toArray(null, true, true ,true);
 	$list=array();
 	$sql=mysqli_query("select bayarid from realisasibayar order by bayarid desc");
-	$query=mysql_fetch_assoc($sql);
+	$query=mysqli_fetch_assoc($sql);
 	$numid=$query['bayarid']+1;
 	$numrow=1;
 		foreach($sheet as $row) {
@@ -41,11 +41,11 @@
 				}
 				$datetime=date("Y-m-d H:i:s");
 				$selectkontrak=mysqli_query("select * from kontrak where nomorkontrak='$nokontrak' OR nodokumen='$nodokumen'");
-				$exekontrak=mysql_fetch_assoc($selectkontrak);
+				$exekontrak=mysqli_fetch_assoc($selectkontrak);
 
 				$kontrakdt=substr($exekontrak['inputdt'], 0, 10);
 				$selectbayar=mysqli_query("SELECT SUM(nilaibayar) bayar FROM realisasibayar where nokontrak='$exekontrak[nomorkontrak]' OR nodokrep='$exekontrak[nodokumen]'");
-				$exebayar=mysql_fetch_assoc($selectbayar);
+				$exebayar=mysqli_fetch_assoc($selectbayar);
 
 				$sisa_anggaran=$exekontrak['nilaikontrak'];
 				

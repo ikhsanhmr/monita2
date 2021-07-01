@@ -12,7 +12,7 @@
           where kdindukpos='$kdindukpos'";
     
   	$hasil = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
-	$ceknomorsub = mysql_num_rows($hasil);
+	$ceknomorsub = mysqli_num_rows($hasil);
     if($ceknomorsub == 1)
     {
       echo '

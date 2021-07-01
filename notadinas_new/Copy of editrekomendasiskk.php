@@ -7,7 +7,7 @@
 	$nonotadinas=base64_decode($_GET['notadinas']);
 	$sql="SELECT COUNT(DISTINCT pelaksana) jumlah FROM notadinas n 
 		LEFT JOIN notadinas_detail d ON n.nomornota = d.nomornota AND n.nomornota = '$nonotadinas'";
-	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());
+	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysqli_error());
 	while ($row = mysqli_fetch_array($hasil)) {$j = $row["jumlah"];}
 	mysqli_free_result($hasil);
 	
@@ -18,7 +18,7 @@
 	
 	$sql="SELECT d.* FROM notadinas n LEFT JOIN notadinas_detail d 
 	ON n.nomornota = d.nomornota AND n.nomornota = '$nonotadinas'";
-	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());
+	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysqli_error());
 	while ($row = mysqli_fetch_array($hasil)) {
 		if($ipic[$ip]!=$row["pelaksana"]) {
 			$ip += (isset($ipic[$ip])? 1: 0);
@@ -57,7 +57,7 @@
 		
 		$pelaksana = "";
 		if($result1) {
-			mysql_data_seek($result1, 0);
+			mysqli_data_seek($result1, 0);
 			$pelaksana = "<option value=''>Pilih Pelaksana</option>";
 			while ($row = mysqli_fetch_array($result1)) {
 //				$pelaksana .= "<option value='$row[id]'>$row[namaunit]</option>";
@@ -69,7 +69,7 @@
 
 		if($result2) {
 			for($x=0; $x<3; $x++) {
-				mysql_data_seek($result1, 0);
+				mysqli_data_seek($result1, 0);
 			}
 		}
 		
@@ -169,7 +169,7 @@ $(document).ready(function() {
  $sql="select * 
         from notadinas 
         where nomornota='$nonotadinas'";
-	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());    
+	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysqli_error());    
 	while ($row = mysqli_fetch_array($hasil)) {
 	$nomornota=$row['nomornota'];
     $tanggal=$row['tanggal'];

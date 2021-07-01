@@ -164,7 +164,7 @@
 				GROUP BY pelaksana, namaunit
 				ORDER BY LPAD(pelaksana, 2, '0')
 				");
-				$exe=mysql_fetch_assoc($query);
+				$exe=mysqli_fetch_assoc($query);
 							if ($key!=0) {
 								echo "<tr><td colspan='2'></td>";
 							}

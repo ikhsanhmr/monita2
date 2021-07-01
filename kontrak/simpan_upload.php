@@ -24,7 +24,7 @@
 	$message = "";
 	
 	$sql=mysqli_query("select bayarid from realisasibayar order by bayarid desc");
-	$query=mysql_fetch_assoc($sql);
+	$query=mysqli_fetch_assoc($sql);
 	$numid=$query['bayarid']+1;
 	
 	$numrow=0;
@@ -49,7 +49,7 @@
 
 			$sqlkon3 = mysqli_query("SELECT * FROM kontrak where nomorkontrak='$nokontrak'");
 
-			$countkontrak = mysql_num_rows($sqlkon3);
+			$countkontrak = mysqli_num_rows($sqlkon3);
 
 			if($countkontrak > 0){
 				$message .= " - Error Baris ke #$numrow: No Kontrak $nokontrak sudah pernah diinput. <br />";
@@ -68,7 +68,7 @@
 				where 	nd.noskk='$noskkio' AND nd.pos1='$subpos'
 			");
 
-			$countskk = mysql_num_rows($sqlkon1);
+			$countskk = mysqli_num_rows($sqlkon1);
 
 			if($countskk < 1){
 				$message .= " - Error Baris ke #$numrow: No SKK $noskkio Tidak Ditemukan. <br />";
@@ -76,7 +76,7 @@
 				continue;
 			}
 
-			$cekkon1 = mysql_fetch_assoc($sqlkon1);
+			$cekkon1 = mysqli_fetch_assoc($sqlkon1);
 
 			if($cekkon1['skktype'] == 'SKKI'){
 
@@ -93,7 +93,7 @@
 						where 	a.no_rab = '$nrab'
 					");
 
-					$cekrab = mysql_fetch_assoc($sqlrab);
+					$cekrab = mysqli_fetch_assoc($sqlrab);
 
 					if($nilaikontrak > $cekrab['sisa']){
 						
@@ -115,7 +115,7 @@
 				where noskk='$noskkio' AND pos1='$subpos'
 			");
 			
-			$cekkon2 = mysql_fetch_assoc($sqlkon2);
+			$cekkon2 = mysqli_fetch_assoc($sqlkon2);
 
 			if($nilaikontrak > $cekkon2["sisa"]){
 
@@ -130,12 +130,12 @@
 			'$nilaikontrak', sysdate(), '0','$nodokumen','$tgltagih','$nrab','$user','$rutin')";	
 			// echo $sql;
 			// return;
-			$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+			$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysqli_error());
 			//$message = "";
 
 			if ($sukses != 1){
 
-				$errmsg = mysql_error();
+				$errmsg = mysqli_error();
 				$message .= " - Error Baris ke #$numrow: Gagal menyimpan kontrak, $errmsg <br />";
 				
 			}else{
@@ -146,7 +146,7 @@
 
 					if($suksesbayar != 1 ){
 
-						$errmsg = mysql_error();
+						$errmsg = mysqli_error();
 						$message .= " - Error Baris ke #$numrow: kontrak berhasil disimpan tapi gagal masuk ke Realisasi Bayar, $errmsg <br />";
 
 					}else{
