@@ -4,7 +4,7 @@
 </head>
 <body>
 <?php
-@session_start();
+@error_reporting(0);  session_start();
 $nip=$_SESSION['nip'];
 require_once "config/control.inc.php";
 if ($_SESSION['adm']==2)

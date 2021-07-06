@@ -53,7 +53,7 @@
 	</script>
 	
 	<?php
-		session_start();
+		error_reporting(0);  session_start();
 		if(!isset($_SESSION["nip"])) {
 			echo "unauthorized user";
 			echo "<script>window.open('../index.php', '_parent')</script>";

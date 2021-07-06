@@ -1,5 +1,5 @@
 <?php
-session_start();
+error_reporting(0);  session_start();
 error_reporting(E_ALL ^ (E_NOTICE | E_WARNING | E_DEPRECATED));
 require_once("config/method.php");	
 require_once("config/incldap.php");
@@ -52,7 +52,7 @@ if ($ldapErr==0 && ($u!="" && $p!=""))  { //JIKA LDAP LOGIN BERHASIL
 		if(count($rows)==0) {
 			$msg = "Unregistered User";
 		} else {
-			session_start();
+			error_reporting(0);  session_start();
 			foreach($rows as $row) {
 				$_SESSION["nip"] = ($row["nip"]==$row["nip1"]? $row["nip"]: $row["nip1"]);
 				$_SESSION["cnip"] = $row["nip"];

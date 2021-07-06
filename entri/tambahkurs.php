@@ -30,7 +30,7 @@
 	}
 	$nice = (($ub == "Chrome" || $ub == "Opera" || $ub == "Chrome") ? true : false);
 
-	session_start();
+	error_reporting(0);  session_start();
 	require_once '../config/koneksi.php';
 	$nip = $_SESSION['nip'];
 	$bidang = $_SESSION['bidang'];

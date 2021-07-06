@@ -1,6 +1,6 @@
 <?php
 
-    session_start();
+    error_reporting(0);  session_start();
     $nip = $_SESSION['nip'];
     if($nip=="") {
         exit;

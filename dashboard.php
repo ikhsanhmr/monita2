@@ -45,7 +45,7 @@
 
 	<h2>Dashboard</h2>
 	<?php
-	session_start();
+	error_reporting(0);  session_start();
 	if (!isset($_SESSION['cnip'])) {
 		echo "<script>window.open('.', '_self')</script>";
 		exit;

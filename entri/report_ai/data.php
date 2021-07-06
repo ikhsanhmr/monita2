@@ -1,5 +1,5 @@
 <?php
-session_start();
+error_reporting(0);  session_start();
 include "lib/config.php";
 
 //kolom apa saja yang akan ditampilkan

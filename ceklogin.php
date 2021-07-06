@@ -14,7 +14,7 @@ $data = mysqli_fetch_array($hasil);
 // die;
 // cek kesesuaian password
 if ($password == $data['pasword']) {
-    session_start();
+    error_reporting(0);  session_start();
     // menyimpan username dan level ke dalam session
     $_SESSION['nip'] = ($data['nip'] == $data['nip1'] ? $data['nip'] : $data['nip1']);
     $_SESSION['cnip'] = $data['nip'];

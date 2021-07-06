@@ -1,5 +1,5 @@
 <?php
-	session_start(); 
+	error_reporting(0);  session_start(); 
 	$nip=$_SESSION['nip'];
 	$bidang=$_SESSION['bidang'];
 	$kdunit=$_SESSION['kdunit'];

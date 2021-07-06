@@ -1,7 +1,7 @@
 <?php
 
 // memulai session
-session_start();
+error_reporting(0);  session_start();
 require_once 'config/koneksi.php';
 require_once 'config/incldap.php';
 //Connect to Active Directory

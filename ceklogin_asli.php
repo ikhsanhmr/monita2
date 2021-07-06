@@ -1,7 +1,7 @@
 <?php
 
 // memulai session
-session_start();
+error_reporting(0);  session_start();
 require_once 'config/koneksi.php';
 
 $nip = mysqli_real_escape_string($_POST['nip']);

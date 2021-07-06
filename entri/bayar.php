@@ -1,5 +1,5 @@
 <?php
-	session_start(); 
+	error_reporting(0);  session_start(); 
 	require_once '../config/koneksi.php';
 	$k = (isset($_REQUEST["k"])? $_REQUEST["k"]: "");
 	$lvl = (isset($_REQUEST["lvl"])? $_REQUEST["lvl"]: "");
