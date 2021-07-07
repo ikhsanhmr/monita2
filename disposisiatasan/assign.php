@@ -1,7 +1,7 @@
 <?php
 	require_once "../config/control.inc.php";
 	
-	//mysql_select_db($db);
+	//mysqli_select_db($db);
 
 	foreach ($_REQUEST as $param_name => $param_val) {
 		if(substr($param_name,0,3)=="job") {
@@ -15,7 +15,7 @@
 						($usr=="nd"? "null": "'$usr'" . ", assigndt = SYSDATE() ") . 
 						",progress=".($usr=="nd"? "null": ($param_name=="jobuser"? "1": "2"))." WHERE nomornota = '$dummy[$i]'";
 					//echo $sql .'</br>';
-					mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die(mysql_error());
+					mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die(mysqli_error());
 				}
 			}
 		}

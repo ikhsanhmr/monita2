@@ -1,11 +1,11 @@
 <?php
 
 // memulai session
-session_start();
+error_reporting(0);  session_start();
 require_once 'config/koneksi.php';
 
-$nip = mysql_real_escape_string($_POST['nip']);
-$password = mysql_real_escape_string($_POST['password']);
+$nip = mysqli_real_escape_string($_POST['nip']);
+$password = mysqli_real_escape_string($_POST['password']);
 $password = md5($password);
 // query untuk mendapatkan record dari username
 $query = "SELECT * FROM user WHERE nip = '$nip'";

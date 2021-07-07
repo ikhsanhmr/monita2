@@ -12,7 +12,7 @@
 
     $sql = "select * from user where nip = '$nip' and password = '$opwd'";
     $hasil = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
-    $chasil = mysql_num_rows($hasil);
+    $chasil = mysqli_num_rows($hasil);
     
     if($chasil==0) { 
 		echo "User atau Password Tidak Sesuai";

@@ -18,7 +18,7 @@
 //		header("Content-type: application/vnd.ms-excell");
 //		header("Content-Disposition: attachment; Filename=ao.xls");
 
-		session_start();
+		error_reporting(0);  session_start();
 		if(!isset($_SESSION["nip"])) {
 			echo "unauthorized user";
 			echo "<script>window.open('../index.php', '_parent')</script>";
@@ -136,7 +136,7 @@
 			$b1 = 0;
 			
 			$dummy = "";
-			//if (mysql_num_rows($result) > 0) mysql_fetch_assoc
+			//if (mysqli_num_rows($result) > 0) mysqli_fetch_assoc
 		
 			while ($row = mysqli_fetch_array($result)) {
 			

@@ -3,7 +3,7 @@
     
     $sql="select * from kontrak where no_kontrak='$_POST[nonotadinas]'";
     $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
-    $cek_notadinas = mysql_num_rows($hasil);
+    $cek_notadinas = mysqli_num_rows($hasil);
 	
    if($cek_notadinas==0)
     {

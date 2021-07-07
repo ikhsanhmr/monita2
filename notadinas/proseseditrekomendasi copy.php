@@ -52,7 +52,7 @@ $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_e
 				  where nomornota='$nomornota'
 				  and tanggal='$tanggal'";
 			//echo $sql;
-			$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());    
+			$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysqli_error());    
 			while ($row = mysqli_fetch_array($hasil)) {
 			  $nomornota=$row['nomornota'];  
 			  $tanggal=$row['tanggal'];

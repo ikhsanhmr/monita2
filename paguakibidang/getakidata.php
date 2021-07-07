@@ -16,7 +16,7 @@
 	$nama = "";
 	
 	$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));	
-	$row = mysql_fetch_assoc($result);
+	$row = mysqli_fetch_assoc($result);
 	mysqli_free_result($result);
 	$mysqli->close();($kon);
 	

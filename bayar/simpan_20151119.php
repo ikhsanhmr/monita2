@@ -1,5 +1,5 @@
 <?php
-	session_start(); 
+	error_reporting(0);  session_start(); 
 	$nip=$_SESSION['nip'];
 	$bidang=$_SESSION['bidang'];
 	$kdunit=$_SESSION['kdunit'];
@@ -15,7 +15,7 @@
 	
 	$sql = "INSERT INTO realisasibayar(nokontrak, nilaibayar, tglbayar) VALUES('$k', '$n', '$t')";	
 	//echo $sql;
-	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysqli_error());
 	$mysqli->close();($link);	  							
 	echo $sukses;
 ?>

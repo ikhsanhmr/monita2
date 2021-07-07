@@ -43,8 +43,8 @@
 				  from notadinas
 				  where nomornota='$nomornota'";
 			//echo $sql;
-			$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());  
-			$result = mysql_num_rows($hasil);  	 
+			$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysqli_error());  
+			$result = mysqli_num_rows($hasil);  	 
 			 if($result > 0 )
 			 {
 			 echo '
@@ -83,8 +83,8 @@
 */	
 if($cek==2) {
 	$sql="select * from notadinas where nomornota='$nomornota'";
-	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());  
-	$result = mysql_num_rows($hasil);  	 
+	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysqli_error());  
+	$result = mysqli_num_rows($hasil);  	 
 
 	if($result > 0 ) {
 		echo '

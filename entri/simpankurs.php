@@ -1,5 +1,5 @@
 <?php
-	session_start(); 
+	error_reporting(0);  session_start(); 
 	$nip=$_SESSION['cnip'];
 	$bidang=$_SESSION['bidang'];
 	$kdunit=$_SESSION['kdunit'];
@@ -23,12 +23,12 @@
 							 where id= $id"
 			);
 		
-	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysqli_error());
 
 	if($sukses==1) {
 		echo '<script>alert("Nilai Kurs berhasil disimpan.");</script>';
 	}else{
-		$message = mysql_error();
+		$message = mysqli_error();
 		echo '<script>alert("Penyimpanan Gagal. '.$message.'");</script>';
 	}
 

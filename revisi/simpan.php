@@ -16,7 +16,7 @@
 	
 	$sql = "INSERT INTO realisasibayar(nokontrak, nilaibayar, tglbayar) VALUES('$k', '$n', '$t')";	
 	//echo $sql;
-	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysqli_error());
 	$mysqli->close();($link);	  							
 	echo $sukses;
 
@@ -67,7 +67,7 @@ nilai3 - 2314929463
 			" . ($jenis=="SKKO"? "": ", nomorscore = '$basket'") . "
 		where nomorskk" . ($jenis=="SKKO"? "o": "i") . " = '$skk'";
 	//echo "$sql<br>";
-	mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+	mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysqli_error());
 	
 
 	$n = "";
@@ -80,7 +80,7 @@ nilai3 - 2314929463
 				if($n!="" && $p!="") {
 					$sql = "update notadinas_detail set nilai1 = '$n' where noskk = '$skk' and pos1 = '$p'";
 					//echo "$sql<br>";
-					mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+					mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysqli_error());
 					
 					$n = "";
 					$d = "";

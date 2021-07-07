@@ -65,7 +65,7 @@
 	
   
   $hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
-  $rs = mysql_num_rows($hasil);
+  $rs = mysqli_num_rows($hasil);
   if(count($rs)==0)
   {
     echo "Data tidak ditemukan.<br>";

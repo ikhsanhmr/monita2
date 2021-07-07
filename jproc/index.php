@@ -15,7 +15,7 @@
 	</script>
 	
 	<?php
-		session_start();
+		error_reporting(0);  session_start();
 		if(!isset($_SESSION["nip"])) {
 			echo "unauthorized user";
 			echo "<script>window.open('../index.php', '_parent')</script>";
@@ -72,7 +72,7 @@
 				) s WHERE noskk = '$k'";
 			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 			
-			if(mysql_num_rows($result) > 0) {
+			if(mysqli_num_rows($result) > 0) {
 				$sql = "
 					SELECT noskk, butuh, alokasi, ms.* FROM mdudata md
 					RIGHT JOIN (

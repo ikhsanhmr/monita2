@@ -1,6 +1,6 @@
 <?php
 
-    session_start();
+    error_reporting(0);  session_start();
     $nip = $_SESSION['nip'];
     if($nip=="") {
         exit;
@@ -261,7 +261,7 @@
         "nilaianggarankp"   => ""
     );
 
-    $total_record = mysql_num_rows($allresult);
+    $total_record = mysqli_num_rows($allresult);
 
     while ($row = mysqli_fetch_array($result)) {
         

@@ -45,7 +45,7 @@
 		} 
 		$nice = (($ub=="Chrome" || $ub=="Opera" || $ub=="Chrome")? true: false);
 	
-		session_start(); 
+		error_reporting(0);  session_start(); 
 		require_once '../config/koneksi.php';
 		$nip    =$_SESSION['nip'];
 		$bidang =$_SESSION['bidang'];
@@ -64,7 +64,7 @@
 		$kon = (isset($_REQUEST["kon"])? $_REQUEST["kon"]: "");
 		if($kon!="") {
 			$sql = "select * from kontrak where nomorkontrak LIKE '%$kon%'";
-			mysql_set_charset("UTF8");
+			mysqli_set_charset("UTF8");
 			//echo "$sql";
 			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 			

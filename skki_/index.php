@@ -69,7 +69,7 @@ LEFT JOIN notadinas n ON s.nomornota = n.nomornota where n.nip='$nip'
    echo 'tes';
   }
   
-$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());    
+$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysqli_error());    
 	while ($row = mysqli_fetch_array($hasil)) {
     
     $no++;

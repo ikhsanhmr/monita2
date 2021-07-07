@@ -1,4 +1,5 @@
 <?php
+error_reporting(0);
 	session_start(); 
 	require_once '../config/koneksi.php';
 	
@@ -6,8 +7,8 @@
 	$skk = $_REQUEST["s"];
 	
 	// Select Jenis SKK
-	$skki=mysqli_query("select notadinas.skkoi from notadinas_detail left join notadinas on  notadinas_detail.nomornota=notadinas.nomornota where notadinas_detail.noskk='$skk'");
-	$jskk=mysql_fetch_assoc($skki);
+	$skki=mysqli_query($mysqli,"select notadinas.skkoi from notadinas_detail left join notadinas on  notadinas_detail.nomornota=notadinas.nomornota where notadinas_detail.noskk='$skk'");
+	$jskk=mysqli_fetch_assoc($skki);
 	$jskk=($jskk['skkoi']=='SKKI' ? true:false); // Check Jenis SKK
 	
 	if ($jskk) {

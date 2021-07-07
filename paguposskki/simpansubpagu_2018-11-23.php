@@ -1,7 +1,7 @@
 <?php
 	require_once "../config/control.inc.php";
 	
-	//mysql_select_db($db);
+	//mysqli_select_db($db);
 	foreach ($_REQUEST as $param_name => $param_val) {
 		//echo "$param_name => $param_val<br>";
 
@@ -23,7 +23,7 @@
 				$sql = ($jumlah==0? 
 					"INSERT INTO saldopos$idx(tahun, kdsubpos, rppos) VALUES ($_REQUEST[prd], '$sub', $rp)": 
 					"UPDATE saldopos$idx SET rppos = $rp WHERE tahun = $_REQUEST[prd] AND kdsubpos = '$sub'");
-				mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die(mysql_error());
+				mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die(mysqli_error());
 //				echo "$sql<br>";
 			}
 		}

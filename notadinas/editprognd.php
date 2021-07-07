@@ -55,7 +55,7 @@
 					progress p ON COALESCE(n.progress, 0) = p.pid LEFT JOIN 
 					user u on n.nip=u.nip 
 			WHERE nomornota = '$nd'";
-			mysql_set_charset("UTF8");
+			mysqli_set_charset("UTF8");
 			//echo "$sql";
 			$result = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));
 			

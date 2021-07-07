@@ -110,7 +110,7 @@ $sql = "SELECT 	s.*, n.nomornota nota, n.pelaksana, pos1, nilai1, coalesce(progr
 //exit;
 $dummyskk = "";
 $no = 1;
-$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());    
+$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysqli_error());    
 	while ($row = mysqli_fetch_array($hasil)) {
     
 //     <td>'.$row['nomornota'].'</td>   

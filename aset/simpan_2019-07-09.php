@@ -1,5 +1,5 @@
 <?php
-	session_start(); 
+	error_reporting(0);  session_start(); 
 	require_once '../config/koneksi.php';
 	$nip=$_SESSION['nip'];
 	$bidang=$_SESSION['bidang'];
@@ -44,12 +44,12 @@
 			where trim(nomorkontrak) = '$nk'";
 	}
 
-	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysqli_error());
 	
 	if($sukses==1) {
 		echo '<script>alert("Penyimpanan berhasil");</script>';
 	}else{
-		$message = mysql_error();
+		$message = mysqli_error();
 		echo '<script>alert("Penyimpanan Gagal. '.$message.'");</script>';
 	}
 

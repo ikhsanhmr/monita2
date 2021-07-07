@@ -1,5 +1,5 @@
 <?php
-	session_start(); 
+	error_reporting(0);  session_start(); 
 	require_once '../config/koneksi.php';
 	$k = (isset($_REQUEST["k"])? $_REQUEST["k"]: "");
 	$lvl = (isset($_REQUEST["lvl"])? $_REQUEST["lvl"]: "");
@@ -13,7 +13,7 @@
 	$sql = "INSERT INTO kontrak_approval (nomorkontrak, actiontype, signdt, signed, signlevel, id_kontrak) VALUES ('$k', '$t', sysdate(), '$nip', '$lvl', '$id')";
 
 	//echo "$sql<br>";
-	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysql_error());
+	$sukses = mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli));// or die(mysqli_error());
 	echo json_encode(array($k, $lvl, $id, $sukses));
 	
 	// echo "<script>window.open('ai.php', '_self')</script>";

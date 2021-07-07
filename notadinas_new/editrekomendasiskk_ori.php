@@ -7,7 +7,7 @@
 	$nonotadinas=base64_decode($_GET['notadinas']);
 	$sql="SELECT COUNT(DISTINCT pelaksana) jumlah FROM notadinas n 
 		LEFT JOIN notadinas_detail d ON n.nomornota = d.nomornota AND n.nomornota = '$nonotadinas'";
-	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());
+	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysqli_error());
 	while ($row = mysqli_fetch_array($hasil)) {$j = $row["jumlah"];}
 	mysqli_free_result($hasil);
 	
@@ -20,8 +20,8 @@
 	
 	$sql="SELECT d.* FROM notadinas n LEFT JOIN notadinas_detail d 
 	ON n.nomornota = d.nomornota AND n.nomornota = '$nonotadinas'";
-	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());
-	$baris = mysql_num_rows($hasil);
+	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysqli_error());
+	$baris = mysqli_num_rows($hasil);
 	while ($row = mysqli_fetch_array($hasil)) {
 		$i++;
 		$arr[$i] = array($row["pelaksana"], $row["pos1"], $row["nilai1"]);
@@ -63,7 +63,7 @@
 	for($t=0; $t<$j; $t++) {
 		$pelaksana = "";
 		if($result1) {
-			mysql_data_seek($result1, 0);
+			mysqli_data_seek($result1, 0);
 			$pelaksana = "<option value=''>Pilih Pelaksana</option>";
 			while ($row = mysqli_fetch_array($result1)) {
 				$pelaksana .= "<option value='$row[id]' " . 
@@ -89,7 +89,7 @@
 						$nilai1= (isset($arr[$l][2])? $arr[$l][2]: "");
 						//echo $l . " - " . $arr[$l][2] . "<br>";
 						
-						mysql_data_seek($result2, 0);
+						mysqli_data_seek($result2, 0);
 						$pos1 = "<option value=''>Pilih POS</option>";
 						while ($row = mysqli_fetch_array($result2)) {
 							$pos1 .= "<option value='$row[akses]' " . 
@@ -155,7 +155,7 @@ $(document).ready(function() {
  $sql="select * 
         from notadinas 
         where nomornota='$nonotadinas'";
-	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());    
+	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysqli_error());    
 	while ($row = mysqli_fetch_array($hasil)) {
 	$nomornota=$row['nomornota'];
     $tanggal=$row['tanggal'];

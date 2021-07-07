@@ -6,7 +6,7 @@
 <title>Untitled Document</title>
 
         <?php
-		session_start();
+		error_reporting(0);  session_start();
 		if(!isset($_SESSION['nip'])) {
 			echo "unauthorized user";
 			echo "<script>window.open('../../index.php', '_parent')</script>";
@@ -32,7 +32,7 @@
 </head>
 <body>
 <?php
-    //session_start(); 
+    //error_reporting(0);  session_start(); 
     require_once '../../config/koneksi.php';
 	$nip=$_SESSION['nip'];
 	$bidang=$_SESSION['bidang'];
@@ -83,7 +83,7 @@ $sql = "SELECT r.*, COUNT(k.nomorkontrak) AS jml FROM rab r Left Join kontrak k 
 
 $dummyskk = "";
 $no = 1;
-$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());    
+$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysqli_error());    
 	while ($row = mysqli_fetch_array($hasil)) {
     
 //     <td>'.$row['nomornota'].'</td>   

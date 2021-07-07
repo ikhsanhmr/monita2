@@ -38,7 +38,7 @@
 			echo "Failed to connect to MySQL: " . $mysqli->connect_error;
 			exit();
 		}
-		//mysql_select_db($db);
+		//mysqli_select_db($db);
 
 
 		//		$sql = "SELECT rppos FROM saldopos WHERE tahun = $_REQUEST[prd] AND kdsubpos = '$_REQUEST[pos]'";

@@ -5,7 +5,7 @@
 
 
 
-$mysqli = new mysqli("localhost", "root", "root", "newmonita");
+$mysqli = new mysqli("localhost", "root", "", "newmonita");
 
 // Check connection
 if ($mysqli->connect_errno) {

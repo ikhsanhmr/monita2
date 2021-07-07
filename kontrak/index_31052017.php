@@ -1,5 +1,5 @@
 <?php ob_start();
-session_start();?> 
+error_reporting(0);  session_start();?> 
 <!DOCTYPE html>
 <html>
 
@@ -72,7 +72,7 @@ session_start();?>
 	</script>
 	
 	<?php
-		//session_start();
+		//error_reporting(0);  session_start();
 		if(!isset($_SESSION["nip"])) {
 			echo "unauthorized user";
 			echo "<script>window.open('../index.php', '_parent')</script>";
@@ -172,7 +172,7 @@ session_start();?>
 		";
 		
 		//if($v!="") 
-		if (mysql_num_rows($v) > 0 || $v!="" ){
+		if (mysqli_num_rows($v) > 0 || $v!="" ){
 			$sql = "
 				SELECT 
 					skkoi, n.nomornota nd, nip, nipuser, pelaksana, g.id nick, pos1, namapos, b.namaunit, skk, oi.uraian oiuraian, 

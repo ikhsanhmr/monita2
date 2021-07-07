@@ -59,7 +59,7 @@
 	WHERE n.nomornota = '$nonotadinas' order by nid";
 */
 	$sql = "SELECT YEAR(tanggal) tgl FROM notadinas WHERE nomornota = '$nonotadinas'";
-	$result=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());
+	$result=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysqli_error());
 	while ($row = mysqli_fetch_array($result)) {
 		$tgl = $row["tgl"];
 	}
@@ -92,7 +92,7 @@ WHERE n.nomornota = '$nonotadinas' ORDER BY nid
 	
 	$t = -1;
 	$i = -1;
-	$result=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());
+	$result=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysqli_error());
 	while ($row = mysqli_fetch_array($result)) {
 		if($dummy != $row["pelaksana"]) {
 			$i = -1;
@@ -176,7 +176,7 @@ $(document).ready(function() {
  $sql="select * 
         from notadinas 
         where nomornota='$nonotadinas'";
-	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysql_error());    
+	$hasil=mysqli_query($mysqli, $sql) or die ('Unable to execute query. '. mysqli_error($mysqli)) or die (mysqli_error());    
 	while ($row = mysqli_fetch_array($hasil)) {
 	$nomornota=$row['nomornota'];
     $tanggal=$row['tanggal'];
