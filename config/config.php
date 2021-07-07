@@ -8,9 +8,9 @@ define('DB_HOST', 'localhost');
 
 function db_connect()
 {
-	$link = mysql_connect(DB_HOST, DB_USER, DB_PASSWORD) or
-		die(mysql_error());
-	mysql_select_db(DB_NAME, $link) or die(mysql_error());
+	$link = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD) or
+		die(mysqli_error());
+	mysqli_select_db(DB_NAME, $link) or die(mysqli_error());
 	return $link;
 }
 
