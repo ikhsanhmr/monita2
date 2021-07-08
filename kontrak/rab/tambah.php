@@ -60,8 +60,9 @@
 			<form name='frab' id='frab' method='post' action='simpan.php'>
 				<table border='1'>
 					<tr>
-						<td>Nomor SKKI/O <input type='hidden' name='edit' id='edit' value=''></td>
+						<td>Nomor SKKI/O</td>
 						<td>&nbsp;:&nbsp;</td>
+						<input type='hidden' name='edit' id='edit' value=''>
 						<td>$skk</td>
 					</tr>
 					<tr>
